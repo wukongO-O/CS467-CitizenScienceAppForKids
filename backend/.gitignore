@@ -13,5 +13,5 @@ __pycache__/
 *.db
 
 # Mac or Windows system files
-.DS_Store
+**/.DS_Store
 Thumbs.db
