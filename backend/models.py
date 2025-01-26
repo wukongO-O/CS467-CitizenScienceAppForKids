@@ -1,8 +1,8 @@
 from config import db
 
 
-# User model
-class User(db.model):
+# User Model
+class User(db.Model):
 
     __tablename__ = 'User'
 
@@ -23,8 +23,8 @@ class User(db.model):
                            server_onupdate=db.func.now())
 
 
-# Classes model
-class Classes(db.model):
+# Classes Model
+class Classes(db.Model):
 
     __tablename__ = 'Classes'
 
@@ -33,7 +33,7 @@ class Classes(db.model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('User.id'),
                            nullable=False)
 
-    class_code = db.Column(db.string(250), nullable=False)
+    class_code = db.Column(db.String(250), nullable=False)
 
     class_name = db.Column(db.String(50), nullable=False)
 
@@ -46,8 +46,8 @@ class Classes(db.model):
                            server_onupdate=db.func.now())
 
 
-# Projects model
-class Projects(db.model):
+# Projects Model
+class Projects(db.Model):
 
     __tablename__ = 'Projects'
 
@@ -80,8 +80,8 @@ class Projects(db.model):
                            server_onupdate=db.func.now())
 
 
-# Anonymous_users model
-class Anonymous_users(db.model):
+# Anonymous_users Model
+class Anonymous_users(db.Model):
 
     __tablename__ = 'Anonymous_users'
 
@@ -93,8 +93,8 @@ class Anonymous_users(db.model):
                            server_onupdate=db.func.now())
 
 
-# Observations model
-class Observations(db.model):
+# Observations Model
+class Observations(db.Model):
 
     __tablename__ = 'Observations'
 

@@ -11,11 +11,8 @@ CORS(app)
 
 
 # Configure the database
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    'smysTl://'
-    'capstone:OSUcapstone@localhost/'
-    'citizen_science_app'
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://capstone:OSUcapstone@localhost/citizen_science_app"
+
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
