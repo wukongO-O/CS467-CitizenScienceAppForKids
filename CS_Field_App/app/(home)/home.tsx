@@ -1,4 +1,6 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TextInput, Button, Image, StyleSheet, Platform, useColorScheme, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
@@ -20,9 +22,16 @@ export default function TabTwoScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">Projects for your class</ThemedText>
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
+
+      <ThemedView style={styles.stepContainer}>
+        {/* Display the title */}
+        <ThemedText>This is where a list of projects will appear.</ThemedText>
+      </ThemedView>
+
+
+      {/*<ThemedText>This app includes example code to help you get started.</ThemedText>
       <Collapsible title="File-based routing">
         <ThemedText>
           This app has two screens:{' '}
@@ -91,6 +100,7 @@ export default function TabTwoScreen() {
           ),
         })}
       </Collapsible>
+    */}
     </ParallaxScrollView>
   );
 }
@@ -105,5 +115,10 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+  },
+  // Style for the step container
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
   },
 });
