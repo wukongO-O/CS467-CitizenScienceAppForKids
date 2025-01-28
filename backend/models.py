@@ -39,6 +39,8 @@ class Classes(db.Model):
 
     description = db.Column(db.Text, nullable=False)
 
+    number_of_students = db.Column(db.Integer, nullable=False)
+
     created_at = db.Column(db.DateTime, server_default=db.func.now(),
                            server_onupdate=db.func.now())
 
@@ -64,6 +66,8 @@ class Projects(db.Model):
     title = db.Column(db.String(250), nullable=False)
 
     description = db.Column(db.String(250), nullable=False)
+
+    directions = db.Column(db.Text, nullable=False)
 
     form_definition = db.Column(db.JSON, nullable=False)
 
