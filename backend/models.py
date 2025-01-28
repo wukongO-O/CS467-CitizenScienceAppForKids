@@ -64,7 +64,7 @@ class Projects(db.Model):
     title = db.Column(db.String(250), nullable=False)
 
     description = db.Column(db.String(250), nullable=False)
-    
+
     directions = db.Column(db.Text, nullable=False)
 
     form_definition = db.Column(db.JSON, nullable=False)
