@@ -16,10 +16,11 @@ def generate_token(db_session, length=10, max_attempts=20):
         alphabet = string.ascii_letters + string.digits
         new_token = ''.join(secrets.choice(alphabet) for _ in range(length))
 
-        is_unique_token = db_session.execute(select(Anonymous_users).where(
-            Anonymous_users.token == new_token)).scalar()
+        is_duplicate = db_session.execute(
+            select(Anonymous_users).where(Anonymous_users.token == new_token)
+        ).scalar()
 
-        if is_unique_token:
+        if not is_duplicate:
             return new_token
 
     raise TokenError(
