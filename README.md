@@ -2,14 +2,34 @@
 To run the server on http://127.0.0.1:5000
 - Navigate to project directory
 - Create/activate virtual environment
-    - `python -m venv venv`
-    - On Mac: `source venv/bin/activate`  
+
+    ```bash
+    python -m venv venv
+    ```
+
+    - On Mac: 
+
+    ```bash
+    source venv/bin/activate
+    ```  
+
     - On Windows: 
-`venv\Scripts\activate`
+
+    ```bash
+    venv\Scripts\activate
+    ```
+
 - Install dependencies
-    - For Python3: `pip3 install -r requirements.txt`
+    - For Python3: 
+    
+    ```bash    
+    pip3 install -r requirements.txt
+    ```
+
 - Run Flask server
-    - `flask --app main run`
+    ```bash
+    flask --app main run`
+    ```
 
 # Welcome to your Expo app 👋
 
