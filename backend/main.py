@@ -1,6 +1,7 @@
 from config import app, db
 from flask import request, jsonify
 from models import User, Classes, Projects, Anonymous_users, Observations
+from token_generator import generate_token
 
 
 # Test Route
@@ -173,9 +174,9 @@ def edit_observation(obs_id):
 # Create an anonymous user
 @app.route("/anonymous_users", methods=["POST"])
 def create_anonymous_user():
-    data = request.json
     try:
-        new_user = Anonymous_users(token=data["token"])
+        new_token = generate_token(db.session)
+        new_user = Anonymous_users(token=new_token)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "Anonymous user created successfully!",
