@@ -1,6 +1,7 @@
 from config import app, db
 from flask import request, jsonify
 from models import User, Classes, Projects, Anonymous_users, Observations
+from token_generator import generate_token
 
 
 # Test Route
@@ -98,6 +99,26 @@ def get_projects(class_id):
     return jsonify(result)
 
 
+# Get a project from class code for mobile
+@app.route("/projects/class_code/<string:class_code>", methods=["GET"])
+def get_project_by_class_code(class_code):
+    class_obj = Classes.query.filter_by(class_code=class_code).first()
+    if not class_obj:
+        return jsonify({"error": "Class not found"}), 404
+
+    project_obj = Projects.query.filter_by(
+        class_id=class_obj.class_id).first()
+
+    result = {
+        "project_id": project_obj.project_id,
+        "title": project_obj.title,
+        "description": project_obj.description,
+        "directions": project_obj.directions
+    }
+
+    return jsonify(result)
+
+
 # -------------------- OBSERVATIONS ROUTES --------------------
 # Add an observation
 @app.route("/observations", methods=["POST"])
@@ -128,13 +149,34 @@ def get_observations(project_id):
     return jsonify(result)
 
 
+# Update an observation
+@app.route("/observations/<int:obs_id>", methods=["PUT"])
+def edit_observation(obs_id):
+    updated_data = request.json
+    try:
+        observation = Observations.query.get(obs_id)
+        if not observation:
+            return jsonify({"error": "Observation not found"}), 404
+
+        observation.project_id = updated_data.get(
+            "project_id", observation.project_id)
+        observation.anon_user_id = updated_data.get(
+            "anon_user_id", observation.anon_user_id)
+        observation.data = updated_data.get("data", observation.data)
+
+        db.session.commit()
+        return jsonify({"message": "Observation updated successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
 # -------------------- ANONYMOUS USERS ROUTES --------------------
 # Create an anonymous user
 @app.route("/anonymous_users", methods=["POST"])
 def create_anonymous_user():
-    data = request.json
     try:
-        new_user = Anonymous_users(token=data["token"])
+        new_token = generate_token(db.session)
+        new_user = Anonymous_users(token=new_token)
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "Anonymous user created successfully!",
