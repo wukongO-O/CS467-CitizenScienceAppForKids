@@ -204,6 +204,45 @@ def get_observations(project_id):
     return jsonify(result)
 
 
+# Get an observation by id
+@app.route("/observations/<int:obs_id>", methods=["GET"])
+def get_observation(obs_id):
+    observation = Observations.query.filter_by(obs_id=obs_id).first()
+    if observation:
+        project_title = User.query.filter_by(id=observation.project_id).first()
+        return jsonify({"obs_id": observation.obs_id,
+                        "project_id": observation.project_id,
+                        "project_title": project_title.title,
+                        "anon_user_id": observation.anon_user_id,
+                        "data": observation.data,
+                        "timestamp": observation.timestamp.isoformat()})
+    return jsonify({"error": "Observation not found"}), 404
+
+
+# Update an observation by id
+@app.route("/observations/<int:obs_id>", methods=["PUT"])
+def update_observation(obs_id):
+    data = request.json
+    observation = Observations.query.filter_by(obs_id=obs_id).first()
+    if observation:
+        observation.data = data["data"]
+        db.session.commit()
+        return jsonify({"message": "Observation updated successfully!",
+                        "data": data}), 200
+    return jsonify({"error": "Observation not found"}), 404
+
+
+# Delete an observation by id
+@app.route("/observations/<int:obs_id>", methods=["DELETE"])
+def delete_observation(obs_id):
+    observation = Observations.query.filter_by(obs_id=obs_id).first()
+    if observation:
+        db.session.delete(observation)
+        db.session.commit()
+        return jsonify({"message": "Observation deleted successfully!"}), 200
+    return jsonify({"error": "Observation not found"}), 404
+
+
 # -------------------- ANONYMOUS USERS ROUTES --------------------
 # Create an anonymous user
 @app.route("/anonymous_users", methods=["POST"])
