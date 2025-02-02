@@ -18,11 +18,10 @@ def create_user():
     try:
         new_user = User(
             username=data["username"],
-            # figure out how to hash the passwords
-            password_hash=data["password_hash"],
             email=data["email"],
             role=data["role"],
         )
+        new_user.password = data["password"] # use hashing
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "User created successfully!",
