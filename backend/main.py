@@ -25,7 +25,8 @@ def create_user():
         )
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "User created successfully!", "user": data}), 201
+        return jsonify({"message": "User created successfully!",
+                        "user": data}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -37,6 +38,42 @@ def get_users():
     result = [{"id": u.id, "username": u.username, "email": u.email,
                "role": u.role} for u in users]
     return jsonify(result)
+
+
+# Get a user by id
+@app.route("/users/<int:user_id>", methods=["GET"])
+def get_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        return jsonify({"id": user.id, "username": user.username,
+                        "email": user.email, "role": user.role})
+    return jsonify({"error": "User not found"}), 404
+
+
+# Update a user by id
+@app.route("/users/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    data = request.json
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        user.username = data["username"]
+        user.email = data["email"]
+        user.role = data["role"]
+        db.session.commit()
+        return jsonify({"message": "User updated successfully!",
+                        "user": data}), 200
+    return jsonify({"error": "User not found"}), 404
+
+
+# Delete a user by id
+@app.route("/users/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": "User deleted successfully!"}), 200
+    return jsonify({"error": "User not found"}), 404
 
 
 # -------------------- CLASSES ROUTES --------------------
@@ -66,6 +103,45 @@ def get_classes(teacher_id):
     result = [{"class_id": c.class_id, "class_name": c.class_name,
                "description": c.description} for c in classes]
     return jsonify(result)
+
+
+# Get a class by id
+@app.route("/classes/<int:class_id>", methods=["GET"])
+def get_class(class_id):
+    # class is a keyword so added an underscore
+    class_ = Classes.query.filter_by(class_id=class_id).first()
+    if class_:
+        teacher = User.query.filter_by(id=class_.teacher_id).first()
+        return jsonify({"class_id": class_.class_id,
+                        "teacher_id": class_.teacher_id,
+                        "teacher_name": teacher.username,  # may remove
+                        "class_name": class_.class_name,
+                        "description": class_.description})
+
+
+# Update a class by id
+@app.route("/classes/<int:class_id>", methods=["PUT"])
+def update_class(class_id):
+    data = request.json
+    class_ = Classes.query.filter_by(class_id=class_id).first()
+    if class_:
+        class_.class_code = data["class_code"]
+        class_.class_name = data["class_name"]
+        class_.description = data["description"]
+        db.session.commit()
+        return jsonify({"message": "Class updated successfully!",
+                        "class": data}), 200
+
+
+# Deleter a class by id
+@app.route("/classes/<int:class_id>", methods=["DELETE"])
+def delete_class(class_id):
+    class_ = Classes.query.filter_by(class_id=class_id).first()
+    if class_:
+        db.session.delete(class_)
+        db.session.commit()
+        return jsonify({"message": "Class deleted successfully!"}), 200
+    return jsonify({"error": "Class not found"}), 404
 
 
 # -------------------- PROJECTS ROUTES --------------------
