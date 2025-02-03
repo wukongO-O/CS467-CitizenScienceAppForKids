@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Button, Image, StyleSheet, Platform, useColorScheme, Alert } from 'react-native';
+import { Text, View, TextInput, Button, Image, StyleSheet, Platform, useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
 
 
@@ -16,15 +16,7 @@ export default function HomeScreen() {
   // Hook to get the current color scheme (light or dark mode)
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const createTwoButtonAlert = () =>
-    Alert.alert('Invalid Code', 'Please try again.', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ]);
+
   // Function to validate the class code
   const validateCode = () => {
     // Replace this with connection to backend to check code.
@@ -32,12 +24,8 @@ export default function HomeScreen() {
       setIsValid(true);
       router.push('/home');
     } else {
-      createTwoButtonAlert();
       setIsValid(false);
-
-
     }
-    
   };
 
   // Determine text color based on the current color scheme
@@ -74,8 +62,8 @@ export default function HomeScreen() {
         {/* Button to validate the class code */}
         <Button title="Validate Code" onPress={validateCode} />
         {/* Display validation result */}
-        {/*isValid && <ThemedText>Code is valid!</ThemedText>*/}
-        {/*!isValid && classCode !== '' && <ThemedText>Invalid code.</ThemedText>*/}
+        {isValid && <ThemedText>Code is valid!</ThemedText>}
+        {!isValid && classCode !== '' && <ThemedText>Invalid code.</ThemedText>}
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         {/* Additional content can go here */}
