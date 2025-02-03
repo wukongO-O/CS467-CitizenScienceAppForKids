@@ -34,9 +34,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="add_to_project"
+        name="list_observation"
         options={{
-          title: 'Add to Project',
+          title: 'List of Observations',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="bars.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="add_edit_observations"
+        options={{
+          title: 'Add/Edit Observation',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="add.fill" color={color} />,
         }}
       />
