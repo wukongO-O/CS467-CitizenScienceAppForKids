@@ -133,7 +133,7 @@ def update_class(class_id):
                         "class": data}), 200
 
 
-# Deleter a class by id
+# Delete a class by id
 @app.route("/classes/<int:class_id>", methods=["DELETE"])
 def delete_class(class_id):
     class_ = Classes.query.filter_by(class_id=class_id).first()
