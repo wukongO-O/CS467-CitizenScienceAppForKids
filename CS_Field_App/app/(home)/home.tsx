@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, useColorScheme } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, useColorScheme, Image } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 
@@ -47,12 +47,11 @@ export default function Home() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
+        <Image
+          source={require('@/assets/images/partial-react-logo.png')}
+          style={styles.reactLogo}
+          />
+        
       }
     >
       <ThemedView style={styles.titleContainer}>
@@ -129,5 +128,13 @@ const styles = StyleSheet.create({
   itemDirections: {
     fontSize: 14,
     color: '#666',
+  },
+  // Style for the react logo
+  reactLogo: {
+    height: 178,
+    width: 290,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
   },
 });
