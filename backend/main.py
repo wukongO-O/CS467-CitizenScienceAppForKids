@@ -165,8 +165,8 @@ def create_project():
         return jsonify({"error": str(e)}), 400
 
 
-# Get all projects for a class
-@app.route("/projects/<int:class_id>", methods=["GET"])
+# Get all projects for a class - added a prefix to avoid url conflict with getting a single project
+@app.route("/projects/class/<int:class_id>", methods=["GET"])
 def get_projects(class_id):
     projects = Projects.query.filter_by(class_id=class_id).all()
     result = [{"project_id": p.project_id, "title": p.title,
@@ -174,15 +174,32 @@ def get_projects(class_id):
     return jsonify(result)
 
 
-# Get a project from class code for mobile
+# Get projects from class code for mobile
 @app.route("/projects/class_code/<string:class_code>", methods=["GET"])
-def get_project_by_class_code(class_code):
+def get_projects_by_class_code(class_code):
     class_obj = Classes.query.filter_by(class_code=class_code).first()
     if not class_obj:
         return jsonify({"error": "Class not found"}), 404
 
-    project_obj = Projects.query.filter_by(
-        class_id=class_obj.class_id).first()
+    project_objs = Projects.query.filter_by(
+        class_id=class_obj.class_id).all()
+
+    result = [{
+        "project_id": project_obj.project_id,
+        "title": project_obj.title,
+        "description": project_obj.description,
+        "directions": project_obj.directions
+    } for project_obj in project_objs]
+
+    return jsonify(result)
+
+
+# Get a project from project id
+@app.route("/projects/<int:project_id>", methods=["GET"])
+def get_a_project(project_id):
+    project_obj = Projects.query.filter_by(project_id=project_id).first()
+    if not project_obj:
+        return jsonify({"error": "Project not found"}), 404
 
     result = {
         "project_id": project_obj.project_id,
@@ -213,7 +230,7 @@ def add_observation():
 
 
 # Get observations for a project
-@app.route("/observations/<int:project_id>", methods=["GET"])
+@app.route("/observations/project/<int:project_id>", methods=["GET"])
 def get_observations(project_id):
     observations = Observations.query.filter_by(project_id=project_id).all()
     result = [
@@ -221,6 +238,23 @@ def get_observations(project_id):
          "timestamp": o.timestamp.isoformat()}
         for o in observations
     ]
+    return jsonify(result)
+
+
+# Get an observation
+@app.route("/observations/<int:obs_id", methods=["GET"])
+def get_an_observation(obs_id):
+    observation = Observations.query.filter_by(obs_id=obs_id).first()
+    if not observation:
+        return jsonify({"error": "Observation not found"}), 404
+
+    result = {
+        "obs_id": observation.obs_id,
+        "anon_user_id": observation.anon_user_id,
+        "data": observation.data,
+        "timestamp": observation.timestamp.isoformat()
+    }
+
     return jsonify(result)
 
 
