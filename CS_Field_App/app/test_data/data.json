@@ -1,0 +1,30 @@
+[
+    {
+        "class_code": "ABC",
+        "project_id": 123,
+        "title": "Rapter Search",
+        "description": "This is a project to search for rapters",
+        "directions": "1: do this 2: do that 3: do this other thing"
+    },
+    {
+        "class_code": "ABC",
+        "project_id": 1234,
+        "title": "Blue Bird Search",
+        "description": "This is a project to search for Blue Birds",
+        "directions": "1: do this 2: do that 3: do this other thing"
+    },
+    {
+        "class_code": "DEF",
+        "project_id": 456,
+        "title": "Dino Search",
+        "description": "This is a project to search for dinos",
+        "directions": "1: do this 2: do that 3: do this other thing"
+    },
+    {
+        "class_code": "GHI",
+        "project_id": 789,
+        "title": "Mammoth Search",
+        "description": "This is a project to search for mammoths",
+        "directions": "1: do this 2: do that 3: do this other thing"
+    }
+]

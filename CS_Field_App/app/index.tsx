@@ -7,15 +7,23 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+// Define an interface for the data items
+interface DataItem {
+  class_code: string;
+  title: string;
+  description: string;
+}
+
+// Load mock data from file
+const mockData: DataItem[] = require('./test_data/data.json');
 
 export default function HomeScreen() {
-  // State to store the class code input by the user
-  const [classCode, setClassCode] = useState('');
-  // State to store the validity of the class code
-  const [isValid, setIsValid] = useState(false);
-  // Hook to get the current color scheme (light or dark mode)
   const colorScheme = useColorScheme();
+  
+  const [classCode, setClassCode] = useState('');
+  const [isValid, setIsValid] = useState(false);
   const router = useRouter();
+
   const createTwoButtonAlert = () =>
     Alert.alert('Invalid Code', 'Please try again.', [
       {
@@ -23,21 +31,23 @@ export default function HomeScreen() {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
+      { text: 'OK', onPress: () => console.log('OK Pressed') },
     ]);
-  // Function to validate the class code
+
   const validateCode = () => {
-    // Replace this with connection to backend to check code.
-    if (classCode === 'ABC') {
+    // Check if the entered classCode exists in the mockData
+    const isValidCode = mockData.some(item => item.class_code === classCode);
+
+    if (isValidCode) {
       setIsValid(true);
-      router.push('/home');
+      router.push({
+        pathname: '/home',
+        params: { classCode }, // Pass classCode as a parameter
+      });
     } else {
       createTwoButtonAlert();
       setIsValid(false);
-
-
     }
-    
   };
 
   // Determine text color based on the current color scheme
