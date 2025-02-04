@@ -80,7 +80,7 @@
   :root{
     --clr-purple-600: #6954E9;
     --clr-purple-500: #6954E990;
-    --clr-purple-300: #6954E903;
+    --clr-purple-300: #D8BFD8;
     --clr-yellow-600: #EA9010;
     --clr-green-600: #04BFDA;
     --clr-white:#fff;
@@ -140,7 +140,6 @@
     html{
       font-family: var(--ff-body);
       line-height: 1.6;
-      margin:1rem;
     }
 
     body{
@@ -210,11 +209,43 @@
   }
 
   @layer layout{
+
+    .wrapper{
+      display: flex;
     }
+
+    .side-nav{
+      max-width: 268px;
+    }
+
+    .main-container{
+      min-width: 816px;
+      min-height: 500px;
+      margin-inline: auto;
+      margin-top: 40px;
+      padding-inline: 1rem;
+      box-sizing: content-box;
+      background: rgba(105, 84, 233, 0.07);
+      padding:40px;
+      border-radius: var(--border-radius-sm);
+    }
+
+    .right-container {
+      width: 360px;
+    }
+
+  }
 
   @layer forms {
     form{
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 16px;
+    }
+
+    #add-project-steps{
+      grid-column-start: 1;
+      grid-column-end: 3;
     }
 
     label{

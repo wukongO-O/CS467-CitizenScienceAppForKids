@@ -11,7 +11,7 @@ const AddProjectPage = () => {
     const [steps, setSteps]=useState([]);
 
     return(
-        <div>
+        <div className="main-container">
             <form>
                 <div id="left-add-project-form">
                     <label htmlFor="project-name">Project Name</label>
