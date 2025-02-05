@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Checkbox from "./Checkbox";
+import CheckboxOrRadio from "./CheckboxOrRadio";
 
 // eslint-disable-next-line react/prop-types
 const CustomFormCreator = ({customFields}) => {
@@ -8,7 +8,7 @@ const CustomFormCreator = ({customFields}) => {
         <div>
                 {customFields.map((customField, i) => {
                     if (customField[1] == "checkbox"){
-                        const options = customField[2].map((opt, i)=>{ return (<Checkbox
+                        const options = customField[2].map((opt, i)=>{ return (<CheckboxOrRadio
                                                                             key={"ch"+i} 
                                                                             type="checkbox"
                                                                             label={opt}
@@ -22,7 +22,7 @@ const CustomFormCreator = ({customFields}) => {
                        ) 
                     }
                     if (customField[1] == "radio"){
-                        const options = customField[2].map((opt, i)=>{ return (<Checkbox
+                        const options = customField[2].map((opt, i)=>{ return (<CheckboxOrRadio
                                                                             key={"ch"+i} 
                                                                             type="radio"
                                                                             label={opt}

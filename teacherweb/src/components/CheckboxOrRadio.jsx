@@ -1,6 +1,6 @@
 
 // eslint-disable-next-line react/prop-types
-const Checkbox = ({type, label, value, onChange}) => {
+const CheckboxOrRadio = ({type, label, value, onChange}) => {
     return(
         <div>
             <input
@@ -15,4 +15,4 @@ const Checkbox = ({type, label, value, onChange}) => {
     )    
 }
 
-export default Checkbox
+export default CheckboxOrRadio
