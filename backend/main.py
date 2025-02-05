@@ -224,6 +224,16 @@ def get_observations(project_id):
     return jsonify(result)
 
 
+# Delete an observation by id
+@app.route("/observations/<int:obs_id>", methods=["DELETE"])
+def delete_observation(obs_id):
+    observation = Observations.query.filter_by(obs_id=obs_id).first()
+    if observation:
+        db.session.delete(observation)
+        db.session.commit()
+        return jsonify({"message": "Observation deleted successfully!"}), 200
+    return jsonify({"error": "Observation not found"}), 404
+
 # Update an observation
 @app.route("/observations/<int:obs_id>", methods=["PUT"])
 def edit_observation(obs_id):
