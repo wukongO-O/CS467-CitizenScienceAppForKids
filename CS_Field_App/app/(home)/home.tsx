@@ -19,9 +19,9 @@ interface DataItem {
 
 export default function Home() {
   const { classCode } = useLocalSearchParams(); // Retrieve classCode from search parameters
-  const [mockData, setMockData] = useState<DataItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedProject, setSelectedProject] = useState<string>(''); // Initialize with an empty string
+  const [mockData, setMockData] = useState<DataItem[]>([]); // State to store mock data
+  const [isLoading, setIsLoading] = useState(true); // State to manage loading state
+  const [selectedProject, setSelectedProject] = useState<string>(''); // State to store selected project
   const colorScheme = useColorScheme(); // Determine the current color scheme
 
   useEffect(() => {
@@ -34,10 +34,12 @@ export default function Home() {
   // Filter data based on class_code
   const filteredData = mockData.filter(item => item.class_code === classCode);
 
+  // Handle project selection change
   const handleProjectChange = (itemValue: string) => {
     setSelectedProject(itemValue);
   };
 
+  // Find the selected project data
   const selectedProjectData = filteredData.find(item => item.title === selectedProject);
 
   // Determine picker styles based on the current color scheme
@@ -45,8 +47,10 @@ export default function Home() {
 
   return (
     <ParallaxScrollView
+      // Set different background colors for light and dark modes
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
+        // Display an image in the header
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.reactLogo}
@@ -55,14 +59,18 @@ export default function Home() {
       }
     >
       <ThemedView style={styles.titleContainer}>
+        {/* Display the title */}
         <ThemedText type="title">Projects for your class</ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
+        {/* Display instructions */}
         <ThemedText>Select a project to see its description.</ThemedText>
         {isLoading ? (
+          // Show loading indicator while data is loading
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
+          // Display a picker to select a project
           <Picker
             selectedValue={selectedProject}
             onValueChange={handleProjectChange}
@@ -75,6 +83,7 @@ export default function Home() {
           </Picker>
         )}
         {selectedProjectData && (
+          // Display selected project details
           <View style={styles.itemContainer}>
             <ThemedText style={styles.itemDescription}>{selectedProjectData.description}</ThemedText>
             <ThemedText style={styles.itemDirections}>{selectedProjectData.directions}</ThemedText>

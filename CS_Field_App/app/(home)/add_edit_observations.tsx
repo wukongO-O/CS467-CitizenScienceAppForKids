@@ -10,20 +10,23 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 export default function explore() {
   return (
     <ParallaxScrollView
+          // Set different background colors for light and dark modes
           headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
           headerImage={
+            // Display an image in the header
             <Image
                 source={require('@/assets/images/partial-react-logo.png')}
                 style={styles.reactLogo}
             />
           }>
           <ThemedView style={styles.titleContainer}>
+            {/* Display the title */}
             <ThemedText type="title">Add or Edit an observation:
             </ThemedText>
           </ThemedView>
     
           <ThemedView style={styles.stepContainer}>
-            {/* Display the title */}
+            {/* Display the list of observations available to edit */}
             <ThemedText>List of observations that are available to edit are here:</ThemedText>
           </ThemedView>
     </ParallaxScrollView>
