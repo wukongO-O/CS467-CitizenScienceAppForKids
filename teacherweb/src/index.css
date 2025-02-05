@@ -168,6 +168,12 @@
       color:var(--text-subheader);
     }
 
+    .small-text{
+      font-size: var(--font-size-sm);
+      color: var(--text-paragraph-light);
+      font-weight: 300;
+    }
+
     a{
       color:inherit
     }

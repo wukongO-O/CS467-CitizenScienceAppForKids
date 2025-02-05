@@ -1,5 +1,5 @@
 import { useState } from "react";
-import StepsList from "../components/StepsList";
+import StepsList from "./OrderedList";
 
 const AddProjectMainInfo = ({changeView}) => {
     const [projectName, setProjectName] = useState();
@@ -54,7 +54,7 @@ const AddProjectMainInfo = ({changeView}) => {
                 </div>
                 <div id="add-project-steps">
                     <label htmlFor="step">Steps</label>
-                        <StepsList steps={steps} />
+                        <StepsList items={steps} />
                         <input 
                             type="text" 
                             name="step"

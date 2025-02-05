@@ -1,9 +1,9 @@
 
-const StepsList = (steps) => {
+const OrderedList = (items) => {
   
     return(
-                <ol>
-                    {steps.steps.map((step, i)=>{
+             <ol>
+                    {items.items.map((step, i)=>{
                             return (
                                 <li key={i}>{step}</li> 
                             )
@@ -14,4 +14,4 @@ const StepsList = (steps) => {
     )
 }
 
-export default StepsList
+export default OrderedList
