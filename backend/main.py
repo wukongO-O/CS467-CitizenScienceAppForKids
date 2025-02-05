@@ -224,34 +224,6 @@ def get_observations(project_id):
     return jsonify(result)
 
 
-# Get an observation by id
-@app.route("/observations/<int:obs_id>", methods=["GET"])
-def get_observation(obs_id):
-    observation = Observations.query.filter_by(obs_id=obs_id).first()
-    if observation:
-        project_title = User.query.filter_by(id=observation.project_id).first()
-        return jsonify({"obs_id": observation.obs_id,
-                        "project_id": observation.project_id,
-                        "project_title": project_title.title,
-                        "anon_user_id": observation.anon_user_id,
-                        "data": observation.data,
-                        "timestamp": observation.timestamp.isoformat()})
-    return jsonify({"error": "Observation not found"}), 404
-
-
-# Update an observation by id
-@app.route("/observations/<int:obs_id>", methods=["PUT"])
-def update_observation(obs_id):
-    data = request.json
-    observation = Observations.query.filter_by(obs_id=obs_id).first()
-    if observation:
-        observation.data = data["data"]
-        db.session.commit()
-        return jsonify({"message": "Observation updated successfully!",
-                        "data": data}), 200
-    return jsonify({"error": "Observation not found"}), 404
-
-
 # Delete an observation by id
 @app.route("/observations/<int:obs_id>", methods=["DELETE"])
 def delete_observation(obs_id):
@@ -261,6 +233,26 @@ def delete_observation(obs_id):
         db.session.commit()
         return jsonify({"message": "Observation deleted successfully!"}), 200
     return jsonify({"error": "Observation not found"}), 404
+
+# Update an observation
+@app.route("/observations/<int:obs_id>", methods=["PUT"])
+def edit_observation(obs_id):
+    updated_data = request.json
+    try:
+        observation = Observations.query.get(obs_id)
+        if not observation:
+            return jsonify({"error": "Observation not found"}), 404
+
+        observation.project_id = updated_data.get(
+            "project_id", observation.project_id)
+        observation.anon_user_id = updated_data.get(
+            "anon_user_id", observation.anon_user_id)
+        observation.data = updated_data.get("data", observation.data)
+
+        db.session.commit()
+        return jsonify({"message": "Observation updated successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 # -------------------- ANONYMOUS USERS ROUTES --------------------
