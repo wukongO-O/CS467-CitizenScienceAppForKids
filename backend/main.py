@@ -242,7 +242,7 @@ def get_observations(project_id):
 
 
 # Get an observation
-@app.route("/observations/<int:obs_id", methods=["GET"])
+@app.route("/observations/<int:obs_id>", methods=["GET"])
 def get_an_observation(obs_id):
     observation = Observations.query.filter_by(obs_id=obs_id).first()
     if not observation:
@@ -289,9 +289,25 @@ def create_anonymous_user():
         db.session.add(new_user)
         db.session.commit()
         return jsonify({"message": "Anonymous user created successfully!",
-                        "anon_user_id": new_user.anon_user_id}), 201
+                        "anon_user_id": new_user.anon_user_id,
+                        "token": new_token}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+
+# Authenticate an anonymous user by token
+@app.route("/anonymous_users/authenticate", methods=["POST"])
+def authenticate_anon_user():
+    data = request.json
+    token = data.get("token")
+    if not token:
+        return jsonify({"error": "Token is required"}), 400
+
+    anon_user = Anonymous_users.query.filter_by(token=token).first()
+    if anon_user:
+        return jsonify({"message": "Authentication successful!",
+                        "anon_user_id": anon_user.anon_user_id}), 200
+    return jsonify({"error": "Invalid token"}), 401
 
 
 # Get anonymous user by token
@@ -300,7 +316,7 @@ def get_anonymous_user(token):
     anon_user = Anonymous_users.query.filter_by(token=token).first()
     if anon_user:
         return jsonify({"anon_user_id": anon_user.anon_user_id,
-                        "token": anon_user.token})
+                        "token": anon_user.token}), 200
     return jsonify({"error": "Anonymous user not found"}), 404
 
 
