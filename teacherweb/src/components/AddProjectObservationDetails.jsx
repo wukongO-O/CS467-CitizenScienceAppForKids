@@ -85,7 +85,7 @@ const AddProjectObservationDetails = () => {
                             <option value="number">Number</option>
                             <option value="radio">Radio</option>
                             <option value="checkbox">Checkbox</option>
-                            <option value="image">File</option>
+                            {/* <option value="image">File</option>  stretch goal*/}
                         </select>
                         </div>
                     {/* the following should only show if the field type requires additional information from the user */}
