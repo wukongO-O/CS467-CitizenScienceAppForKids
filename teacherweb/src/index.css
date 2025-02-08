@@ -89,6 +89,9 @@
     --clr-subheading: #5B5656;
     --clr-paragraph-600: #666666;
     --clr-paragraph-500: #645E5E;
+
+
+    --clr-border : #D9D9D9;
   
 
     --ff-body:"Inter", serif;
@@ -133,8 +136,9 @@
       --font-size-heading-rg: var(--fs-700);
 
 
-      --border-radius-sm: 1rem;
-      --border-radius-md: 1.56rem;
+      --border-radius-sm: 10px;
+      --border-radius-md: 0.937rem;
+      --border-radius-lg: 1.56rem;
     }
 
     html{
@@ -216,6 +220,10 @@
 
   @layer layout{
 
+    .flow > * + * {
+      margin-top :var(--flow-spacer, 1em)
+    }
+
     .wrapper{
       display: flex;
     }
@@ -223,6 +231,8 @@
     .side-nav{
       max-width: 268px;
     }
+
+
 
     .main-container{
       min-width: 816px;
@@ -246,20 +256,108 @@
     form{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      padding: 16px;
+      padding: 40px;
     }
 
-    #add-project-steps{
+    label{
+      margin-inline: 10px;
+      font-size: var(--font-size-sm);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+     select, textarea {
+      min-width:90%;
+      margin-inline: 5px;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      border: 2px solid var(--clr-border);
+      border-radius: var(--border-radius-sm);
+      color: var(--clr-paragraph-500);
+      font-size: small;
+      padding: 5px;
+    }
+
+    input:focus, 
+    select:focus,
+    textarea:focus{
+      outline: none;
+    }
+
+    input, select{
+      height: 40px;
+    }
+
+    .left-form-wrapper{
+      /* padding: 20px; */
+    }
+
+    .right-form-wrapper{
+      /* padding: 20px; */
+    }
+
+    .wide-form-wrapper{
       grid-column-start: 1;
       grid-column-end: 3;
+      margin-top: 10px;
     }
 
     label{
       display: block;
     }
+
+
+    .check-rad{
+      margin-top: 10px;
+      margin-left: 10px;
+      display:flex;
+      align-items: center;
+    }
+
+    input[type="checkbox"]{
+      width: 20px;
+      height:20px;
+      border: 2px solid var(--clr-border);
+    }
+    
+  }
+
+  @layer buttons{
+    button{
+      color: var(--clr-white);
+      background-color: var(--clr-yellow-600);
+      border-radius: var(--border-radius-md);
+      font-size: medium;
+      height: 2.5rem;
+      padding-inline: 20px;
+      border:none;
+      margin: 15px 5px;
+      min-width: 10rem;
+      max-width: fit-content;
+    }
+
+
   }
 
 
+  .observation-details-form{
+
+    background-color: var(--clr-white);
+    border-radius: var(--border-radius-md);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap:15px
+  }
+
+
+  #custom-form-preview legend{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    color: var(--text-header);
+    font-weight: 500;
+    margin: 10px;
+  }
 
 
 

@@ -6,7 +6,7 @@ const AddProjectObservationDetails = () => {
     const [observations, setObservations] = useState();
     const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
-    const [customInputType, setCustomInputType] = useState("");
+    const [customInputType, setCustomInputType] = useState("text");
     const [customFields, setCustomFields] = useState([]);
     const [showAdditionalField, setShowAdditionalField] = useState(false);
     const [additionalFieldInfo, setAdditionalFieldInfo] = useState();
@@ -24,19 +24,23 @@ const AddProjectObservationDetails = () => {
                     setCustomOptions([])
                     setAdditionalFieldInfo("")
                     setCustomInputLabel("")
-                    setCustomInputType("")
+                    setCustomInputType("text")
                 }
                 break;
             default:
                 setCustomFields([...customFields, [customInputLabel, customInputType]])
                 setCustomInputLabel("")
-                setCustomInputType("")
+                setCustomInputType("text")
         }
     }
 
+    const handleFormSubmit = () => {
+        // submits form details to backend and generates code
+    }
+
     return(
-        <form id="observation-details">
-            <div className="left-add-project-form">
+        <form className="observation-details-form">
+            <div className="left-form-wrapper">
                 <label htmlFor="observations">Observations</label>
                     <textarea 
                             name="observations" 
@@ -44,7 +48,7 @@ const AddProjectObservationDetails = () => {
                             onChange= {(e) => setObservations(e.target.value)} >
                     </textarea>
             </div>
-            <div className="right-add-project-form">
+            <div className="right-form-wrapper">
                 <label htmlFor="location">Location</label>
                     <input 
                         type="text" 
@@ -52,16 +56,25 @@ const AddProjectObservationDetails = () => {
                         value={location}
                         onChange={(e) => setLocation(e.target.value)} />
             </div>
-            <div id="custom-form-fields">
+            <div className="wide-form-wrapper flow" >
                 <CustomFormCreator 
                     customFields={customFields} />
-                <div>
-                    <label htmlFor="custom-input-label">Input Label</label>
+                    <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
+                <div className="observation-details-form">
+                    <div className="left-form-wrapper">
+                        <label htmlFor="custom-input-label">Input Label</label>
                         <input
                             type="text"
                             name="custom-input-label"
                             value={customInputLabel}
                             onChange={(e) => setCustomInputLabel(e.target.value)} />
+                        <button
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                handleCustomField()    
+                            }}> Add Field </button>
+                    </div>
+                    <div className="right-form-wrapper">
                     <label htmlFor="custom-input-type">Input Type</label>
                         <select 
                             name="custom-input-type" 
@@ -74,11 +87,7 @@ const AddProjectObservationDetails = () => {
                             <option value="checkbox">Checkbox</option>
                             <option value="image">File</option>
                         </select>
-                    <button
-                        onClick={(e)=>{
-                            e.preventDefault()
-                            handleCustomField()    
-                        }}> Add Field </button>
+                        </div>
                     {/* the following should only show if the field type requires additional information from the user */}
                     {showAdditionalField ? 
                     <div id="additional-field">
@@ -96,11 +105,15 @@ const AddProjectObservationDetails = () => {
                                 e.preventDefault()
                                 setCustomOptions([...customOptions, additionalFieldInfo])
                                 setAdditionalFieldInfo('')
-                            }} > Save Option </button>
+                            }} > Add Option </button>
                     </div> : null }
                 </div>
             </div>
-
+            <button
+                onClick={(e)=>{
+                    e.preventDefault()
+                    handleFormSubmit()    
+                }}> Save Form and Publish </button>
         </form>
     )
 }
