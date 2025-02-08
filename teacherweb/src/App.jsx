@@ -1,13 +1,12 @@
-import { useState } from 'react';
-import './App.css';
-import ReactDOM from 'react-dom/client';
-import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { useState } from 'react'
+import './App.css'
+import {BrowserRouter as Router, Routes, Route} from 'react-router';
 import NavBar from './components/Navbar';
 import LoginSignupPage from './pages/LoginSignup/LoginSignupPage';
 import Homepage from './pages/Homepage';
-import Projects from './pages/Projects';
+import ProjectsPage from './pages/ProjectsPage';
 import Account from './pages/Account';
+import AddProjectPage from './pages/AddProjectPage'
 
 function App() {
   return (
@@ -16,9 +15,10 @@ function App() {
           <NavBar/>
           <Routes>
             <Route path="/" element={<LoginSignupPage />}/>
-            <Route path="/homepage" element={<Homepage />}/>
-            <Route path="/projects" element={<Projects />}/>
+            <Route path="/" element={<Homepage />}/>
+            <Route path="/projects" element={<ProjectsPage />}/>
             <Route path="/account" element={<Account />}/>
+            <Route path="/add-project" element={<AddProjectPage />}/>
           </Routes>
       </Router>
 

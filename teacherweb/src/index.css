@@ -212,6 +212,18 @@
   @layer layout{
     }
 
+  @layer forms {
+    form{
+      display: flex;
+    }
+
+    label{
+      display: block;
+    }
+  }
+
+
+
 
 
 
