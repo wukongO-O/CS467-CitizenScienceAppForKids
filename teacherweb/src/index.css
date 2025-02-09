@@ -325,16 +325,24 @@
 
   @layer buttons{
     button{
+      display:inline-flex;
+      align-items: center;
+      font-family: var(--ff-heading);
+      text-decoration: none;
+      font-weight: 500;
       color: var(--clr-white);
       background-color: var(--clr-yellow-600);
       border-radius: var(--border-radius-md);
-      font-size: medium;
+      font-size: var(--font-size-sm);
       height: 2.5rem;
-      padding-inline: 20px;
       border:none;
       margin: 15px 5px;
-      min-width: 10rem;
+      padding: 0.5rem 1rem;
       max-width: fit-content;
+    }
+    .button:hover,
+    .button:focus-visible{
+      background-color: #DA8813;
     }
 
 
@@ -350,14 +358,17 @@
     row-gap:15px
   }
 
-
-  #custom-form-preview legend{
-    grid-column-start: 1;
-    grid-column-end: 3;
-    color: var(--text-header);
-    font-weight: 500;
-    margin: 10px;
+/* 
+  .single-input-wrapper{
+    width:50%;
+    display: grid;
+    grid-template-columns: 1fr 30px;
   }
+
+  .single-input-wrapper>.check-rad{
+    grid-column-start: 1;
+    grid-column-end: 2;
+  } */
 
 
 

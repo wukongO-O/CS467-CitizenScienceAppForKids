@@ -1,17 +1,27 @@
 
-// eslint-disable-next-line react/prop-types
-const CheckboxOrRadio = ({type, label, value, onChange}) => {
-    return(
-        <div className="check-rad">
-            <input
-                type={type} 
-                id={label}
-                name={label}
-                checked={false}
-                className="check"
-                readOnly />
-            <label htmlFor={label}>{label}</label>
+import { CiSquareRemove } from "react-icons/ci";
 
+// eslint-disable-next-line react/prop-types
+const CheckboxOrRadio = ({id, type, options, label, onChange, handleRemove}) => {
+
+    return(
+        <div className="single-input-wrapper" id={id}>
+            <label>{label}</label>
+                <CiSquareRemove 
+                    onClick={() => handleRemove(id)}/>
+                {options.map((opt, i)=>{
+                    return(
+                        <div className="check-rad" id={id} key={"cbrd"+i}>
+                            <input
+                                type={type}
+                                label={opt}
+                                value={opt}
+                                onChange={onChange}
+                                />
+                                <label>{label}</label>
+                            </div>
+                    )})
+                }
         </div>
     )    
 }

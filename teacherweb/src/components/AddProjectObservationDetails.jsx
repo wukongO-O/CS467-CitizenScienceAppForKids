@@ -19,7 +19,7 @@ const AddProjectObservationDetails = () => {
                 if(customOptions.length == 0){
                     showAdditionalField ? alert("Please enter in at least one option for your input type") : setShowAdditionalField(true)
                 } else{
-                    setCustomFields([...customFields, [customInputLabel, customInputType, customOptions]])
+                    setCustomFields([...customFields, {customInputLabel, customInputType, customOptions}])
                     setShowAdditionalField(false);
                     setCustomOptions([])
                     setAdditionalFieldInfo("")
@@ -28,10 +28,15 @@ const AddProjectObservationDetails = () => {
                 }
                 break;
             default:
-                setCustomFields([...customFields, [customInputLabel, customInputType]])
+                setCustomFields([...customFields, {customInputLabel, customInputType}])
                 setCustomInputLabel("")
                 setCustomInputType("text")
         }
+    }
+
+    const removeField = (id) => {
+        const newCustomFields = [...customFields.slice(0,id), ...customFields.slice(id+1)]
+        setCustomFields(newCustomFields)
     }
 
     const handleFormSubmit = () => {
@@ -58,6 +63,7 @@ const AddProjectObservationDetails = () => {
             </div>
             <div className="wide-form-wrapper flow" >
                 <CustomFormCreator 
+                    removeField={removeField}
                     customFields={customFields} />
                     <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
                 <div className="observation-details-form">
@@ -69,6 +75,7 @@ const AddProjectObservationDetails = () => {
                             value={customInputLabel}
                             onChange={(e) => setCustomInputLabel(e.target.value)} />
                         <button
+                            className="button"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 handleCustomField()    
@@ -101,6 +108,7 @@ const AddProjectObservationDetails = () => {
                         <p className="small-text">Click Add Field when done entering all options</p>
                         <button 
                             type="submit"
+                            className="button"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 setCustomOptions([...customOptions, additionalFieldInfo])
@@ -110,6 +118,7 @@ const AddProjectObservationDetails = () => {
                 </div>
             </div>
             <button
+                className="button"
                 onClick={(e)=>{
                     e.preventDefault()
                     handleFormSubmit()    

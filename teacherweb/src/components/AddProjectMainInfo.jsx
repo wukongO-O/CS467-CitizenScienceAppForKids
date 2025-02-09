@@ -61,7 +61,8 @@ const AddProjectMainInfo = ({changeView}) => {
                             value={step}
                             onChange={(e)=>{
                                 setStep(e.target.value)}} />
-                        <button 
+                        <button
+                            className="button"
                             type="submit"
                             onClick={(e)=>{
                                 e.preventDefault()
@@ -71,7 +72,7 @@ const AddProjectMainInfo = ({changeView}) => {
                                 }
                             }} > Add Step </button>
                 </div>
-                <button type="submit">Save and Continue</button>
+                <button type="submit" className="button">Save and Continue</button>
             </form>
     )
 }
