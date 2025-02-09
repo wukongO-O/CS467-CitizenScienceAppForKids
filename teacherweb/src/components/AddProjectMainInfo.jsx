@@ -10,6 +10,7 @@ const AddProjectMainInfo = ({changeView}) => {
     const [step, setStep] = useState();
     const [steps, setSteps]=useState([]);
 
+
     return(
             <form 
                 onSubmit={((e)=>{
@@ -19,6 +20,7 @@ const AddProjectMainInfo = ({changeView}) => {
                 <div className="left-form-wrapper">
                     <label htmlFor="project-name">Project Name</label>
                         <input 
+                            required
                             type="text" 
                             name="project-name" 
                             value={projectName}
@@ -41,12 +43,14 @@ const AddProjectMainInfo = ({changeView}) => {
                     </select>
                     <label htmlFor="start-date">Start Date</label>
                         <input 
+                            required
                             type="date" 
                             name="start-date"
                             value={startDate}
                             onChange={(e)=>setStartDate(e.target.value)} />
                     <label htmlFor="due-date">Due Date</label>
                         <input 
+                            required
                             type="date" 
                             name="due-date"
                             value={dueDate}

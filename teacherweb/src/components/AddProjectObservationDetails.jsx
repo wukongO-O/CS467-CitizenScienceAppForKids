@@ -61,10 +61,12 @@ const AddProjectObservationDetails = () => {
                         value={location}
                         onChange={(e) => setLocation(e.target.value)} />
             </div>
+            
             <div className="wide-form-wrapper flow" >
+            {customFields.length>0? 
                 <CustomFormCreator 
                     removeField={removeField}
-                    customFields={customFields} />
+                    customFields={customFields} /> :null}
                     <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
                 <div className="observation-details-form">
                     <div className="left-form-wrapper">
