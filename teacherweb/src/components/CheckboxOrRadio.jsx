@@ -5,7 +5,7 @@ import { CiSquareRemove } from "react-icons/ci";
 const CheckboxOrRadio = ({id, type, options, label, onChange, handleRemove}) => {
 
     return(
-        <div className="single-input-wrapper" id={id}>
+        <div className="check-rad-input-wrapper" id={id}>
             <label>{label}</label>
                 <CiSquareRemove 
                     onClick={() => handleRemove(id)}/>
@@ -18,7 +18,7 @@ const CheckboxOrRadio = ({id, type, options, label, onChange, handleRemove}) => 
                                 value={opt}
                                 onChange={onChange}
                                 />
-                                <label>{label}</label>
+                                <label>{opt}</label>
                             </div>
                     )})
                 }

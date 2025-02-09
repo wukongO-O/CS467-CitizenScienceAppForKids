@@ -97,15 +97,15 @@ const AddProjectObservationDetails = () => {
                         </div>
                     {/* the following should only show if the field type requires additional information from the user */}
                     {showAdditionalField ? 
-                    <div id="additional-field">
+                    <div id="additional-field" className="flow">
                         <StepsList items={customOptions}/>
+                        <p className="small-text">Click Add Field again when done entering options</p>
                         <label htmlFor="additonal-field-info">Option</label>
                         <input
                             name="additonal-field-info"
                             type="text"
                             value={additionalFieldInfo}
                             onChange={(e)=>setAdditionalFieldInfo(e.target.value)} />
-                        <p className="small-text">Click Add Field when done entering all options</p>
                         <button 
                             type="submit"
                             className="button"
