@@ -47,30 +47,21 @@ export default function Home() {
 
   return (
     <ParallaxScrollView
-      // Set different background colors for light and dark modes
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        // Display an image in the header
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.reactLogo}
           />
-        
-      }
-    >
+          }>
       <ThemedView style={styles.titleContainer}>
-        {/* Display the title */}
         <ThemedText type="title">Projects for your class</ThemedText>
       </ThemedView>
-
       <ThemedView style={styles.stepContainer}>
-        {/* Display instructions */}
         <ThemedText>Select a project to see its description.</ThemedText>
         {isLoading ? (
-          // Show loading indicator while data is loading
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          // Display a picker to select a project
           <Picker
             selectedValue={selectedProject}
             onValueChange={handleProjectChange}
@@ -82,13 +73,12 @@ export default function Home() {
             ))}
           </Picker>
         )}
-        {selectedProjectData && (
-          // Display selected project details
+        {selectedProjectData ? (
           <View style={styles.itemContainer}>
             <ThemedText style={styles.itemDescription}>{selectedProjectData.description}</ThemedText>
             <ThemedText style={styles.itemDirections}>{selectedProjectData.directions}</ThemedText>
           </View>
-        )}
+        ) : null}
       </ThemedView>
     </ParallaxScrollView>
   );

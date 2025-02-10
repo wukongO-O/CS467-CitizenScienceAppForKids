@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, Button, Image, StyleSheet, Platform, useColorScheme, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 
-
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -67,32 +66,24 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      // Set different background colors for light and dark modes
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
-        // Display an image in the header
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.reactLogo}
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        {/* Display the title */}
         <ThemedText type="title">Welcome to the Citizen Science App!</ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        {/* Display a subtitle */}
         <ThemedText type="subtitle">Enter your class code below.</ThemedText>
-        {/* Input field for the class code */}
         <TextInput
           style={{ color: textColor }}
           placeholder="Class Code"
           placeholderTextColor={placeholderColor}
           value={classCode}
-          onChangeText={setClassCode}
-        />
-        
-        {/* Button to validate the class code */}
+          onChangeText={setClassCode}/>
         <Button title="Validate Code" onPress={validateCode} />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>

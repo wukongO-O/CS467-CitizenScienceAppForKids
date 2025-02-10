@@ -30,12 +30,11 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        {/* Define the stack of screens */}
-        <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ headerShown: false }}/>
+        <Stack.Screen name="(home)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" /> {/* Set the status bar style */}
+      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }
