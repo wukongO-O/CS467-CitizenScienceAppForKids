@@ -1,6 +1,6 @@
 import { useState } from "react"
-import AddProjectMainInfo from "../components/AddProjectMainInfo"
-import AddProjectObservationDetails from "../components/AddProjectObservationDetails"
+import AddProjectMainInfo from "../components/projects/AddProjectMainInfo"
+import AddProjectObservationDetails from "../components/projects/AddProjectObservationDetails"
 
 const AddProjectPage = () => {
     const [view, setView] = useState("main")

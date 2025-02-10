@@ -1,6 +1,5 @@
 import { useState } from "react"
-import CustomFormCreator from "./CustomFormCreator";
-import StepsList from "./OrderedList";
+import CustomFormCreator from "../CustomFormCreator";
 
 const AddProjectObservationDetails = () => {
     const [observations, setObservations] = useState();
