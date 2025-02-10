@@ -10,7 +10,7 @@ export default function LoginSignupPage() {
 
   const handleAuthSuccess = () => {
     // Redirect to homepage after successful login/signup, will need to create this later
-    navigate("/");
+    navigate("/homepage");
   };
 
   return (
