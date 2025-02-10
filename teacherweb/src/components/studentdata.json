@@ -1,0 +1,54 @@
+{
+    "students": [
+      {
+        "student_id": "s001",
+        "classes": [
+          {
+            "class_code": "c101",
+            "projects": [
+              {
+                "project_id": "p1001",
+                "title": "Plant Growth Experiment",
+                "class_code": "c101",
+                "description": "A study on how different soil types affect plant growth.",
+                "start_date": "2025-03-01",
+                "due_date": "2025-04-15",
+                "directions": [
+                  "Plant seeds in different soil types",
+                  "Water regularly and record growth",
+                  "Analyze data and present findings"
+                ],
+                "observation_details": {
+                  "observations": "Plants in clay soil grew slower.",
+                  "location": "Lab Room 3",
+                  "form_details": {
+                    "form_name": "Growth Observation Form",
+                    "fields": [
+                      {
+                        "type": "date",
+                        "label": "Observation Date",
+                        "name": "observation_date",
+                        "required": true
+                      },
+                      {
+                        "type": "text",
+                        "label": "Observer Notes",
+                        "name": "comments",
+                        "required": true
+                      },
+                      {
+                        "type": "checkbox",
+                        "label": "Was the observation completed?",
+                        "name": "completed",
+                        "required": true
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
