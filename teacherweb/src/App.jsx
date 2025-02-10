@@ -14,7 +14,7 @@ import Calendar from './components/Calendar';
 
 function App() {
   return (
-    <div className='wrapper'>
+    <div className='wrapper flow'>
       <Router>
           <NavBar/>
           <Routes>

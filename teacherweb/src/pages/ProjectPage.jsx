@@ -18,7 +18,7 @@ const Project = ({info, form}) => {
 
     return(
         <div>
-            <h1>Bird Census</h1>
+            <h1 className="header">Bird Census</h1>
             <div className="main-container">
                 <div className="project-view">
                     {currentView == "main" ? 

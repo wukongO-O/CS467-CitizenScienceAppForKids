@@ -1,5 +1,6 @@
 import { useState } from "react"
 import CustomFormCreator from "../CustomFormCreator";
+import OrderedList from "../OrderedList";
 
 const AddProjectObservationDetails = () => {
     const [observations, setObservations] = useState();
@@ -18,7 +19,7 @@ const AddProjectObservationDetails = () => {
                 if(customOptions.length == 0){
                     showAdditionalField ? alert("Please enter in at least one option for your input type") : setShowAdditionalField(true)
                 } else{
-                    setCustomFields([...customFields, {customInputLabel, customInputType, customOptions}])
+                    setCustomFields([...customFields, {label:customInputLabel, type:customInputType, options:customOptions}])
                     setShowAdditionalField(false);
                     setCustomOptions([])
                     setAdditionalFieldInfo("")
@@ -27,7 +28,7 @@ const AddProjectObservationDetails = () => {
                 }
                 break;
             default:
-                setCustomFields([...customFields, {customInputLabel, customInputType}])
+                setCustomFields([...customFields, {label:customInputLabel, type:customInputType}])
                 setCustomInputLabel("")
                 setCustomInputType("text")
         }
@@ -65,7 +66,7 @@ const AddProjectObservationDetails = () => {
             {customFields.length>0? 
                 <CustomFormCreator 
                     removeField={removeField}
-                    customFields={customFields} /> :null}
+                    fields={customFields} /> :null}
                     <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
                 <div className="observation-details-form">
                     <div className="left-form-wrapper">
@@ -99,7 +100,7 @@ const AddProjectObservationDetails = () => {
                     {/* the following should only show if the field type requires additional information from the user */}
                     {showAdditionalField ? 
                     <div id="additional-field" className="flow">
-                        <StepsList items={customOptions}/>
+                        <OrderedList items={customOptions}/>
                         <p className="small-text">Click Add Field again when done entering options</p>
                         <label htmlFor="additonal-field-info">Option</label>
                         <input

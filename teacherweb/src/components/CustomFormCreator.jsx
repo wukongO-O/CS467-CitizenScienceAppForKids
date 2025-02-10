@@ -3,7 +3,7 @@ import CheckboxOrRadio from "./CheckboxOrRadio";
 import InputField from "./InputField";
 
 // eslint-disable-next-line react/prop-types
-const CustomFormCreator = ({customFields, removeField}) => {
+const CustomFormCreator = ({fields, removeField}) => {
 
     const handleRemove = (id) => {
         removeField(id)
@@ -11,26 +11,25 @@ const CustomFormCreator = ({customFields, removeField}) => {
     
     return (
         <div id="custom-form-preview" >
-            {customFields.map((inField, i) => {
+            {fields.map((inField, i) => {
                 
-                if(inField.customInputType == "checkbox" || inField.customInputType == "radio"){
+                if(inField.type == "checkbox" || inField.type == "radio"){
                     return <CheckboxOrRadio
                                 id = {i}
                                 key={"inp"+i}
-                                label = {inField.customInputLabel}
-                                type={inField.customInputType}
-                                options = {inField.customOptions}
-                                onChange={null}
-                                handleRemove={handleRemove}/>
+                                label = {inField.label}
+                                type={inField.type}
+                                options = {inField.options}
+                                handleRemove={removeField ? handleRemove : false}/>
                 }
                 else{
                     return <InputField 
                                 id={i}
                                 key={"inp"+i}
-                                label = {inField.customInputLabel}
-                                type={inField.customInputType}
+                                label = {inField.label}
+                                type={inField.type}
                                 onChange={null}
-                                handleRemove={handleRemove}/>
+                                handleRemove={removeField ? handleRemove : false}/>
                 }
             })}
         </div>
