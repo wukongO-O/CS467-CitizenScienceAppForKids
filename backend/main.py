@@ -238,7 +238,7 @@ def get_observations(project_id):
          "timestamp": o.timestamp.isoformat()}
         for o in observations
     ]
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # Get an observation
@@ -274,7 +274,7 @@ def delete_observation(obs_id):
 def edit_observation(obs_id):
     updated_data = request.json
     try:
-        observation = Observations.query.get(obs_id)
+        observation = db.session.get(Observations, obs_id)
         if not observation:
             return jsonify({"error": "Observation not found"}), 404
 
@@ -287,6 +287,8 @@ def edit_observation(obs_id):
         db.session.commit()
         return jsonify({"message": "Observation updated successfully!"}), 200
     except Exception as e:
+        # https://stackoverflow.com/questions/33284334/how-to-make-flask-sqlalchemy-automatically-rollback-the-session-if-an-exception
+        db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
 
