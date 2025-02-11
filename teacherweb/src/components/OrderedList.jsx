@@ -1,11 +1,18 @@
 
-const OrderedList = (items) => {
+import { CiSquareRemove } from "react-icons/ci";
+
+const OrderedList = ({items, edit, handleDelete}) => {
   
     return(
              <ol>
-                    {items.items.map((step, i)=>{
+                    {items.map((step, i)=>{
                             return (
-                                <li key={i}>{step}</li> 
+                                <li key={i}>
+                                    {step} 
+                                    <CiSquareRemove 
+                                        className= {edit ? "icon-sm" : "hide-icon"}
+                                        onClick={() => handleDelete(i)}/> 
+                                    </li> 
                             )
                         })
                     }
