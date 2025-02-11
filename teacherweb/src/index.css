@@ -424,12 +424,26 @@
         grid-template-columns: 1fr 1fr;
       }
 
+      #additional-field{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        justify-self:start;
+      }
+
       #additional-field>p{
         margin-bottom:20px;
       }
 
+      #additional-field-input{
+        width:50%;
+      }
+
       .hide-icon{
         visibility: hidden;
+      }
+
+      .icon-sm {
+        margin-left:20px;
       }
 
   }  

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import OrderedList from "../OrderedList";
 
-const AddProjectMainInfo = ({changeView}) => {
+const EditProjectMainInfo = ({currentData,changeView, handleUpdate}) => {
     const [projectName, setProjectName] = useState();
     const [projectDescription, setProjectDescription] = useState();
     const [classType, setClassType] = useState("Biology Honors");
     const [startDate, setStartDate] = useState();
     const [dueDate, setDueDate] = useState();
-    const [step, setStep] = useState();
+    const [step, setStep] = useState(); 
     const [steps, setSteps]=useState([]);
 
     const deleteStep = (i) => {
@@ -15,12 +15,17 @@ const AddProjectMainInfo = ({changeView}) => {
         setSteps(newSteps)
     }
 
+    const onEdit = () => {
+        const data= {projectName, projectDescription, classType, startDate, dueDate, steps}
+        handleUpdate(data)
+    }
+
 
     return(
             <form 
                 onSubmit={((e)=>{
                     e.preventDefault()
-                    changeView()
+                    onEdit()
                 })}>
                 <div className="left-form-wrapper">
                     <label htmlFor="project-name">Project Name</label>
@@ -84,9 +89,16 @@ const AddProjectMainInfo = ({changeView}) => {
                                 }
                             }} > Add Step </button>
                 </div>
-                <button type="submit" className="button">Save and Continue</button>
+                <button type="submit" className="button">Update</button>
+                <button 
+                    type="submit" 
+                    className="button"
+                    onClick={(e)=>{
+                        e.preventDefault();
+                        changeView()
+                        }}>Edit Observations</button>
             </form>
     )
 }
 
-export default AddProjectMainInfo
+export default EditProjectMainInfo

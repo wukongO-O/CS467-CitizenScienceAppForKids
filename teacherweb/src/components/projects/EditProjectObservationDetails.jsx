@@ -2,7 +2,7 @@ import { useState } from "react"
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
 
-const AddProjectObservationDetails = () => {
+const EditProjectObservationDetails = ({currentData, changeView, handleUpdate}) => {
     const [observations, setObservations] = useState();
     const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
@@ -34,18 +34,21 @@ const AddProjectObservationDetails = () => {
         }
     }
 
-    const deleteOption = (i) => {
-        const newCustomOptions = [...customOptions.slice(0,i), ... customOptions.slice(i+1)];
-        setCustomOptions(newCustomOptions)
-    }
 
     const removeField = (id) => {
         const newCustomFields = [...customFields.slice(0,id), ...customFields.slice(id+1)]
         setCustomFields(newCustomFields)
     }
 
-    const handleFormSubmit = () => {
-        // submits form details to backend and generates code
+    const deleteOption = (i) => {
+        const newCustomOptions = [...customOptions.slice(0,i), ... customOptions.slice(i+1)];
+        setCustomOptions(newCustomOptions)
+    }
+
+    const onEdit = () => {
+        const data = {fields:customFields}
+        handleUpdate(data)
+        // submits form details to backend to update form
     }
 
     return(
@@ -72,11 +75,11 @@ const AddProjectObservationDetails = () => {
                 <CustomFormCreator 
                     removeField={removeField}
                     fields={customFields} /> :null}
-                    <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
+                    <p className="small-text"> Click 'Save Changes' when done editing your observations form.</p>
                 <div className="observation-details-form">
-                                        {/* the following should only show if the field type requires additional information from the user */}
-                                        {showAdditionalField ? 
-                    <div id="additional-field" className=" flow">
+                {/* the following should only show if the field type requires additional information from the user */}
+                {showAdditionalField ? 
+                    <div id="additional-field" className="flow">
                         <OrderedList 
                             edit={true}
                             handleDelete={deleteOption}
@@ -84,12 +87,14 @@ const AddProjectObservationDetails = () => {
                         <p className="small-text">Click Add Field again when done entering options</p>
                         <label htmlFor="additonal-field-info">Option</label>
                         <input
+                            id="additional-field-input"
                             name="additonal-field-info"
                             type="text"
                             value={additionalFieldInfo}
                             onChange={(e)=>setAdditionalFieldInfo(e.target.value)} />
                         <button 
                             type="submit"
+                            name="additional-field-info"
                             className="button"
                             onClick={(e)=>{
                                 e.preventDefault()
@@ -128,14 +133,21 @@ const AddProjectObservationDetails = () => {
 
                 </div>
             </div>
-            <button
-                className="button"
-                onClick={(e)=>{
-                    e.preventDefault()
-                    handleFormSubmit()    
-                }}> Save Form and Publish </button>
+                <button 
+                        type="submit" 
+                        className="button"
+                        onClick={(e)=>{
+                            e.preventDefault();
+                            changeView("main")
+                            }}>Main Info</button>
+                    <button
+                    className="button"
+                    onClick={(e)=>{
+                        e.preventDefault()
+                        onEdit()    
+                    }}> Save Changes </button>
         </form>
     )
 }
 
-export default AddProjectObservationDetails
+export default EditProjectObservationDetails

@@ -36,7 +36,7 @@ const Project = ({info, form}) => {
                             <Link 
                                 className="button"
                                 // to={`/edit/${info.id}`}
-                                to={`/`}
+                                to={`/edit`}
                                 >
                                 Edit Project
                             </Link>
