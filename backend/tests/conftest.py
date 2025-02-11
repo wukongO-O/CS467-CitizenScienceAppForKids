@@ -45,9 +45,15 @@ def test_flask_app():
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
     })
 
-    # Create database tables based on SQLAlchemy models
+    # Create database tables based on schema.sql
     with test_app.app_context():
         db.create_all()
+        with open('schema.sql', 'r') as f:
+            sql_script = f.read()
+        with db.engine.connect() as connection:
+            for statement in sql_script.split(';'):
+                if statement.strip():
+                    connection.execute(text(statement))
         db.session.commit()
 
     yield test_app
