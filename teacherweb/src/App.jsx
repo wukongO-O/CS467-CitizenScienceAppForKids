@@ -11,6 +11,7 @@ import ProjectSubmissionsPage from './pages/ProjectSubmissionsPage';
 import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
 import Calendar from './components/Calendar';
+import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/project" element={<ProjectPage />}/>
             <Route path="/project/:id/submissions" element={<ProjectSubmissionsPage />}/>
             <Route path="/edit" element={<EditProjectPage />}/>
+            <Route path="/projectlist" element={<ProjectsListPage />}/>
             {/* <Route path="/edit/:id" element={<EditProjectPage />}/> */}
           </Routes>
       </Router>
