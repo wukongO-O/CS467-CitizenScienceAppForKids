@@ -101,11 +101,13 @@ def create_class():
             class_code=data["class_code"],
             class_name=data["class_name"],
             description=data["description"],
-            number_of_students=data["number_of_students"]
+            number_of_students=data["number_of_students"],
         )
         db.session.add(new_class)
         db.session.commit()
         return jsonify({"message": "Class created successfully!",
+                        "class": data,
+                        "class_id": new_class.class_id}), 201
                         "class": data,
                         "class_id": new_class.class_id}), 201
     except Exception as e:
@@ -198,14 +200,14 @@ def create_project():
             title=data["title"],
             description=data["description"],
             directions=data["directions"],
+            directions=data["directions"],
             form_definition=data["form_definition"],
         )
         db.session.add(new_project)
         db.session.commit()
         return jsonify({"message": "Project created successfully!",
-                        "project_id": new_project.project_id,
                         "project": data,
-                        }), 201
+                        "project_id": new_project.project_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -239,6 +241,7 @@ def get_projects_by_class_code(class_code):
         "directions": project_obj.directions
     } for project_obj in project_objs]
 
+    return jsonify(result), 200
     return jsonify(result), 200
 
 
