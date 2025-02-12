@@ -29,9 +29,8 @@ function App() {
             <Route path="/add" element={<AddProjectPage />}/>
             <Route path="/project/:id" element={<ProjectPage/>}/>
             <Route path="/project/:id/submissions" element={<ProjectSubmissionsPage />}/>
-            <Route path="/edit" element={<EditProjectPage />}/>
+            <Route path="/edit:id" element={<EditProjectPage />}/>
             <Route path="/projectlist" element={<ProjectsListPage />}/>
-            {/* <Route path="/edit/:id" element={<EditProjectPage />}/> */}
           </Routes>
       </Router>
 
