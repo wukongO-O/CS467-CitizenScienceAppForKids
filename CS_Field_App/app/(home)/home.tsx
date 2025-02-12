@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, useColorScheme, Image } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 // Define an interface for the data items
@@ -23,6 +22,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true); // State to manage loading state
   const [selectedProject, setSelectedProject] = useState<string>(''); // State to store selected project
   const colorScheme = useColorScheme(); // Determine the current color scheme
+  const router = useRouter(); // Get the router object for navigation
 
   useEffect(() => {
     // Simulate data loading
@@ -37,6 +37,12 @@ export default function Home() {
   // Handle project selection change
   const handleProjectChange = (itemValue: string) => {
     setSelectedProject(itemValue);
+    // Navigate to list_observation and pass the selected project title
+    router.setParams({ projectTitle: itemValue });
+    router.push({
+      pathname: '/list_observation',
+      params: { projectTitle: itemValue },
+    });
   };
 
   // Find the selected project data
@@ -52,8 +58,9 @@ export default function Home() {
         <Image
           source={require('@/assets/images/partial-react-logo.png')}
           style={styles.reactLogo}
-          />
-          }>
+        />
+      }
+    >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Projects for your class</ThemedText>
       </ThemedView>
@@ -128,7 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  // Style for the react logo
   reactLogo: {
     height: 178,
     width: 290,
