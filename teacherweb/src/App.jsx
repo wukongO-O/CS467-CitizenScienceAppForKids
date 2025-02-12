@@ -14,17 +14,20 @@ import Calendar from './components/Calendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 
 function App() {
+
+
   return (
     <div className='wrapper flow'>
       <Router>
           <NavBar/>
           <Routes>
             <Route path="/" element={<LoginSignupPage />}/>
-            <Route path="/homepage" element={<Homepage />}/>
-            <Route path="/projects" element={<ProjectsPage />}/>
+              <Route path="/homepage" element={<Homepage />}/>
+              <Route path="/projects" element={<ProjectsPage />}/>
+
             <Route path="/account" element={<Account />}/>
             <Route path="/add" element={<AddProjectPage />}/>
-            <Route path="/project" element={<ProjectPage />}/>
+            <Route path="/project/:id" element={<ProjectPage/>}/>
             <Route path="/project/:id/submissions" element={<ProjectSubmissionsPage />}/>
             <Route path="/edit" element={<EditProjectPage />}/>
             <Route path="/projectlist" element={<ProjectsListPage />}/>

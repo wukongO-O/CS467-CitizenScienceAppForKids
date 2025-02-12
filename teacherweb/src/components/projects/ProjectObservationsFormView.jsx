@@ -2,38 +2,8 @@ import { useState } from "react";
 import CustomFormCreator from "../CustomFormCreator";
 
 
-const ProjectObservationsFormView = ({form, changeView}) => {
+const ProjectObservationsFormView = ({form_definition, changeView}) => {
     const [editMode, setEditMode] = useState(false);
-
-    let fields = [
-        {
-            type:"text",
-            label:"Bird Species",
-            name:"bird_species",
-            required:true,
-
-        },
-        {
-            type:"checkbox",
-            label:"Weather Conditions",
-            name:"weather_conditions",
-            required:true,
-            options:["rain", "hot", "humid", "cold"]
-        },
-        {
-            type:"number",
-            label:"Total Bird Count",
-            name:"bird_count",
-            required:true,
-        },
-        {
-            type:"radio",
-            label: "Color",
-            name:"color",
-            required:true,
-            options:["blue", "red", "yellow", "brown"]
-        }
-    ]
 
     return(
         <div className="observation-details-form">
@@ -53,7 +23,7 @@ const ProjectObservationsFormView = ({form, changeView}) => {
             </div>
             <div className="wide-form-wrapper">
                 <CustomFormCreator 
-                    fields={fields}
+                    fields={form_definition}
                     removeField={false}/>
             </div>
             <div>
