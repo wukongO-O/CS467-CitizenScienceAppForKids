@@ -63,8 +63,8 @@
     {
       "project_id": 2,
       "title": "Water Use",
-      "start_date": "2025-4-12",
-      "due_at": "2025-4-29",
+      "start_date": "2025-04-12",
+      "due_at": "2025-04-29",
       "description": "Measure the approximate water use in a week in your home.",
       "project_class": "Biology 101",
       "project_code": "234TWS",

@@ -22,6 +22,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess }) {
       // Successful login
       console.log("Login successful");
       setError(null);
+      localStorage.setItem('isAuthenticated', 'true');
       onAuthSuccess();
     } else {
       // Invalid credentials

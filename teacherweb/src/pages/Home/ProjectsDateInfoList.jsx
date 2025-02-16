@@ -18,7 +18,7 @@ const ProjectsDateInfoList = () => {
     let dueFuture = 0;
 
     studentData.projects.forEach((project) => {
-      const dueDate = new Date(project.due_date);
+      const dueDate = new Date(project.due_at);
       dueDate.setHours(0, 0, 0, 0); 
 
       if (dueDate.getTime() === today.getTime()) {
@@ -42,7 +42,7 @@ const ProjectsDateInfoList = () => {
         {projects.map((project) => (
           <li key={project.project_id}>
             <strong>{project.project_name}</strong>
-            <p><strong>Due Date:</strong> {project.due_date}</p>
+            <p><strong>Due Date:</strong> {project.due_at}</p>
           </li>
         ))}
       </ul>

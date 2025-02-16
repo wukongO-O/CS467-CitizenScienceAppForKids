@@ -1,15 +1,27 @@
 import { useState } from "react";
 import LoginSignupForm from "./LoginSignupForm";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-export default function LoginSignupPage() {
+export default function LoginSignupPage({ onAuthSuccess}) {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    console.log("Login Page Loaded - Authenticated:", isAuthenticated);
+
+    if (isAuthenticated === "true") {
+      console.log("Redirecting to /homepage...");
+      navigate("/homepage");
+    }
+  }, [navigate]);
 
   const toggleForm = () => setIsLogin(!isLogin);
 
   const handleAuthSuccess = () => {
-    // Redirect to homepage after successful login/signup, will need to create this later
+    localStorage.setItem("isAuthenticated", "true");
+    onAuthSuccess();
     navigate("/homepage");
   };
 
