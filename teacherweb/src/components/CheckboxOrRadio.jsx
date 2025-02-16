@@ -16,7 +16,7 @@ const CheckboxOrRadio = ({id, type, options, label, handleRemove}) => {
                             <input
                                 readOnly
                                 type={type}
-                                label={opt}
+                                name={label.toLowerCase().replace(" ", "_")}
                                 value={opt}
                                 />
                                 <label>{opt}</label>

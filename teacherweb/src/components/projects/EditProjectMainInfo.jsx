@@ -1,14 +1,14 @@
 import { useState } from "react";
 import OrderedList from "../OrderedList";
 
-const EditProjectMainInfo = ({currentData,changeView, handleUpdate}) => {
-    const [projectName, setProjectName] = useState();
-    const [projectDescription, setProjectDescription] = useState();
-    const [classType, setClassType] = useState("Biology Honors");
-    const [startDate, setStartDate] = useState();
-    const [dueDate, setDueDate] = useState();
+const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
+    const [projectName, setProjectName] = useState(info.title);
+    const [projectDescription, setProjectDescription] = useState(info.description);
+    const [classType, setClassType] = useState(info.project_class);
+    const [startDate, setStartDate] = useState(info.start_date);
+    const [dueDate, setDueDate] = useState(info.due_at);
     const [step, setStep] = useState(); 
-    const [steps, setSteps]=useState([]);
+    const [steps, setSteps]=useState(info.directions);
 
     const deleteStep = (i) => {
         const newSteps = [...steps.slice(0,i), ... steps.slice(i+1)];
@@ -18,6 +18,19 @@ const EditProjectMainInfo = ({currentData,changeView, handleUpdate}) => {
     const onEdit = () => {
         const data= {projectName, projectDescription, classType, startDate, dueDate, steps}
         handleUpdate(data)
+    }
+
+    //changing the view, but saving the updated data first
+    const handleChangeView = () => {
+        const data = {
+            title: projectName,
+            description:projectDescription,
+            project_class: classType,
+            start_date:startDate,
+            due_at: dueDate,
+            directions:steps
+        }
+        changeView(data)
     }
 
 
@@ -95,7 +108,7 @@ const EditProjectMainInfo = ({currentData,changeView, handleUpdate}) => {
                     className="button"
                     onClick={(e)=>{
                         e.preventDefault();
-                        changeView()
+                        handleChangeView();
                         }}>Edit Observations</button>
             </form>
     )

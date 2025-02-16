@@ -2,7 +2,7 @@ import { useState } from "react"
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
 
-const AddProjectObservationDetails = () => {
+const AddProjectObservationDetails = ({handleSubmit}) => {
     const [observations, setObservations] = useState();
     const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
@@ -19,7 +19,7 @@ const AddProjectObservationDetails = () => {
                 if(customOptions.length == 0){
                     showAdditionalField ? alert("Please enter in at least one option for your input type") : setShowAdditionalField(true)
                 } else{
-                    setCustomFields([...customFields, {label:customInputLabel, type:customInputType, options:customOptions}])
+                    setCustomFields([...customFields, {label:customInputLabel, type:customInputType, name:customInputLabel.toLowerCase().replaceAll(" ", "_"), options:customOptions}])
                     setShowAdditionalField(false);
                     setCustomOptions([])
                     setAdditionalFieldInfo("")
@@ -28,7 +28,7 @@ const AddProjectObservationDetails = () => {
                 }
                 break;
             default:
-                setCustomFields([...customFields, {label:customInputLabel, type:customInputType}])
+                setCustomFields([...customFields, {label:customInputLabel, type:customInputType, name:customInputLabel.toLowerCase().replaceAll(" ", "_")}])
                 setCustomInputLabel("")
                 setCustomInputType("text")
         }
@@ -44,11 +44,15 @@ const AddProjectObservationDetails = () => {
         setCustomFields(newCustomFields)
     }
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = (e) => {
         // submits form details to backend and generates code
+        e.preventDefault();
+
+        handleSubmit({form_definition: customFields})
     }
 
     return(
+        //observations textarea and location are the default fields
         <form className="observation-details-form">
             <div className="left-form-wrapper">
                 <label htmlFor="observations">Observations</label>
