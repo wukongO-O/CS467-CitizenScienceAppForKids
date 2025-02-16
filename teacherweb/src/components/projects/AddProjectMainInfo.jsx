@@ -1,7 +1,7 @@
 import { useState } from "react";
 import OrderedList from "../OrderedList";
 
-const AddProjectMainInfo = ({changeView}) => {
+const AddProjectMainInfo = ({changeView, handleMainInfoUpdate}) => {
     const [projectName, setProjectName] = useState();
     const [projectDescription, setProjectDescription] = useState();
     const [classType, setClassType] = useState("Biology Honors");
@@ -15,13 +15,24 @@ const AddProjectMainInfo = ({changeView}) => {
         setSteps(newSteps)
     }
 
+    const handleSubmit = () =>{
+        const mainInfo = {
+            title: projectName,
+            start_date:startDate,
+            due_at: dueDate,
+            description: projectDescription,
+            project_class:classType,
+            directions: steps
+        }
+        handleMainInfoUpdate(mainInfo)
+    }
+
 
     return(
-            <form 
-                onSubmit={((e)=>{
+            <form
+                onSubmit={(e) =>{
                     e.preventDefault()
-                    changeView()
-                })}>
+                    handleSubmit()}}>
                 <div className="left-form-wrapper">
                     <label htmlFor="project-name">Project Name</label>
                         <input 

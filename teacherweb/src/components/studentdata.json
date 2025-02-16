@@ -2,17 +2,18 @@
   "projects": [
     {
       "project_id": 1,
-      "project_name": "Bird Census",
+      "title": "Bird Census",
       "start_date": "2025-12-12",
-      "due_date": "2025-12-19",
+      "due_at": "2025-12-19",
       "description": "A census of local bird species in the area.",
       "project_class": "Biology 101",
+      "project_code": "123DEPT",
       "directions": [
         "Observe birds in the local area",
         "Record the species and count",
         "Note weather conditions"
       ],
-      "fields": [
+      "form_definition": [
         {
           "type": "text",
           "label": "Bird Species",
@@ -56,6 +57,59 @@
           "weather_conditions": ["cold"],
           "bird_count": 8,
           "color": "black"
+        }
+      ]
+    },
+    {
+      "project_id": 2,
+      "title": "Water Use",
+      "start_date": "2025-4-12",
+      "due_at": "2025-4-29",
+      "description": "Measure the approximate water use in a week in your home.",
+      "project_class": "Biology 101",
+      "project_code": "234TWS",
+      "directions": [
+        "Track the time spent with the faucet running.",
+        "Record each time.",
+        "At the end of the day take the average minutes spent and record weather conditions.",
+        "After 7 days of time recorded, add all times recorded and complete obersvations."
+      ],
+      "form_definition": [
+        {
+          "type": "number",
+          "label": "Total average minutes",
+          "name": "total_average_minutes",
+          "required": true
+        },
+        {
+          "type": "checkbox",
+          "label": "Weather Conditions",
+          "name": "weather_conditions",
+          "required": true,
+          "options": ["rain", "hot", "humid", "cold"]
+        },
+        {
+          "type": "radio",
+          "label": "Most water used",
+          "name": "most_water_used",
+          "required": true,
+          "options": ["week", "weekend"]
+        }
+      ],
+      "observations": [
+        {
+          "obs_id": 1,
+          "student_id": "s001",
+          "total_average_minutes": "4",
+          "weather_conditions": ["hot", "humid"],
+          "most_water_used": "week"
+        },
+        {
+          "obs_id": 2,
+          "student_id": "s002",
+          "total_average_minutes": "3",
+          "weather_conditions": ["hot", "humid"],
+          "most_water_used": "weekend"
         }
       ]
     }

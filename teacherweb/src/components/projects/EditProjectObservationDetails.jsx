@@ -2,12 +2,12 @@ import { useState } from "react"
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
 
-const EditProjectObservationDetails = ({currentData, changeView, handleUpdate}) => {
+const EditProjectObservationDetails = ({form_definition, changeView, handleUpdate}) => {
     const [observations, setObservations] = useState();
     const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
     const [customInputType, setCustomInputType] = useState("text");
-    const [customFields, setCustomFields] = useState([]);
+    const [customFields, setCustomFields] = useState(form_definition);
     const [showAdditionalField, setShowAdditionalField] = useState(false);
     const [additionalFieldInfo, setAdditionalFieldInfo] = useState();
     const [customOptions, setCustomOptions] = useState([]);
@@ -34,6 +34,10 @@ const EditProjectObservationDetails = ({currentData, changeView, handleUpdate}) 
         }
     }
 
+    const handleChangeView = () => {
+        const form_definition = customFields;
+        changeView(form_definition)
+    }
 
     const removeField = (id) => {
         const newCustomFields = [...customFields.slice(0,id), ...customFields.slice(id+1)]
@@ -127,6 +131,7 @@ const EditProjectObservationDetails = ({currentData, changeView, handleUpdate}) 
                             <option value="number">Number</option>
                             <option value="radio">Radio</option>
                             <option value="checkbox">Checkbox</option>
+                            <option value="checkbox">Time</option>
                             {/* <option value="image">File</option>  stretch goal*/}
                         </select>
                         </div>
@@ -138,7 +143,7 @@ const EditProjectObservationDetails = ({currentData, changeView, handleUpdate}) 
                         className="button"
                         onClick={(e)=>{
                             e.preventDefault();
-                            changeView("main")
+                            handleChangeView();
                             }}>Main Info</button>
                     <button
                     className="button"
