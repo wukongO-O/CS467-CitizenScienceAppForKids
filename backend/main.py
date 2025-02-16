@@ -86,11 +86,13 @@ def create_class():
             class_code=data["class_code"],
             class_name=data["class_name"],
             description=data["description"],
+            number_of_students=data["number_of_students"],
         )
         db.session.add(new_class)
         db.session.commit()
         return jsonify({"message": "Class created successfully!",
-                        "class": data}), 201
+                        "class": data,
+                        "class_id": new_class.class_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -155,12 +157,14 @@ def create_project():
             project_code=data["project_code"],
             title=data["title"],
             description=data["description"],
+            directions=data["directions"],
             form_definition=data["form_definition"],
         )
         db.session.add(new_project)
         db.session.commit()
         return jsonify({"message": "Project created successfully!",
-                        "project": data}), 201
+                        "project": data,
+                        "project_id": new_project.project_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -191,7 +195,7 @@ def get_projects_by_class_code(class_code):
         "directions": project_obj.directions
     } for project_obj in project_objs]
 
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # Get a project from project id
@@ -238,7 +242,7 @@ def get_observations(project_id):
          "timestamp": o.timestamp.isoformat()}
         for o in observations
     ]
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # Get an observation
@@ -274,7 +278,7 @@ def delete_observation(obs_id):
 def edit_observation(obs_id):
     updated_data = request.json
     try:
-        observation = Observations.query.get(obs_id)
+        observation = db.session.get(Observations, obs_id)
         if not observation:
             return jsonify({"error": "Observation not found"}), 404
 
@@ -287,6 +291,8 @@ def edit_observation(obs_id):
         db.session.commit()
         return jsonify({"message": "Observation updated successfully!"}), 200
     except Exception as e:
+        # https://stackoverflow.com/questions/33284334/how-to-make-flask-sqlalchemy-automatically-rollback-the-session-if-an-exception
+        db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
 
