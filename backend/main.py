@@ -86,6 +86,7 @@ def create_class():
             class_code=data["class_code"],
             class_name=data["class_name"],
             description=data["description"],
+            number_of_students=data["number_of_students"]
         )
         db.session.add(new_class)
         db.session.commit()
@@ -116,6 +117,8 @@ def get_class(class_id):
                         "teacher_name": teacher.username,  # may remove
                         "class_name": class_.class_name,
                         "description": class_.description})
+    else:
+        return jsonify({"error": "Class not found"}), 404
 
 
 # Update a class by id
@@ -130,6 +133,8 @@ def update_class(class_id):
         db.session.commit()
         return jsonify({"message": "Class updated successfully!",
                         "class": data}), 200
+    else:
+        return jsonify({"error": "Class not found"}), 404
 
 
 # Delete a class by id
@@ -155,6 +160,7 @@ def create_project():
             project_code=data["project_code"],
             title=data["title"],
             description=data["description"],
+            directions=data["directions"],
             form_definition=data["form_definition"],
         )
         db.session.add(new_project)
