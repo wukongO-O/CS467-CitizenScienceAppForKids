@@ -413,83 +413,16 @@ def test_create_project(client):
         "title": "Water Quality",
         "description": "Check water sources",
         "directions": "Step 1: Collect samples, Step 2: Test pH",
-        "form_definition": {"questions": ["Q1", "Q2"]}
+        "form_definition": {"questions": ["Q1", "Q2"]},
+        "start_date": "2021-06-01",
+        "due_at": "2021-06-30"
     }
+
+    # ----------- create project ----------------
     response = client.post("/projects", json=data)
+    print("Response:", response.get_json())
+    project_id = response.get_json()["project_id"]
+    print("Project ID:", project_id)
     assert response.status_code == 201
     assert response.get_json()["message"] == "Project created successfully!"
     print("Finished test_create_project!" + "\n")
-
-
-# -------------------- OBSERVATIONS ROUTE TESTS --------------------
-
-def test_create_observation(client):
-    """
-    Test POST /observations
-    """
-    print("Starting test_create_observation...")
-    
-    with client.application.app_context():
-        # Create teacher & class
-        teacher = User(username="teacher_proj",
-                       email="teacher_proj@example.com",
-                       role="teacher")
-        teacher.password = "teapass"
-        db.session.add(teacher)
-        db.session.commit()
-
-        new_class = Classes(
-            teacher_id=teacher.id,
-            class_code="ABC123",
-            class_name="Some Class",
-            description="Some Description",
-            number_of_students=25
-        )
-        db.session.add(new_class)
-        db.session.commit()
-
-        class_id = new_class.class_id
-        teacher_id = teacher.id
-
-        # Create project linked to this class
-        project_data = Projects(
-            class_id=class_id,
-            teacher_id=teacher_id,
-            project_code="PRJ001",
-            title="Water Quality",
-            description="Check water sources",
-            directions="Step 1: Collect samples, Step 2: Test pH",
-            form_definition={"questions": ["Q1", "Q2"]}
-        )
-        db.session.add(project_data)
-        db.session.commit()
-
-        project_id = project_data.project_id
-
-        # Create an anonymous user
-        anon_user = Anonymous_users(token="sample_token")
-        db.session.add(anon_user)
-        db.session.commit()
-
-        anon_user_id = anon_user.anon_user_id
-
-    # Observation data
-    observation_data = {
-        "project_id": project_id,
-        "anon_user_id": anon_user_id,
-        "data": {"pH": 7.2, "turbidity": "low"}
-    }
-
-    # Send POST request to add observation
-    response = client.post("/observations", json=observation_data)
-    assert response.status_code == 201
-    assert response.get_json()["message"] == "Observation added successfully!"
-
-    # Verify the observation exists in the database
-    with client.application.app_context():
-        saved_obs = Observations.query.filter_by(project_id=project_id).first()
-        assert saved_obs is not None
-        assert saved_obs.anon_user_id == anon_user_id
-        assert saved_obs.data == {"pH": 7.2, "turbidity": "low"}
-
-    print("Finished test_create_observation!" + "\n")

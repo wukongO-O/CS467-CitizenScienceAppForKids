@@ -188,19 +188,23 @@ def create_project():
         db.session.add(new_project)
         db.session.commit()
         return jsonify({"message": "Project created successfully!",
+                        "project_id": new_project.project_id,
                         "project": data,
-                        "project_id": new_project.project_id}), 201
+                        }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
 
-# Get all projects for a class - added a prefix to avoid url conflict with getting a single project
+# Get all projects for a class - added a prefix to avoid url conflict
+# with getting a single project
 @app.route("/projects/class/<int:class_id>", methods=["GET"])
 def get_projects(class_id):
     projects = Projects.query.filter_by(class_id=class_id).all()
-    result = [{"project_id": p.project_id, "title": p.title,
-               "description": p.description} for p in projects]
-    return jsonify(result)
+    result = [{"project_id": p.project_id,
+               "title": p.title,
+               "description": p.description,
+               } for p in projects]
+    return jsonify(result), 200
 
 
 # Get projects from class code for mobile
