@@ -10,7 +10,7 @@ import ProjectPage from './pages/ProjectPage';
 import ProjectSubmissionsPage from './pages/ProjectSubmissionsPage';
 import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
-import Calendar from './components/Calendar';
+import MyCalendar from './components/MyCalendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
       </Router>
 
       <div className = 'right-container'>
-        <Calendar/>
+        <MyCalendar />
       </div>
 
     </div>
