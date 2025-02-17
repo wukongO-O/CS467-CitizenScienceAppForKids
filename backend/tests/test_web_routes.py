@@ -48,6 +48,20 @@ def test_create_user(client):
     print("Finished test_create_user!" + "\n")
 
 
+def test_fail_create_user(client):
+    """
+    Test POST /users with invalid data
+    """
+    print("Starting test_fail_create_user...")
+    # missing email
+    new_user = {}
+    response = client.post("/users", json=new_user)
+    # Should return 400 Bad Request
+    assert response.status_code == 400
+    print("Response:", response.get_json())
+    print("Finished test_fail_create_user!" + "\n")
+
+
 def test_get_users(client):
     """
     Test GET /users to retrieve all users
@@ -67,7 +81,20 @@ def test_get_users(client):
     users_list = response.get_json()
     # There's at least 1 user: 'bob'
     assert any(u["username"] == "bob" for u in users_list)
-    print("Finished test_get_users!"+ "\n")
+    print("Finished test_get_users!" + "\n")
+
+
+def test_fail_get_user(client):
+    """
+    Test GET /users/<int:user_id> with invalid user_id
+    """
+    print("Starting test_fail_get_user...")
+    # Invalid user_id
+    response = client.get("/users/999")
+    # Should return 404 Not Found
+    assert response.status_code == 404
+    print("Response:", response.get_json())
+    print("Finished test_fail_get_user!" + "\n")
 
 
 def test_update_user(client):
@@ -131,6 +158,24 @@ def test_update_user(client):
     print("Finished test_update_user!" + "\n")
 
 
+def test_fail_update_user(client):
+    """
+    Test PUT /users/<int:user_id> with invalid user_id
+    """
+    print("Starting test_fail_update_user...")
+    # Invalid user_id
+    update_data = {
+        "username": "charlie_new",
+        "email": "",
+        "role": "admin"
+    }
+    response = client.put("/users/999", json=update_data)
+    # Should return 404 Not Found
+    assert response.status_code == 404
+    print("Response:", response.get_json())
+    print("Finished test_fail_update_user!" + "\n")
+
+
 def test_delete_user(client):
     """
     Test DELETE /users/<int:user_id>
@@ -155,6 +200,19 @@ def test_delete_user(client):
         assert User.query.get(user_id) is None
 
     print("Finished test_delete_user!" + "\n")
+
+
+def test_fail_delete_user(client):
+    """
+    Test DELETE /users/<int:user_id> with invalid user_id
+    """
+    print("Starting test_fail_delete_user...")
+    # Invalid user_id
+    response = client.delete("/users/999")
+    # Should return 404 Not Found
+    assert response.status_code == 404
+    print("Response:", response.get_json())
+    print("Finished test_fail_delete_user!" + "\n")
 
 
 # -------------------- CLASSES ROUTE TESTS --------------------
@@ -197,7 +255,9 @@ def test_create_project(client):
     print("Starting test_create_project...")
     with client.application.app_context():
         # Create teacher & class
-        teacher = User(username="teacher_proj", email="teacher_proj@example.com", role="teacher")
+        teacher = User(username="teacher_proj",
+                       email="teacher_proj@example.com",
+                       role="teacher")
         teacher.password = "teapass"
         db.session.add(teacher)
         db.session.commit()

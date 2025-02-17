@@ -41,6 +41,6 @@ CREATE TABLE Observations (
 
 CREATE TABLE Anonymous_users (
     anon_user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    token VARCHAR(10) NOT NULL,
+    token VARCHAR(250) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

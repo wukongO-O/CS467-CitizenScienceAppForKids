@@ -232,7 +232,8 @@ def add_observation():
         )
         db.session.add(new_observation)
         db.session.commit()
-        return jsonify({"message": "Observation added successfully!"}), 201
+        return jsonify({"message": "Observation added successfully!",
+                        "obs_id": new_observation.obs_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
