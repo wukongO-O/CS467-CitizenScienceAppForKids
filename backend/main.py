@@ -102,12 +102,17 @@ def create_class():
 def get_classes(teacher_id):
     classes = Classes.query.filter_by(teacher_id=teacher_id).all()
     result = [{"class_id": c.class_id, "class_name": c.class_name,
-               "description": c.description} for c in classes]
-    return jsonify(result)
+               "description": c.description,
+               "number_of_students": c.number_of_students} for c in classes]
+
+    if result:
+        return jsonify(result), 200
+    else:
+        return jsonify({"error": "No classes found"}), 404
 
 
 # Get a class by id
-@app.route("/classes/<int:class_id>", methods=["GET"])
+@app.route("/class/<int:class_id>", methods=["GET"]) # changed to singular
 def get_class(class_id):
     # class is a keyword so added an underscore
     class_ = Classes.query.filter_by(class_id=class_id).first()
@@ -117,29 +122,45 @@ def get_class(class_id):
                         "teacher_id": class_.teacher_id,
                         "teacher_name": teacher.username,  # may remove
                         "class_name": class_.class_name,
-                        "description": class_.description})
+                        "description": class_.description,
+                        "number_of_students": class_.number_of_students}), 200
     else:
         return jsonify({"error": "Class not found"}), 404
 
 
 # Update a class by id
-@app.route("/classes/<int:class_id>", methods=["PUT"])
+@app.route("/class/<int:class_id>", methods=["PUT"])
 def update_class(class_id):
     data = request.json
     class_ = Classes.query.filter_by(class_id=class_id).first()
-    if class_:
-        class_.class_code = data["class_code"]
-        class_.class_name = data["class_name"]
-        class_.description = data["description"]
-        db.session.commit()
-        return jsonify({"message": "Class updated successfully!",
-                        "class": data}), 200
-    else:
+
+    if not class_:
         return jsonify({"error": "Class not found"}), 404
+
+    if class_:
+        if "class_code" in data:
+            class_.class_code = data["class_code"]
+        if "class_name" in data:
+            class_.class_name = data["class_name"]
+        if "description" in data:
+            class_.description = data["description"]
+        if "number_of_students" in data:
+            class_.number_of_students = data["number_of_students"]
+
+        db.session.commit()
+
+        return jsonify({
+            "message": "Class updated successfully!",
+            "class_id": class_.class_id,
+            "class_code": class_.class_code,
+            "class_name": class_.class_name,
+            "description": class_.description,
+            "number_of_students": class_.number_of_students
+        }), 200
 
 
 # Delete a class by id
-@app.route("/classes/<int:class_id>", methods=["DELETE"])
+@app.route("/class/<int:class_id>", methods=["DELETE"])  # made singular
 def delete_class(class_id):
     class_ = Classes.query.filter_by(class_id=class_id).first()
     if class_:
@@ -167,19 +188,23 @@ def create_project():
         db.session.add(new_project)
         db.session.commit()
         return jsonify({"message": "Project created successfully!",
+                        "project_id": new_project.project_id,
                         "project": data,
-                        "project_id": new_project.project_id}), 201
+                        }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
 
-# Get all projects for a class - added a prefix to avoid url conflict with getting a single project
+# Get all projects for a class - added a prefix to avoid url conflict
+# with getting a single project
 @app.route("/projects/class/<int:class_id>", methods=["GET"])
 def get_projects(class_id):
     projects = Projects.query.filter_by(class_id=class_id).all()
-    result = [{"project_id": p.project_id, "title": p.title,
-               "description": p.description} for p in projects]
-    return jsonify(result)
+    result = [{"project_id": p.project_id,
+               "title": p.title,
+               "description": p.description,
+               } for p in projects]
+    return jsonify(result), 200
 
 
 # Get projects from class code for mobile
@@ -232,7 +257,8 @@ def add_observation():
         )
         db.session.add(new_observation)
         db.session.commit()
-        return jsonify({"message": "Observation added successfully!"}), 201
+        return jsonify({"message": "Observation added successfully!",
+                        "obs_id": new_observation.obs_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 

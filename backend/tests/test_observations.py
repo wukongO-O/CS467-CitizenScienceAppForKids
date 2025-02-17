@@ -82,9 +82,9 @@ def test_deleting_an_obs(client):
             "timestamp": "2025-02-02 11:22:33"
         }
     )
-    new_obs_id = new_observation.json['obs_id']
+    new_observation_id = new_observation.json['obs_id']
 
-    response = client.delete(f'/observations/{new_obs_id}')
+    response = client.delete(f'/observations/{new_observation_id}')
     assert response.status_code == 200
 
 
@@ -95,7 +95,7 @@ def test_deleting_nonexistent_obs(client):
 
 # Test updating an observation
 def test_updating_an_obs(client):
-    original_obs = client.post(
+    original_observation = client.post(
         '/observations', json={
             "project_id": 1,
             "anon_user_id": 101,
@@ -107,11 +107,11 @@ def test_updating_an_obs(client):
             "timestamp": "2025-02-02 11:22:33"
         }
     )
-    original_obs_id = original_obs.json['obs_id']
-    assert original_obs.status_code == 201
+    original_observation_id = original_observation.json['obs_id']
+    assert original_observation.status_code == 201
 
-    updated_obs = client.put(
-        f'/observations/{original_obs_id}', json={
+    updated_observation = client.put(
+        f'/observations/{original_observation_id}', json={
             "project_id": 1,
             "anon_user_id": 101,
             "data": {
@@ -122,10 +122,10 @@ def test_updating_an_obs(client):
             "timestamp": "2025-02-02 15:22:33"
         }
     )
-    assert updated_obs.status_code == 200
+    assert updated_observation.status_code == 200
 
     # Verify the changes were updated in the database
-    result = db.session.get(Observations, original_obs_id)
+    result = db.session.get(Observations, original_observation_id)
 
     assert result is not None
     assert result.data["weather"] == "snowy"
