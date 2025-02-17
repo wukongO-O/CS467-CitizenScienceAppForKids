@@ -49,9 +49,11 @@ function App() {
           </Routes>
       </Router>
 
+    {isAuthenticated ? 
       <div className = 'right-container'>
         <MyCalendar />
-      </div>
+      </div> : null
+      }
 
     </div>
   );
