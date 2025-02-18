@@ -25,10 +25,15 @@ To run the server on http://127.0.0.1:5000
     ```bash    
     pip3 install -r requirements.txt
     ```
+  
+- Create database and tables 
+    ```bash
+    flask --app main db upgrade
+    ```
 
 - Run Flask server
     ```bash
-    flask --app main run`
+    flask --app main run
     ```
 
 # Welcome to your Expo app 👋
