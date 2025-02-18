@@ -449,7 +449,57 @@
 
   }  
   
+@layer calendar{
+  .react-calendar{
+    width:330px;
+    border:none;
+    border-radius: var(--border-radius-md);
+    padding: 30px;
+    margin-top: 30px;
+    margin-inline: 15px;
+    box-shadow: var(--clr-shadow);
+  }
+  
+  .react-calendar *{
+    background-color: var(--clr-white);
+    border:none;
+    font-family: var(--ff-body);
+  }
 
+  .react-calendar__navigation__label{
+    font-size:var(--font-size-rg);
+    font-weight: 600;
+    color: var(--clr-heading)
+  }
+
+  .react-calendar__viewContainer * {
+    font-size: var(--font-size-sm);
+    color:var(--clr-paragraph-600)
+  }
+  
+
+  .react-calendar__navigation,
+  .react-calendar__month-view__weekdays{
+    padding-bottom: 10px;
+
+  }
+
+  .react-calendar__month-view__days__day {
+    padding: 8px;
+    align-self: center;
+  }
+
+  .react-calendar__tile--now {
+    background-color: var(--clr-purple-600) !important;
+    border-radius: 50px;
+    color:var(--clr-white)
+  }
+  
+  .react-calendar__tile--now >abbr{
+    color: var(--clr-white);
+    background-color: var(--clr-purple-600);
+  }
+}
 
 
 
