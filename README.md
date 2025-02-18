@@ -25,11 +25,62 @@ To run the server on http://127.0.0.1:5000
     ```bash    
     pip3 install -r requirements.txt
     ```
+  
+- Create database and tables 
+    ```bash
+    flask --app main db upgrade
+    ```
 
 - Run Flask server
     ```bash
-    flask --app main run`
+    flask --app main run
     ```
+
+
+# To interact with REST API:
+- Create/activate a virtual environment (see commands above)
+- Install flask_swagger_ui package
+    ```bash
+    pip3 install flask_swagger_ui
+    ```
+- Start Flask server 
+    ```bash
+    flask --app main run
+    ```
+  
+- Open http://127.0.0.1:5000/swagger:
+![alt text](backend/static/swaggerUI.png "API UI")
+- Click open an API endpoint, customize parameters to try it out  
+  - To request data, send a http request to `http://127.0.0.1:5000`. For example,
+    - If `curl` is installed, you can use `curl` command to send a post request to add a new observation (customize parameters for your application):
+      ```bash
+      curl -X 'POST' \
+        'http://127.0.0.1:5000/observations' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{
+        "project_id": 5,
+        "anon_user_id": 2,
+        "data": {"test":"test"}
+      }'
+      ```
+    - To use the same example request via React Native fetch:
+      ```js
+      fetch('http://127.0.0.1:5000/observations', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          project_id: 5,
+          anon_user_id: 2,
+          data: {"test":"test"}
+        })
+      })
+      ```
+-  [Summary of API endpoints](backend/static/API_documentation.md)
+
 
 # Welcome to your Expo app 👋
 
