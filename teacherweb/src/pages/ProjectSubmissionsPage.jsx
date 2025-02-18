@@ -13,8 +13,8 @@ const ProjectSubmissionsPage = () => {
           <h2>Project Submissions</h2>
           {projects.map((project) => (
             <div key={project.project_id}>
-              <h3>{project.project_name}</h3>
-              <p><strong>Due Date:</strong> {project.due_date}</p>
+              <h3>{project.title}</h3>
+              <p><strong>Due Date:</strong> {project.due_at}</p>
     
               <h4>Student Submissions:</h4>
               {project.observations && project.observations.length > 0 ? (

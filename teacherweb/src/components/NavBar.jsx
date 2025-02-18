@@ -1,6 +1,6 @@
-import {NavLink} from "react-router"
+import {NavLink} from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({isAuthenticated, onLogout}) => {
     return(
         <div className="side-nav">
             <div className='logo'>
@@ -18,9 +18,15 @@ const NavBar = () => {
                 <NavLink to='/account'>
                 Account
                 </NavLink>
+                {/* Show logout button only if user is authenticated */}
+                {isAuthenticated && (
+                    <button onClick={onLogout} className="logout-button">
+                        Logout
+                    </button>
+                )}
             </nav>
         </div>
-    )
-}
+    );
+};
 
 export default NavBar;
