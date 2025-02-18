@@ -1,0 +1,472 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Citizen Science App for Kids API",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "description": "Returns message showing app is up",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Welcome to the Citizen Science App!"
+            }
+          }
+        }
+      },
+      "/users": {
+        "post": {
+          "description": "Creates a new user",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "user data",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserData"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User created successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
+      },
+      "/classes": {
+        "post": {
+          "description": "Creates a new class",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "class data",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ClassData"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Class created successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
+      },
+      "/projects": {
+        "post": {
+          "description": "Creates a new project",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "project data",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ProjectData"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Project created successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
+      },
+      "/projects/class/{class_id}": {
+        "get": {
+          "description": "Retrieves all projects for a class",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "class_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Projects obtained successfully"
+            }
+          }
+        }
+      },
+      "/projects/class_code/{class_code}": {
+        "get": {
+          "description": "Retrieves all projects linked to a class code for mobile",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "class_code",
+              "in": "path",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Projects obtained successfully"
+            },
+            "404": {
+              "description": "Class not found"
+            }
+          }
+        }
+      },
+      "/projects/{project_id}": {
+        "get": {
+          "description": "Retrieves a project by its id",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "project_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Project obtained successfully"
+            },
+            "404": {
+              "description": "Project not found"
+            }
+          }
+        }
+      },
+      "/observations": {
+        "post": {
+          "description": "Creates a new observation",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "observation data",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ObservationData"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Observation created successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
+      },
+      "/observations/project/{project_id}": {
+        "get": {
+          "description": "Fetches all observations for a project",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "project_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observations obtained successfully"
+            }
+          }
+        }
+      },
+      "/observations/{obs_id}": {
+        "get": {
+          "description": "Retrieves an observation by its id",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "obs_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation obtained successfully"
+            },
+            "404": {
+              "description": "Observation not found"
+            }
+          }
+        },
+        "delete": {
+          "description": "Deletes an observation of a given id",
+          "parameters": [
+            {
+              "name": "obs_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation deleted successfully"
+            },
+            "404": {
+              "description": "Observation not found"
+            }
+          }
+        },
+        "put": {
+          "description": "Update an observation of a given id",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "obs_id",
+              "in": "path",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "name": "observation data to be updated",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/ObservationData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Observation updated successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            },
+            "404": {
+              "description": "Observation not found"
+            }
+          }
+        }
+      },
+      "/anonymous_users": {
+        "post": {
+          "description": "Creates a new anonymous user",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Anonymous user created successfully"
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        }
+      },
+      "/anonymous_users/authenticate": {
+        "post": {
+          "description": "Verifies an anonymous user by token",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Anonymous user token",
+              "in": "body",
+              "description": "JSON data for the api",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/AnonymousData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Anonymous user authenticated successfully"
+            },
+            "401": {
+              "description": "Invalid token"
+            },
+            "404": {
+              "description": "Invalid token"
+            }
+          }
+        }
+      },
+      "/anonymous_users/{token}": {
+        "get": {
+          "description": "Retrieves an anonymous user by token",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "path",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Anonymous user obtained successfully"
+            },
+            "404": {
+              "description": "Anonymous user not found"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "UserData": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ClassData": {
+        "type": "object",
+        "properties": {
+          "teacher_id": {
+            "type": "integer"
+          },
+          "class_code": {
+            "type": "string"
+          },
+          "class_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "number_of_students": {
+            "type": "integer"
+          }
+        }
+      },
+      "ProjectData": {
+        "type": "object",
+        "properties": {
+          "class_id": {
+            "type": "integer"
+          },
+          "teacher_id": {
+            "type": "integer"
+          },
+          "project_code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "directions": {
+            "type": "string"
+          },
+          "form_definition": {
+            "type": "object"
+          }
+        }
+      },
+      "ObservationData": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "type": "integer"
+          },
+          "anon_user_id": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "AnonymousData":{
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }

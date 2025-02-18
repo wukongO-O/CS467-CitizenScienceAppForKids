@@ -2,12 +2,27 @@ from config import app, db
 from flask import request, jsonify
 from models import User, Classes, Projects, Anonymous_users, Observations
 from token_generator import generate_token
+from flask_swagger_ui import get_swaggerui_blueprint
 
+
+# Adapted code for API from this guide:
+# https://diptochakrabarty.medium.com/flask-python-swagger-for-rest-apis-6efdf0100bd7
+SWAGGER_URL="/swagger"
+API_URL="/static/swagger.json"
+
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': 'Citizen Science App for Kids API'
+    }
+)
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 # Test Route
 @app.route("/")
 def index():
-    return jsonify({"message": "Welcome to the Citizen Science App!"})
+    return jsonify({"message": "Welcome to the Citizen Science App!"}), 200
 
 
 # -------------------- USER ROUTES --------------------
@@ -36,7 +51,7 @@ def get_users():
     users = User.query.all()
     result = [{"id": u.id, "username": u.username, "email": u.email,
                "role": u.role} for u in users]
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # Get a user by id
@@ -241,7 +256,7 @@ def get_a_project(project_id):
         "directions": project_obj.directions
     }
 
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # -------------------- OBSERVATIONS ROUTES --------------------
@@ -289,7 +304,7 @@ def get_an_observation(obs_id):
         "timestamp": observation.timestamp.isoformat()
     }
 
-    return jsonify(result)
+    return jsonify(result), 200
 
 
 # Delete an observation by id
@@ -348,7 +363,7 @@ def authenticate_anon_user():
     data = request.json
     token = data.get("token")
     if not token:
-        return jsonify({"error": "Token is required"}), 400
+        return jsonify({"error": "Token is required"}), 404
 
     anon_user = Anonymous_users.query.filter_by(token=token).first()
     if anon_user:
@@ -372,4 +387,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0",port=5000)
