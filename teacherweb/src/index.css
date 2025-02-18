@@ -502,6 +502,13 @@
 }
 
 
-
+@layer chart{
+  .chart_wrapper{
+    width:330px;
+    height: 300px;
+    margin-top: 50px;
+    padding-inline: 20px;
+  }
+}
 
 

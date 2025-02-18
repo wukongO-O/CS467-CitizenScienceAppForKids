@@ -12,6 +12,7 @@ import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
 import MyCalendar from './components/MyCalendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
+import PieChart from './components/graphs/PieChart';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -52,8 +53,10 @@ function App() {
     {isAuthenticated ? 
       <div className = 'right-container'>
         <MyCalendar />
+        <PieChart/>
       </div> : null
       }
+
 
     </div>
   );
