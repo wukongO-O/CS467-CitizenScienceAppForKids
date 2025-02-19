@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {createPortal} from 'react-dom';
 import { useParams } from 'react-router-dom';
 import { useProject } from '../hooks/useProject';
 import studentData from '../components/studentdata.json';
+import Portal from '../components/navigation/Portal';
+import MyCalendar from '../components/MyCalendar';
 import PieChart from '../components/graphs/PieChart';
 
 
@@ -42,9 +43,10 @@ const ProjectSubmissionsPage = () => {
               )}
             </div>
           ))}
-            {createPortal (
-              <PieChart id={id} projectData={info.observations}/>
-          , document.getElementById("additional-page-content"))}
+            <Portal>
+                <MyCalendar/>
+                <PieChart id={id} projectData={info.observations}/>
+            </Portal>
         </div>
       );
     };

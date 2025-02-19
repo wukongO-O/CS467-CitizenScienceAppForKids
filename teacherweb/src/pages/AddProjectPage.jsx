@@ -1,6 +1,8 @@
 import { useState } from "react"
-import AddProjectMainInfo from "../components/projects/AddProjectMainInfo"
-import AddProjectObservationDetails from "../components/projects/AddProjectObservationDetails"
+import AddProjectMainInfo from "../components/projects/AddProjectMainInfo";
+import AddProjectObservationDetails from "../components/projects/AddProjectObservationDetails";
+import Portal from "../components/navigation/Portal";
+import MyCalendar from "../components/MyCalendar";
 
 const AddProjectPage = () => {
     const [view, setView] = useState("main");
@@ -63,6 +65,9 @@ const AddProjectPage = () => {
                 <AddProjectObservationDetails
                     handleSubmit={handleSubmit}/>
              }
+        <Portal>
+            <MyCalendar/>
+        </Portal>
         </div>
     )
 

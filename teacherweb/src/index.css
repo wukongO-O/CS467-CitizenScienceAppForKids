@@ -149,6 +149,8 @@
     }
 
     body{
+      display:flex;
+      flex-flow:wrap;
       font-size: var(--font-size-rg);
       color: var(--text-paragraph);
       background-color: var(--background-main);
@@ -248,17 +250,9 @@
       margin-left:30px
     }
 
-    #additional-page-content{
-      position:fixed;
-      bottom:0;
-      right:0
-    }
-
-
-
 
     .main-container{
-      min-width: 816px;
+      max-width: 816px;
       min-height: 500px;
       margin-inline: auto;
       margin-top: 40px;

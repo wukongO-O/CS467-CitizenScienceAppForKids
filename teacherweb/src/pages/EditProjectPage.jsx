@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useProject } from "../hooks/useProject";
 import EditProjectMainInfo from "../components/projects/EditProjectMainInfo";
 import EditProjectObservationDetails from "../components/projects/EditProjectObservationDetails";
+import Portal from "../components/navigation/Portal";
+import MyCalendar from "../components/MyCalendar";
 
 const EditProjectPage = () => {
         const [infoToDisplay, setInfoToDisplay] = useState([]);
@@ -48,7 +50,9 @@ const EditProjectPage = () => {
                             handleUpdate={handleUpdate}/>
                     }
                 </div>
-
+            <Portal>
+                <MyCalendar/>
+            </Portal>
             </div>
         )
 }
