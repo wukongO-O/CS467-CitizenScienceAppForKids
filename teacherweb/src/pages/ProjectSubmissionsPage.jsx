@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import {createPortal} from 'react-dom';
+import { useParams } from 'react-router-dom';
+import { useProject } from '../hooks/useProject';
 import studentData from '../components/studentdata.json';
+import PieChart from '../components/graphs/PieChart';
+
 
 const ProjectSubmissionsPage = () => {
     const [projects, setProjects] = useState([]);
-  
+    const {id} = useParams(); //getting the project id from the url
+    const info = useProject(id);// getting the project information with custom hook, this returns information for the one project we need, including the observations list that is needed for this page
+
+    
     useEffect(() => {
       setProjects(studentData.projects);
     }, []);
-  
+    
+    if(!info){
+      return <div className="loading">Loading...</div>
+    }
     return (
         <div>
           <h2>Project Submissions</h2>
@@ -31,6 +42,9 @@ const ProjectSubmissionsPage = () => {
               )}
             </div>
           ))}
+            {createPortal (
+              <PieChart id={id} projectData={info.observations}/>
+          , document.getElementById("additional-page-content"))}
         </div>
       );
     };

@@ -33,7 +33,24 @@ const PieChart = ({id, projectData}) => {
     }
 
 
-    const options = {};
+    const options = {
+        elements: {
+            arc: {
+                borderWidth: 0
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font:{
+                        size:12
+                    },
+                    usePointStyle: true
+                 }
+            }
+        }
+    }
 
     return(
         <div className="chart_wrapper">

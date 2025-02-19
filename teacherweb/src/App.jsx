@@ -42,8 +42,8 @@ function App() {
               <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
               <Route path="/add" element={isAuthenticated ? <AddProjectPage /> : <Navigate to="/" />} />
               <Route path="/project/:id" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/" />} />
-              <Route path="/project/:id/submissions" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
-              <Route path="/edit:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
+              <Route path="/project/:id/observations" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
+              <Route path="/edit/:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
               <Route path="/projects" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
           </Routes>
       </Router>

@@ -39,8 +39,8 @@ const Project = () => {
                         <div className="full-width-section project-nav">
                             <Link
                                 className="button "
-                                to={`/project/${id}/submissions`}>
-                                Submissions
+                                to={`/project/${id}/observations`}>
+                                Observations
                             </Link>
                             <Link 
                                 className="button"
