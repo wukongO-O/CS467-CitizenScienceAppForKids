@@ -26,9 +26,25 @@ To run the server on http://127.0.0.1:5000
     pip3 install -r requirements.txt
     ```
   
-- Create database and tables 
-    ```bash
-    flask --app main db upgrade
+- Create database and tables for testing - only needed the first time
+  ```bash
+    # Connect to MySQL and enter/copy-paste password when prompted: OSUcapstone
+      mysql -u capstone -p
+  
+    # At MySQL interface: 
+      # Create the database
+      CREATE DATABASE citizen_science_app;  
+      # Verify the database is created
+      SHOW DATABASES; 
+      EXIT; 
+  
+    # Perform a database migration afresh to create tables: 
+    # The following 3 commands will generate a new migration python file in backend/migrations/versions
+    # Do not push/merge any testing migration python file to prevent errors 
+    # Reference: https://stackoverflow.com/questions/17768940/target-database-is-not-up-to-date
+      flask --app main db stamp head 
+      flask --app main db migrate -m "Fresh migration"
+      flask --app main db upgrade
     ```
 
 - Run Flask server
@@ -39,7 +55,7 @@ To run the server on http://127.0.0.1:5000
 
 # To interact with REST API:
 - Create/activate a virtual environment (see commands above)
-- Install flask_swagger_ui package
+- Install flask_swagger_ui package - skip this step if all dependencies are installed
     ```bash
     pip3 install flask_swagger_ui
     ```
