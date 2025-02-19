@@ -12,7 +12,6 @@ import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
 import MyCalendar from './components/MyCalendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
-import PieChart from './components/graphs/PieChart';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -40,20 +39,18 @@ function App() {
 
               {/*Need to login to view any of the following pages */}
               <Route path="/homepage" element={isAuthenticated ? <Homepage /> : <Navigate to ="/" />} />
-              <Route path="/projects" element={isAuthenticated ? <ProjectsPage /> : <Navigate to="/" />} />
               <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
               <Route path="/add" element={isAuthenticated ? <AddProjectPage /> : <Navigate to="/" />} />
               <Route path="/project/:id" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/" />} />
               <Route path="/project/:id/submissions" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
               <Route path="/edit:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
-              <Route path="/projectlist" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
+              <Route path="/projects" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
           </Routes>
       </Router>
 
     {isAuthenticated ? 
       <div className = 'right-container'>
         <MyCalendar />
-        <PieChart/>
       </div> : null
       }
 
