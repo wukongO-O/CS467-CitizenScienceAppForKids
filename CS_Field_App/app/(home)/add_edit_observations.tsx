@@ -127,9 +127,12 @@ export default function AddEditObservations() {
 
   return (
     <View style={[styles.container, colorScheme === 'dark' ? styles.darkContainer : styles.lightContainer]}>
+      {/* Display the title of the page */}
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Add or Edit an Observation</ThemedText>
       </ThemedView>
+
+      {/* Display the list of observations available to edit */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText>List of observations that are available to edit:</ThemedText>
         <FlatList
@@ -148,6 +151,8 @@ export default function AddEditObservations() {
           )}
         />
       </ThemedView>
+
+      {/* Display the form to add a new observation */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText>Add a new observation:</ThemedText>
         {newObservation.data.map((dataItem, index) => (
@@ -165,6 +170,8 @@ export default function AddEditObservations() {
         <Button title="Add Observation" onPress={handleAddObservation} />
         <Button title="Save Observation" onPress={handleSaveObservation} />
       </ThemedView>
+
+      {/* Display the bottom navigation buttons */}
       <View style={styles.bottomNavContainer}>
         <TouchableOpacity style={styles.navButton} onPress={navigateToHome}>
           <Ionicons name="home-outline" size={24} color="white" />

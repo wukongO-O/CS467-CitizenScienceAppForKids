@@ -53,6 +53,7 @@ export default function ListObservation() {
   // Debugging: Log the filtered observations
   console.log('Filtered Observations:', filteredObservations);
 
+  // Function to navigate to the home screen
   const navigateToHome = () => {
     router.push({
       pathname: '/home',
@@ -60,6 +61,7 @@ export default function ListObservation() {
     });
   };
 
+  // Function to navigate to the add/edit observations screen
   const navigateToAddEdit = () => {
     router.push({
       pathname: '/add_edit_observations',
@@ -69,14 +71,17 @@ export default function ListObservation() {
 
   return (
     <View style={[styles.container, colorScheme === 'dark' ? styles.darkContainer : styles.lightContainer]}>
+      {/* Display the logo */}
       <Image
         source={require('@/assets/images/partial-react-logo.png')}
         style={styles.reactLogo}
       />
+      {/* Display the title of the project */}
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Observations for {projectTitle}</ThemedText>
       </ThemedView>
 
+      {/* Display the list of observations */}
       <FlatList
         data={filteredObservations}
         keyExtractor={(item) => item.obs_id.toString()}
@@ -92,6 +97,7 @@ export default function ListObservation() {
         )}
       />
 
+      {/* Display the bottom navigation buttons */}
       <View style={styles.bottomNavContainer}>
         <TouchableOpacity style={styles.navButton} onPress={navigateToHome}>
           <Ionicons name="home-outline" size={24} color="white" />
@@ -129,14 +135,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-  },
-  itemTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  itemDescription: {
-    fontSize: 16,
-    color: '#666',
   },
   dataContainer: {
     flexDirection: 'row',
