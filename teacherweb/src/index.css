@@ -248,6 +248,12 @@
       margin-left:30px
     }
 
+    #additional-page-content{
+      position:fixed;
+      bottom:0;
+      right:0
+    }
+
 
 
 
@@ -510,5 +516,7 @@
     padding-inline: 20px;
   }
 }
+
+
 
 

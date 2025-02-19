@@ -1,9 +1,10 @@
-import OrderedList from "../components/OrderedList";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { useState } from "react";
 import ProjectMainInfoView from "../components/projects/ProjectMainInfoView";
 import ProjectObservationsFormView from "../components/projects/ProjectObservationsFormView";
 import { useProject } from "../hooks/useProject";
+import PieChart from "../components/graphs/PieChart";
 
 const Project = () => {
     const [currentView, setCurrentView] = useState("main");
@@ -50,6 +51,10 @@ const Project = () => {
                         </div>
                     </div>
                 </div>
+                {createPortal (
+                    <PieChart id={id} projectData={info.observations}/>
+                , document.getElementById("additional-page-content"))}
+
         </div>
     )
 }
