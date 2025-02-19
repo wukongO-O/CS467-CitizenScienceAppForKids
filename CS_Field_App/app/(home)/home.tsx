@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, useColorScheme, Image } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, useColorScheme, Image, TouchableOpacity, Text } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -37,11 +38,25 @@ export default function Home() {
   // Handle project selection change
   const handleProjectChange = (itemValue: string) => {
     setSelectedProject(itemValue);
-    // Navigate to list_observation and pass the selected project title
-    router.setParams({ projectTitle: itemValue });
+  };
+
+  const navigateToHome = () => {
+    router.push({
+      pathname: '/home',
+      params: { classCode }, // Pass classCode as a parameter
+    });
+  };
+  // Navigate to list_observation with the selected project
+  const navigateToListObservation = () => {
     router.push({
       pathname: '/list_observation',
-      params: { projectTitle: itemValue },
+      params: { classCode, projectTitle: selectedProject },
+    });
+  };
+  const navigateToAddEdit = () => {
+    router.push({
+      pathname: '/add_edit_observations',
+      params: { classCode, projectTitle: selectedProject },
     });
   };
 
@@ -52,46 +67,65 @@ export default function Home() {
   const pickerStyle = colorScheme === 'dark' ? styles.pickerDark : styles.pickerLight;
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Projects for your class</ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText>Select a project to see its description.</ThemedText>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <Picker
-            selectedValue={selectedProject}
-            onValueChange={handleProjectChange}
-            style={pickerStyle}
-          >
-            <Picker.Item label="Select a project" value="" />
-            {filteredData.map((item) => (
-              <Picker.Item key={item.project_id} label={item.title} value={item.title} />
-            ))}
-          </Picker>
-        )}
-        {selectedProjectData ? (
-          <View style={styles.itemContainer}>
-            <ThemedText style={styles.itemDescription}>{selectedProjectData.description}</ThemedText>
-            <ThemedText style={styles.itemDirections}>{selectedProjectData.directions}</ThemedText>
-          </View>
-        ) : null}
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <ParallaxScrollView
+        headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+        headerImage={
+          <Image
+            source={require('@/assets/images/partial-react-logo.png')}
+            style={styles.reactLogo}
+          />
+        }
+      >
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">Projects for your class</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.stepContainer}>
+          <ThemedText>Select a project to see its description.</ThemedText>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : (
+            <Picker
+              selectedValue={selectedProject}
+              onValueChange={handleProjectChange}
+              style={pickerStyle}
+            >
+              <Picker.Item label="Select a project" value="" />
+              {filteredData.map((item) => (
+                <Picker.Item key={item.project_id} label={item.title} value={item.title} />
+              ))}
+            </Picker>
+          )}
+          {selectedProjectData ? (
+            <View style={styles.itemContainer}>
+              <ThemedText style={styles.itemDescription}>{selectedProjectData.description}</ThemedText>
+              <ThemedText style={styles.itemDirections}>{selectedProjectData.directions}</ThemedText>
+            </View>
+          ) : null}
+        </ThemedView>
+      </ParallaxScrollView>
+      <View style={styles.bottomNavContainer}>
+        <TouchableOpacity style={styles.navButton} onPress={navigateToHome}>
+          <Ionicons name="home-outline" size={24} color="white" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={navigateToListObservation}>
+          <Ionicons name="menu-outline" size={24} color="white" />
+          <Text style={styles.navText}>View Observations</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={navigateToAddEdit}>
+          <Ionicons name="add-outline" size={24} color="white" />
+          <Text style={styles.navText}>Add/Edit</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   headerImage: {
     color: '#808080',
     bottom: -90,
@@ -101,6 +135,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+    alignItems: 'center', // Align items vertically
   },
   stepContainer: {
     gap: 8,
@@ -141,5 +176,24 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  bottomNavContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#007AFF',
+    paddingVertical: 10,
+  },
+  navButton: {
+    alignItems: 'center',
+  },
+  navText: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 4,
   },
 });

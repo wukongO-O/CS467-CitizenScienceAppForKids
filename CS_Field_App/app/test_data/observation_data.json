@@ -8,7 +8,6 @@
       "observations": [ 
         {
           "obs_id": 1,
-          "anonymous_user_id": "user123",
           "timestamp": "2024-08-01T10:00:00Z",
           "data": [
             {"type": "text", "label": "Location", "value": "Park"},
@@ -17,7 +16,6 @@
         },
         {
           "obs_id": 2,
-          "anonymous_user_id": "user456",
           "timestamp": "2024-08-01T14:30:00Z",
           "data": [
             {"type": "text", "label": "Location", "value": "Forest"},
@@ -36,10 +34,25 @@
       "observations": [
         {
           "obs_id": 3,
-          "anonymous_user_id": "user789",
           "timestamp": "2024-08-02T09:15:00Z",
           "data": [
             {"type": "text", "label": "Location", "value": "Backyard"},
+            {"type": "dropdown", "label": "Bird Type", "options":[{"value":"bluebird", "label":"Blue Bird"}], "value": "bluebird"}
+          ]
+        },
+        {
+          "obs_id": 6,
+          "timestamp": "2024-08-02T09:15:00Z",
+          "data": [
+            {"type": "text", "label": "Location", "value": "School"},
+            {"type": "dropdown", "label": "Bird Type", "options":[{"value":"bluebird", "label":"Blue Bird"}], "value": "bluebird"}
+          ]
+        },
+        {
+          "obs_id": 7,
+          "timestamp": "2024-08-02T09:15:00Z",
+          "data": [
+            {"type": "text", "label": "Location", "value": "Park"},
             {"type": "dropdown", "label": "Bird Type", "options":[{"value":"bluebird", "label":"Blue Bird"}], "value": "bluebird"}
           ]
         }
@@ -55,7 +68,6 @@
       "observations": [
           {
               "obs_id": 4,
-              "anonymous_user_id": "user101",
               "timestamp": "2024-08-03T11:00:00Z",
               "data": [
                   {"type": "text", "label": "Location", "value": "Desert"},
@@ -74,7 +86,6 @@
       "observations": [
           {
               "obs_id": 5,
-              "anonymous_user_id": "user112",
               "timestamp": "2024-08-04T15:30:00Z",
               "data": [
                   {"type": "text", "label": "Location", "value": "Tundra"},
