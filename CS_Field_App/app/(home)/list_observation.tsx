@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, FlatList } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { StyleSheet, Image, View, FlatList, TouchableOpacity, Text, useColorScheme } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -24,9 +25,11 @@ interface ProjectData {
 }
 
 export default function ListObservation() {
-  const { projectTitle } = useLocalSearchParams(); // Retrieve projectTitle from search parameters
+  const { projectTitle, classCode } = useLocalSearchParams(); // Retrieve projectTitle and classCode from search parameters
   const [observationData, setObservationData] = useState<ProjectData[]>([]); // State to store observation data
   const [filteredObservations, setFilteredObservations] = useState<ObservationData[]>([]); // State to store filtered observations
+  const router = useRouter(); // Get the router object for navigation
+  const colorScheme = useColorScheme(); // Determine the current color scheme
 
   useEffect(() => {
     // Load observation data from file
@@ -50,8 +53,22 @@ export default function ListObservation() {
   // Debugging: Log the filtered observations
   console.log('Filtered Observations:', filteredObservations);
 
+  const navigateToHome = () => {
+    router.push({
+      pathname: '/home',
+      params: { classCode }, // Pass classCode as a parameter
+    });
+  };
+
+  const navigateToAddEdit = () => {
+    router.push({
+      pathname: '/add_edit_observations',
+      params: { classCode, projectTitle },
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, colorScheme === 'dark' ? styles.darkContainer : styles.lightContainer]}>
       <Image
         source={require('@/assets/images/partial-react-logo.png')}
         style={styles.reactLogo}
@@ -65,7 +82,6 @@ export default function ListObservation() {
         keyExtractor={(item) => item.obs_id.toString()}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-
             {item.data.map((dataItem, index) => (
               <View key={index} style={styles.dataContainer}>
                 <ThemedText style={styles.dataLabel}>{dataItem.label}:</ThemedText>
@@ -75,6 +91,21 @@ export default function ListObservation() {
           </View>
         )}
       />
+
+      <View style={styles.bottomNavContainer}>
+        <TouchableOpacity style={styles.navButton} onPress={navigateToHome}>
+          <Ionicons name="home-outline" size={24} color="white" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => router.push('/list_observation')}>
+          <Ionicons name="menu-outline" size={24} color="white" />
+          <Text style={styles.navText}>Menu</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={navigateToAddEdit}>
+          <Ionicons name="add-outline" size={24} color="white" />
+          <Text style={styles.navText}>Add</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -82,7 +113,12 @@ export default function ListObservation() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  lightContainer: {
     backgroundColor: '#fff',
+  },
+  darkContainer: {
+    backgroundColor: '#000',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -119,5 +155,24 @@ const styles = StyleSheet.create({
     width: 290,
     bottom: 0,
     left: 0,
+  },
+  bottomNavContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#007AFF',
+    paddingVertical: 10,
+  },
+  navButton: {
+    alignItems: 'center',
+  },
+  navText: {
+    color: 'white',
+    fontSize: 12,
+    marginTop: 4,
   },
 });
