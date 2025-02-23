@@ -26,6 +26,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess }) {
         console.log("Login successful");
         setError(null);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("loggedInTeacher", formData.username); // Store username for account page
         onAuthSuccess();
       } else {
         console.log("Login failed");
