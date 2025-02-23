@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, Button, FlatList, TouchableOpacity, Text, useColorScheme } from 'react-native';
+import { StyleSheet, View, TextInput, Button, FlatList, TouchableOpacity, Text, useColorScheme, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
-import * as FileSystem from 'expo-file-system';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -12,7 +11,7 @@ interface ObservationData {
   obs_id: number;
   anonymous_user_id: string;
   timestamp: string;
-  data: Array<{ type: string; label: string; value: any; options?: Array<{ value: string; label: string }> }>;
+  data: { [key: string]: any }; // Adjusted to reflect the correct data structure
 }
 
 // Define an interface for the project data
@@ -26,89 +25,123 @@ interface ProjectData {
 }
 
 export default function AddEditObservations() {
-  const { projectTitle, classCode } = useLocalSearchParams(); // Retrieve projectTitle and classCode from search parameters
-  const [observationData, setObservationData] = useState<ProjectData[]>([]); // State to store observation data
-  const [filteredObservations, setFilteredObservations] = useState<ObservationData[]>([]); // State to store filtered observations
+  const { projectTitle, classCode, project_id } = useLocalSearchParams(); // Retrieve projectTitle, classCode, and project_id from search parameters
+  const [observationData, setObservationData] = useState<ObservationData[]>([]); // State to store observation data
+  const [isLoading, setIsLoading] = useState(true); // State to manage loading state
   const [newObservation, setNewObservation] = useState<ObservationData>({
     obs_id: Date.now(),
     anonymous_user_id: '',
     timestamp: new Date().toISOString(),
-    data: []
+    data: {}
   }); // State to store new observation
   const router = useRouter(); // Get the router object for navigation
   const colorScheme = useColorScheme(); // Determine the current color scheme
 
   useEffect(() => {
-    // Load observation data from file
-    const data: ProjectData[] = require('../test_data/observation_data.json');
-    setObservationData(data);
+    console.log('Fetching data for project_id:', project_id); // Debugging log
+    // Fetch observation data from the API
+    fetch(`http://localhost:5000/observations/project/${project_id}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched data:', data); // Debugging log
+        if (Array.isArray(data)) {
+          setObservationData(data);
+          setIsLoading(false);
 
-    // Filter observations based on the selected project title
-    const selectedProject = data.find(project => project.title === projectTitle);
-    if (selectedProject) {
-      setFilteredObservations(selectedProject.observations);
-      setNewObservation({
-        ...newObservation,
-        data: selectedProject.observations.length > 0 ? selectedProject.observations[0].data.map(d => ({ ...d, value: '' })) : []
+          // Set new observation template based on the first observation's data structure
+          if (data.length > 0 && typeof data[0].data === 'object') {
+            setNewObservation({
+              ...newObservation,
+              data: Object.keys(data[0].data).reduce((acc, key) => {
+                acc[key] = '';
+                return acc;
+              }, {} as { [key: string]: any })
+            });
+          }
+        } else {
+          console.error('Expected an array but got:', data);
+          setIsLoading(false);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
       });
-    } else {
-      console.log('No matching project found');
-    }
-  }, [projectTitle]);
+  }, [projectTitle, project_id]);
 
   const handleAddObservation = async () => {
-    const updatedObservations = [...filteredObservations, newObservation];
-    setFilteredObservations(updatedObservations);
+    const updatedObservations = [...observationData, newObservation];
+    setObservationData(updatedObservations);
     setNewObservation({
       obs_id: Date.now(),
       anonymous_user_id: '',
       timestamp: new Date().toISOString(),
-      data: newObservation.data.map(d => ({ ...d, value: '' }))
+      data: Object.keys(newObservation.data).reduce((acc, key) => {
+        acc[key] = '';
+        return acc;
+      }, {} as { [key: string]: any })
     });
 
-    // Update the observation_data.json file
-    const updatedData = observationData.map(project => {
-      if (project.title === projectTitle) {
-        return { ...project, observations: updatedObservations };
+    // Update the observation data in the backend
+    try {
+      const response = await fetch(`http://localhost:5000/observations/project/${project_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedObservations),
+      });
+
+      if (response.ok) {
+        console.log('Observation data updated');
+      } else {
+        console.error('Failed to update observation data');
       }
-      return project;
-    });
-
-    const fileUri = FileSystem.documentDirectory + 'observation_data.json';
-    await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(updatedData, null, 2));
-    console.log('Observation data updated');
+    } catch (error) {
+      console.error('Error updating observation data:', error);
+    }
   };
 
   const handleEditObservation = (obs_id: number) => {
-    const observationToEdit = filteredObservations.find(obs => obs.obs_id === obs_id);
+    const observationToEdit = observationData.find(obs => obs.obs_id === obs_id);
     if (observationToEdit) {
       setNewObservation(observationToEdit);
     }
   };
 
   const handleSaveObservation = async () => {
-    const updatedObservations = filteredObservations.map(obs =>
+    const updatedObservations = observationData.map(obs =>
       obs.obs_id === newObservation.obs_id ? newObservation : obs
     );
-    setFilteredObservations(updatedObservations);
+    setObservationData(updatedObservations);
     setNewObservation({
       obs_id: Date.now(),
       anonymous_user_id: '',
       timestamp: new Date().toISOString(),
-      data: newObservation.data.map(d => ({ ...d, value: '' }))
+      data: Object.keys(newObservation.data).reduce((acc, key) => {
+        acc[key] = '';
+        return acc;
+      }, {} as { [key: string]: any })
     });
 
-    // Update the observation_data.json file
-    const updatedData = observationData.map(project => {
-      if (project.title === projectTitle) {
-        return { ...project, observations: updatedObservations };
+    // Update the observation data in the backend
+    try {
+      const response = await fetch(`http://localhost:5000/observations/project/${project_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedObservations),
+      });
+
+      if (response.ok) {
+        console.log('Observation data updated');
+      } else {
+        console.error('Failed to update observation data');
       }
-      return project;
-    });
-
-    const fileUri = FileSystem.documentDirectory + 'observation_data.json';
-    await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(updatedData, null, 2));
-    console.log('Observation data updated');
+    } catch (error) {
+      console.error('Error updating observation data:', error);
+    }
   };
 
   const navigateToHome = () => {
@@ -121,7 +154,7 @@ export default function AddEditObservations() {
   const navigateToListObservation = () => {
     router.push({
       pathname: '/list_observation',
-      params: { classCode, projectTitle },
+      params: { classCode, projectTitle, project_id },
     });
   };
 
@@ -135,35 +168,39 @@ export default function AddEditObservations() {
       {/* Display the list of observations available to edit */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText>List of observations that are available to edit:</ThemedText>
-        <FlatList
-          data={filteredObservations}
-          keyExtractor={(item) => item.obs_id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              {item.data.map((dataItem, index) => (
-                <View key={index} style={styles.dataContainer}>
-                  <ThemedText style={styles.dataLabel}>{dataItem.label}:</ThemedText>
-                  <ThemedText style={styles.dataValue}>{dataItem.value}</ThemedText>
-                </View>
-              ))}
-              <Button title="Edit" onPress={() => handleEditObservation(item.obs_id)} />
-            </View>
-          )}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <FlatList
+            data={observationData}
+            keyExtractor={(item) => item.obs_id.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.itemContainer}>
+                {Object.entries(item.data).map(([key, value], index) => (
+                  <View key={index} style={styles.dataContainer}>
+                    <ThemedText style={styles.dataLabel}>{key}:</ThemedText>
+                    <ThemedText style={styles.dataValue}>{value}</ThemedText>
+                  </View>
+                ))}
+                <Button title="Edit" onPress={() => handleEditObservation(item.obs_id)} />
+              </View>
+            )}
+          />
+        )}
       </ThemedView>
 
       {/* Display the form to add a new observation */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText>Add a new observation:</ThemedText>
-        {newObservation.data.map((dataItem, index) => (
+        {Object.entries(newObservation.data).map(([key, value], index) => (
           <TextInput
             key={index}
             style={styles.input}
-            placeholder={dataItem.label}
-            value={dataItem.value.toString()}
+            placeholder={key}
+            value={value.toString()}
             onChangeText={(text) => setNewObservation({
               ...newObservation,
-              data: newObservation.data.map((d, i) => i === index ? { ...d, value: text } : d)
+              data: { ...newObservation.data, [key]: text }
             })}
           />
         ))}

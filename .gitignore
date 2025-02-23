@@ -1,3 +1,4 @@
 .DS_Store
 node_modules/
 teacherweb/node_modules/
+backend/migrations/versions/f47c0ff1fcb2_fresh_migration.py

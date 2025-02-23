@@ -13,9 +13,6 @@ interface DataItem {
   description: string;
 }
 
-// Load mock data from file
-const mockData: DataItem[] = require('./test_data/data.json');
-
 export default function HomeScreen() {
   // Get the current color scheme (light or dark)
   const colorScheme = useColorScheme();
@@ -40,23 +37,33 @@ export default function HomeScreen() {
 
   // Function to validate the entered class code
   const validateCode = () => {
-    // Check if the entered classCode exists in the mockData
-    const isValidCode = mockData.some(item => item.class_code === classCode);
-
-    if (isValidCode) {
-      // If the code is valid, set the isValid state to true
-      setIsValid(true);
-      // Navigate to the home screen with the classCode as a parameter
-      router.push({
-        pathname: '/home',
-        params: { classCode }, // Pass classCode as a parameter
+    // Fetch data from the API
+    fetch(`http://localhost:5000/projects/class_code/${classCode}`)
+    //console.log(classCode)
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          // If the code is valid, set the isValid state to true
+          setIsValid(true);
+          // Navigate to the home screen with the classCode as a parameter
+          router.push({
+            pathname: '/home',
+            params: { classCode }, // Pass classCode as a parameter
+          });
+        } else {
+          // If the code is invalid, show an alert
+          createTwoButtonAlert();
+          // Set the isValid state to false
+          setIsValid(false);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        // If there is an error, show an alert
+        createTwoButtonAlert();
+        // Set the isValid state to false
+        setIsValid(false);
       });
-    } else {
-      // If the code is invalid, show an alert
-      createTwoButtonAlert();
-      // Set the isValid state to false
-      setIsValid(false);
-    }
   };
 
   // Determine text color based on the current color scheme
