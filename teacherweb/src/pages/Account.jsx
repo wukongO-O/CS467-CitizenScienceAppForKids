@@ -26,10 +26,10 @@ const Account = () => {
 
   return (
     <div>
-      <h2>Teacher Account</h2>
+      <h1>Teacher Account</h1>
       {teacherName ? (
         <div>
-          <p><strong>Username:</strong> {teacherName}</p>
+          <h3>Username: {teacherName}</h3>
           <h3>Assigned Classes:</h3>
           <ul>
             {teacherClasses.length > 0 ? (

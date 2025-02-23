@@ -20,35 +20,46 @@ const ProjectSubmissionsPage = () => {
     if(!info){
       return <div className="loading">Loading...</div>
     }
-    return (
-        <div>
-          <h2>Project Submissions</h2>
-          {projects.map((project) => (
-            <div key={project.project_id}>
-              <h3>{project.title}</h3>
-              <p><strong>Due Date:</strong> {project.due_at}</p>
     
-              <h4>Student Submissions:</h4>
-              {project.observations && project.observations.length > 0 ? (
-                <ul>
-                  {project.observations.map((obs) => (
-                    <li key={obs.obs_id}>
-                      <strong>Student ID:</strong> {obs.student_id}, 
-                      <strong> Date Completed:</strong> {obs.date_completed || 'N/A'}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No observations submitted yet.</p>
+    return (
+      <div>
+        <h1 style={{ marginBottom: '30px' }}>Project Submissions</h1>
+  
+        {projects.some(project => project.observations && project.observations.length > 0) ? (
+          <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ padding: '8px', textAlign: 'left' }}>Project Name</th>
+                <th style={{ padding: '8px', textAlign: 'left' }}>Due Date</th>
+                <th style={{ padding: '8px', textAlign: 'left' }}>Student ID</th>
+                <th style={{ padding: '8px', textAlign: 'left' }}>Date Completed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((project) =>
+                project.observations && project.observations.length > 0
+                  ? project.observations.map((obs) => (
+                      <tr key={obs.obs_id}>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{project.title}</td>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{project.due_at}</td>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.student_id}</td>
+                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.date_completed || 'N/A'}</td>
+                      </tr>
+                    ))
+                  : null
               )}
-            </div>
-          ))}
-            <Portal>
-                <MyCalendar/>
-                <PieChart id={id} projectData={info.observations}/>
-            </Portal>
-        </div>
-      );
-    };
+            </tbody>
+          </table>
+        ) : (
+          <p>No observations submitted yet.</p>
+        )}
+  
+        <Portal>
+          <MyCalendar />
+          <PieChart id={id} projectData={info.observations} />
+        </Portal>
+      </div>
+    );
+  };
     
     export default ProjectSubmissionsPage;
