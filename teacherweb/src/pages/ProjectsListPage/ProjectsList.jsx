@@ -54,24 +54,36 @@ const downloadCSV = () => {
   document.body.removeChild(link);
 };
 
-  return (
-    <div>
-      <h2>Active Projects</h2>
-      {/* Export CSV Button */}
-      <button onClick={downloadCSV}>Export CSV</button>
-      <ul>
+return (
+  <div>
+    <h2>Active Projects</h2>
+    <table border="1" cellPadding="10">
+      <thead>
+        <tr>
+          <th>Project Name</th>
+          <th>Class Name</th>
+          <th>Project Code</th>
+          <th>Start Date</th>
+          <th>Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
         {projects.map((project) => (
-          <li key={project.project_id}>
-            <strong>Project Name:</strong> {project.title} <br />
-            <strong>Class Name:</strong> {project.project_class} <br />
-            <strong>Project Code:</strong> {project.project_id} <br />
-            <strong>Start Date:</strong> {project.start_date} <br />
-            <strong>Due Date:</strong> {project.due_at} <br />
-          </li>
+          <tr key={project.project_id}>
+            <td>{project.title}</td>
+            <td>{project.project_class}</td>
+            <td>{project.project_id}</td>
+            <td>{project.start_date}</td>
+            <td>{project.due_at}</td>
+          </tr>
         ))}
-      </ul>
-    </div>
-  );
+      </tbody>
+    </table>
+    <button onClick={downloadCSV} style={{ marginTop: "10px", padding: "8px 12px" }}>
+        Export Project Info to CSV
+      </button>
+  </div>
+);
 };
 
 export default ProjectsList;
