@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import studentData from "../components/studentdata.json";
+import Portal from "../components/navigation/Portal";
+import MyCalendar from "../components/MyCalendar";
 
 const Account = () => {
   const [teacherName, setTeacherName] = useState("");
@@ -44,6 +46,9 @@ const Account = () => {
       ) : (
         <p>No teacher is logged in.</p>
       )}
+      <Portal>
+          <MyCalendar/>
+      </Portal>
     </div>
   );
 };

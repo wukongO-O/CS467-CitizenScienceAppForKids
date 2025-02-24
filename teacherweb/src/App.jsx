@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import NavBar from './components/navigation/NavBar';
@@ -18,6 +18,17 @@ function App() {
     localStorage.getItem('isAuthenticated') === 'true'
   );
 
+  // Start of connecting to back end
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/users')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
+  // End of connecting to back end
+
   const handleLogin = () => {
     setIsAuthenticated(true);
     localStorage.setItem('isAuthenticated', 'true'); // Request login
@@ -27,8 +38,6 @@ function App() {
     setIsAuthenticated(false);
     localStorage.removeItem('isAuthenticated'); // Remove login 
   };
-
-
 
   return (
     <div className='wrapper flow'>
@@ -47,9 +56,12 @@ function App() {
               <Route path="/projects" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
           </Routes>
       </Router>
-
-
+    
+    {/* Working on connecting to back end below */}  
+    <div>
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
+  </div>
   );
 }
 
