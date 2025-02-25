@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import ProjectsDateInfoList from './ProjectsDateInfoList';
 import Portal from "../../components/navigation/Portal";
 import MyCalendar from "../../components/MyCalendar";
 
 
 const Homepage = () => {
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -14,6 +16,9 @@ const Homepage = () => {
       <Portal>
           <MyCalendar/>
         </Portal>
+        <button onClick={() => navigate("/add")}>
+        Add Project
+        </button>
     </div>
   );
 };
