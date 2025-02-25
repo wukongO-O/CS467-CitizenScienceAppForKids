@@ -19,21 +19,30 @@ interface DataItem {
 
 export default function Home() {
   const { classCode } = useLocalSearchParams(); // Retrieve classCode from search parameters
-  const [mockData, setMockData] = useState<DataItem[]>([]); // State to store mock data
+  const [data, setData] = useState<DataItem[]>([]); // State to store fetched data
   const [isLoading, setIsLoading] = useState(true); // State to manage loading state
   const [selectedProject, setSelectedProject] = useState<string>(''); // State to store selected project
   const colorScheme = useColorScheme(); // Determine the current color scheme
   const router = useRouter(); // Get the router object for navigation
 
   useEffect(() => {
-    // Simulate data loading
-    const data: DataItem[] = require('../test_data/data.json');
-    setMockData(data);
-    setIsLoading(false);
-  }, []);
-
-  // Filter data based on class_code
-  const filteredData = mockData.filter(item => item.class_code === classCode);
+    // Fetch data from the API
+    fetch(`http://localhost:5000/projects/class_code/${classCode}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched data:', data); // Debugging log
+        if (Array.isArray(data)) {
+          setData(data);
+        } else {
+          console.error('Expected an array but got:', data);
+        }
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false);
+      });
+  }, [classCode]);
 
   // Handle project selection change
   const handleProjectChange = (itemValue: string) => {
@@ -46,22 +55,31 @@ export default function Home() {
       params: { classCode }, // Pass classCode as a parameter
     });
   };
+
   // Navigate to list_observation with the selected project
   const navigateToListObservation = () => {
-    router.push({
-      pathname: '/list_observation',
-      params: { classCode, projectTitle: selectedProject },
-    });
+    const selectedProjectData = data.find(item => item.title === selectedProject);
+    if (selectedProjectData) {
+      router.push({
+        pathname: '/list_observation',
+        params: { classCode, projectTitle: selectedProject, project_id: selectedProjectData.project_id },
+      });
+    }
   };
+
   const navigateToAddEdit = () => {
-    router.push({
-      pathname: '/add_edit_observations',
-      params: { classCode, projectTitle: selectedProject },
-    });
+    const selectedProjectData = data.find(item => item.title === selectedProject);
+    if (selectedProjectData) {
+      router.push({
+        pathname: '/add_edit_observations',
+        params: { classCode, projectTitle: selectedProject, project_id: selectedProjectData.project_id },
+      });
+    }
   };
 
   // Find the selected project data
-  const selectedProjectData = filteredData.find(item => item.title === selectedProject);
+  const selectedProjectData = data.find(item => item.title === selectedProject);
+  console.log('Selected project data:', selectedProjectData); // Debugging log
 
   // Determine picker styles based on the current color scheme
   const pickerStyle = colorScheme === 'dark' ? styles.pickerDark : styles.pickerLight;
@@ -91,7 +109,7 @@ export default function Home() {
               style={pickerStyle}
             >
               <Picker.Item label="Select a project" value="" />
-              {filteredData.map((item) => (
+              {data.map((item) => (
                 <Picker.Item key={item.project_id} label={item.title} value={item.title} />
               ))}
             </Picker>

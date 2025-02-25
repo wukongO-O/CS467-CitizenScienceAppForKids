@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, FlatList, TouchableOpacity, Text, useColorScheme } from 'react-native';
+import { StyleSheet, Image, View, FlatList, TouchableOpacity, Text, useColorScheme, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
@@ -9,9 +9,9 @@ import { ThemedView } from '@/components/ThemedView';
 // Define an interface for the observation data
 interface ObservationData {
   obs_id: number;
-  anonymous_user_id: string;
+  anon_user_id: number;
   timestamp: string;
-  data: Array<{ type: string; label: string; value: any }>;
+  data: { [key: string]: any }; // Adjusted to reflect the correct data structure
 }
 
 // Define an interface for the project data
@@ -25,33 +25,32 @@ interface ProjectData {
 }
 
 export default function ListObservation() {
-  const { projectTitle, classCode } = useLocalSearchParams(); // Retrieve projectTitle and classCode from search parameters
-  const [observationData, setObservationData] = useState<ProjectData[]>([]); // State to store observation data
-  const [filteredObservations, setFilteredObservations] = useState<ObservationData[]>([]); // State to store filtered observations
+  const { projectTitle, classCode, project_id } = useLocalSearchParams(); // Retrieve projectTitle, classCode, and project_id from search parameters
+  const [observationData, setObservationData] = useState<ObservationData[]>([]); // State to store observation data
+  const [isLoading, setIsLoading] = useState(true); // State to manage loading state
   const router = useRouter(); // Get the router object for navigation
   const colorScheme = useColorScheme(); // Determine the current color scheme
 
   useEffect(() => {
-    // Load observation data from file
-    const data: ProjectData[] = require('../test_data/observation_data.json');
-    setObservationData(data);
-
-    // Debugging: Log the loaded data and projectTitle
-    console.log('Loaded Data:', data);
-    console.log('Observations', data.map(project => project.observations));
-    console.log('Project Title:', projectTitle);
-
-    // Filter observations based on the selected project title
-    const selectedProject = data.find(project => project.title === projectTitle);
-    if (selectedProject) {
-      setFilteredObservations(selectedProject.observations);
-    } else {
-      console.log('No matching project found');
+    if (project_id) {
+      // Fetch data from the API
+      fetch(`http://localhost:5000/observations/project/${project_id}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Fetched data:', data); // Debugging log
+          setObservationData(data);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          setIsLoading(false);
+        });
     }
-  }, [projectTitle]);
+  }, [project_id]);
 
-  // Debugging: Log the filtered observations
-  console.log('Filtered Observations:', filteredObservations);
+  // Debugging: Log the project_id and fetched observations
+  console.log("project ID", project_id);
+  console.log('Fetched Observations:', observationData);
 
   // Function to navigate to the home screen
   const navigateToHome = () => {
@@ -65,7 +64,7 @@ export default function ListObservation() {
   const navigateToAddEdit = () => {
     router.push({
       pathname: '/add_edit_observations',
-      params: { classCode, projectTitle },
+      params: { classCode, projectTitle, project_id },
     });
   };
 
@@ -82,20 +81,24 @@ export default function ListObservation() {
       </ThemedView>
 
       {/* Display the list of observations */}
-      <FlatList
-        data={filteredObservations}
-        keyExtractor={(item) => item.obs_id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            {item.data.map((dataItem, index) => (
-              <View key={index} style={styles.dataContainer}>
-                <ThemedText style={styles.dataLabel}>{dataItem.label}:</ThemedText>
-                <ThemedText style={styles.dataValue}>{dataItem.value}</ThemedText>
-              </View>
-            ))}
-          </View>
-        )}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <FlatList
+          data={observationData}
+          keyExtractor={(item) => item.obs_id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
+              {Object.entries(item.data).map(([key, value], index) => (
+                <View key={index} style={styles.dataContainer}>
+                  <ThemedText style={styles.dataLabel}>{key}:</ThemedText>
+                  <ThemedText style={styles.dataValue}>{value}</ThemedText>
+                </View>
+              ))}
+            </View>
+          )}
+        />
+      )}
 
       {/* Display the bottom navigation buttons */}
       <View style={styles.bottomNavContainer}>
