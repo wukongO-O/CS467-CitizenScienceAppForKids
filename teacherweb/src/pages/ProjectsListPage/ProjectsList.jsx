@@ -79,6 +79,7 @@ return (
         ))}
       </tbody>
     </table>
+    
     <button onClick={downloadCSV} style={{ marginTop: "10px", padding: "8px 12px" }}>
         Export Project Info to CSV
       </button>
