@@ -8,7 +8,7 @@ const ProjectsListPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="main-container">
       <h1>Project List Page</h1> 
       <p>Here’s a quick overview of your active projects:</p>
       <ProjectsList />
