@@ -8,19 +8,16 @@ import PieChart from '../components/graphs/PieChart';
 
 
 const ProjectSubmissionsPage = () => {
-    const [projects, setProjects] = useState([]);
+    //const [projects, setProjects] = useState([]);
     const {id} = useParams(); //getting the project id from the url
     const info = useProject(id);// getting the project information with custom hook, this returns information for the one project we need, including the observations list that is needed for this page
 
-    
-    useEffect(() => {
-      setProjects(studentData.projects);
-    }, []);
     
     if(!info){
       return <div className="loading">Loading...</div>
     }
 
+    const observations = info.observations || [];
 
     // Convert data to CSV format
     const convertToCSV = (data) => {
@@ -29,10 +26,10 @@ const ProjectSubmissionsPage = () => {
       const headers = ["Project Name", "Due Date", "Student ID", "Date Completed"];
       const csvRows = [headers.join(",")];
 
-      data.forEach(({ project, obs }) => {
+      data.forEach((obs) => {
           const values = [
-              `"${project.title}"`,
-              `"${project.due_at}"`,
+              `"${info.title}"`,
+              `"${info.due_at}"`,
               `"${obs.student_id}"`,
               `"${obs.date_completed || 'N/A'}"`
           ];
@@ -44,54 +41,41 @@ const ProjectSubmissionsPage = () => {
 
   // Trigger CSV download
   const downloadCSV = () => {
-      const observationsData = projects.flatMap(project => 
-          project.observations?.map(obs => ({ project, obs })) || []
-      );
+    const csvContent = convertToCSV(observations);
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
 
-      const csvContent = convertToCSV(observationsData);
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "observations_data.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "observations_data.csv";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-  };
+return (
+    <div>
+        <h1 style={{ marginBottom: '30px' }}>Project Observations - {info.title}</h1>
 
-    
-    return (
-      <div>
-        <h1 style={{ marginBottom: '30px' }}>Project Submissions</h1>
-  
-        {projects.some(project => project.observations && project.observations.length > 0) ? (
-          <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th style={{ padding: '8px', textAlign: 'left' }}>Project Name</th>
-                <th style={{ padding: '8px', textAlign: 'left' }}>Due Date</th>
-                <th style={{ padding: '8px', textAlign: 'left' }}>Student ID</th>
-                <th style={{ padding: '8px', textAlign: 'left' }}>Date Completed</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project) =>
-                project.observations && project.observations.length > 0
-                  ? project.observations.map((obs) => (
-                      <tr key={obs.obs_id}>
-                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{project.title}</td>
-                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{project.due_at}</td>
-                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.student_id}</td>
-                        <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.date_completed || 'N/A'}</td>
-                      </tr>
-                    ))
-                  : null
-              )}
-            </tbody>
-          </table>
+        {observations.length > 0 ? (
+            <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                    <tr>
+                        <th style={{ padding: '8px', textAlign: 'left' }}>Student ID</th>
+                        <th style={{ padding: '8px', textAlign: 'left' }}>Date Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {observations.map((obs) => (
+                        <tr key={obs.obs_id}>
+                            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.student_id}</td>
+                            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.date_completed || 'N/A'}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         ) : (
-          <p>No observations submitted yet.</p>
+            <p>No observations submitted yet.</p>
         )}
 
         {/* Export using CSV button */}
@@ -101,7 +85,7 @@ const ProjectSubmissionsPage = () => {
   
         <Portal>
           <MyCalendar />
-          <PieChart id={id} projectData={info.observations} />
+          <PieChart id={id} projectData={observations} />
         </Portal>
       </div>
     );

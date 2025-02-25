@@ -1,9 +1,11 @@
 import React from "react";
 import ProjectsList from './ProjectsList';
+import { useNavigate } from "react-router-dom";
 import Portal from "../../components/navigation/Portal";
 import MyCalendar from "../../components/MyCalendar";
 
 const ProjectsListPage = () => {
+  const navigate = useNavigate();
 
   return (
     <div>
