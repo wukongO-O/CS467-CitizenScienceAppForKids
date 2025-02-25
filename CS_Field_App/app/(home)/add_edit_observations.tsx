@@ -70,35 +70,66 @@ export default function AddEditObservations() {
   }, [projectTitle, project_id]);
 
   const handleAddObservation = async () => {
-    const updatedObservations = [...observationData, newObservation];
-    setObservationData(updatedObservations);
-    setNewObservation({
-      obs_id: Date.now(),
-      anonymous_user_id: '',
-      timestamp: new Date().toISOString(),
-      data: Object.keys(newObservation.data).reduce((acc, key) => {
-        acc[key] = '';
-        return acc;
-      }, {} as { [key: string]: any })
-    });
-
-    // Update the observation data in the backend
     try {
-      const response = await fetch(`http://localhost:5000/observations/project/${project_id}`, {
-        method: 'PUT',
+      // Create a new anonymous user
+      const userResponse = await fetch(`http://localhost:5000/anonymous_users`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedObservations),
+      });
+
+      if (!userResponse.ok) {
+        throw new Error('Failed to create anonymous user');
+      }
+
+      const userResult = await userResponse.json();
+      console.log('Anonymous user created:', userResult);
+
+      const newObs = {
+        project_id: project_id,
+        anon_user_id: userResult.anon_user_id,
+        data: newObservation.data,
+      };
+
+      console.log('Sending new observation:', newObs); // Debugging log
+
+      // Add the new observation to the backend
+      const response = await fetch(`http://localhost:5000/observations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newObs),
       });
 
       if (response.ok) {
-        console.log('Observation data updated');
+        const result = await response.json();
+        console.log('Observation added:', result);
+
+        // Create a complete ObservationData object
+        const completeNewObs: ObservationData = {
+          obs_id: result.obs_id,
+          anonymous_user_id: String(userResult.anon_user_id), // Ensure it's a string
+          timestamp: new Date().toISOString(),
+          data: newObservation.data,
+        };
+
+        setObservationData([...observationData, completeNewObs]);
+        setNewObservation({
+          obs_id: Date.now(),
+          anonymous_user_id: '',
+          timestamp: new Date().toISOString(),
+          data: Object.keys(newObservation.data).reduce((acc, key) => {
+            acc[key] = '';
+            return acc;
+          }, {} as { [key: string]: any })
+        });
       } else {
-        console.error('Failed to update observation data');
+        console.error('Failed to add observation');
       }
     } catch (error) {
-      console.error('Error updating observation data:', error);
+      console.error('Error adding observation:', error);
     }
   };
 
@@ -126,12 +157,12 @@ export default function AddEditObservations() {
 
     // Update the observation data in the backend
     try {
-      const response = await fetch(`http://localhost:5000/observations/project/${project_id}`, {
+      const response = await fetch(`http://localhost:5000/observations/${newObservation.obs_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedObservations),
+        body: JSON.stringify(newObservation),
       });
 
       if (response.ok) {
