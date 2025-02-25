@@ -20,6 +20,46 @@ const ProjectSubmissionsPage = () => {
     if(!info){
       return <div className="loading">Loading...</div>
     }
+
+
+    // Convert data to CSV format
+    const convertToCSV = (data) => {
+      if (!data.length) return "";
+
+      const headers = ["Project Name", "Due Date", "Student ID", "Date Completed"];
+      const csvRows = [headers.join(",")];
+
+      data.forEach(({ project, obs }) => {
+          const values = [
+              `"${project.title}"`,
+              `"${project.due_at}"`,
+              `"${obs.student_id}"`,
+              `"${obs.date_completed || 'N/A'}"`
+          ];
+          csvRows.push(values.join(","));
+      });
+
+      return csvRows.join("\n");
+  };
+
+  // Trigger CSV download
+  const downloadCSV = () => {
+      const observationsData = projects.flatMap(project => 
+          project.observations?.map(obs => ({ project, obs })) || []
+      );
+
+      const csvContent = convertToCSV(observationsData);
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "observations_data.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+
     
     return (
       <div>
@@ -53,6 +93,11 @@ const ProjectSubmissionsPage = () => {
         ) : (
           <p>No observations submitted yet.</p>
         )}
+
+        {/* Export using CSV button */}
+        <button onClick={downloadCSV} style={{ marginTop: "10px", padding: "8px 12px" }}>
+        Export Observations and Project Info to CSV
+        </button>
   
         <Portal>
           <MyCalendar />
