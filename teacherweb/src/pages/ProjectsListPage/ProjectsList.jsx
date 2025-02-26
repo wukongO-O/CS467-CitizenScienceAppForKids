@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 import studentData from '../../components/studentdata.json';
+import { useProjects } from '../../hooks/useProjects';
 
-const ProjectsList = () => {
-  const [projects, setProjects] = useState([]);
+const ProjectsList = ({projects}) => {
+  // const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    setProjects(studentData.projects);
-}, []);
+//   useEffect(() => {
+//     setProjects(studentData.projects);
+// }, []);
 
 // Convert data to CSV format
 const convertToCSV = (data) => {
@@ -72,7 +74,7 @@ return (
         {projects.map((project) => (
           <tr key={project.project_id}>
             <td><Link to={`/project/${project.project_id}`}>{project.title}</Link></td>
-            <td>{project.project_class}</td>
+            <td>{project.class_name}</td>
             <td>{project.project_id}</td>
             <td>{project.start_date}</td>
             <td>{project.due_at}</td>

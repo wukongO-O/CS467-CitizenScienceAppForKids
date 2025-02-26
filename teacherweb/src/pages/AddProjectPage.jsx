@@ -10,8 +10,6 @@ const AddProjectPage = () => {
     const [view, setView] = useState("main");
     const [loading, setLoading] = useState(false);
     const [errorPosting, setErrorPosting] = useState(false);
-    const [code, setCode] = useState(null);
-    const [showCode, setShowCode] = useState(false);
     const [data, setData] = useState({teacher_id:1});
     const teacher_classes = useClassesInfo(1);
     const navigate = useNavigate();
@@ -33,14 +31,12 @@ const AddProjectPage = () => {
         const fullData = {...data, form_definition: JSON.stringify(form_definition)};
         setData(fullData);
         await addProject();
-        setShowCode(true);
     }
 
     //adds a project and gets back a code for the project
     async function addProject(){
         //while user waits for data to post and return code a 'loading' message will be shown
         setLoading(true);
-        console.log(data)
         try{
         const res = await fetch(`http://127.0.0.1:5000/projects`, {
             method: "POST",
@@ -50,15 +46,13 @@ const AddProjectPage = () => {
             body: JSON.stringify(data),
         });
             if (!res.ok){
-                setError(true);
                 throw new Error ()
             }
-            debugger
-            const responseCode = await res.json();
-            setCode(responseCode);
+            
+            const projectData = await res.json();
             setLoading(false);
-            alert(`Project Created!, here is your code ${responseCode}`)
-            navigate(`/`);
+            alert(`Project Created!`)
+            navigate(`/projects`);
         } catch(err){
             console.log("There was an error adding the project")
         }

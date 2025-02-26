@@ -11,7 +11,6 @@ const Project = () => {
     const [currentView, setCurrentView] = useState("main");
     const {id} = useParams();
     const info = useProject(id);
-    
     const changeView = () => {
         if(currentView == "main"){
             setCurrentView("observations")
@@ -54,7 +53,7 @@ const Project = () => {
                 </div>
                 <Portal>
                     <MyCalendar/>
-                    <PieChart id={id} projectData={info.observations}/>
+                    <PieChart id={id} />
                 </Portal>
 
         </div>

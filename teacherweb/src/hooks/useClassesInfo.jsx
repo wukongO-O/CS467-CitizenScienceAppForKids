@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+//returns all classes that are associated to a user identified by teacher_id
 export const useClassesInfo = (teacher_id) => {
     const [classes, setClasses] = useState(null);
 

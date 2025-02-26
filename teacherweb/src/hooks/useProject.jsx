@@ -5,14 +5,12 @@ export const useProject = (id, setStateFunc) => {
 
     useEffect( ()=> {
         async function fetchProject () {
-            // const response = await fetch(`/projects/${id}`)
-            const response = await fetch(`/src/components/studentdata.json`);
+            const response = await fetch(`http://127.0.0.1:5000/projects/${id}`)
+            // const response = await fetch(`/src/components/studentdata.json`);
             const data = await response.json();
-            const projectData = data.projects.filter((proj)=> proj.project_id == id);
-            setProject(projectData[0]);
-
+            setProject(data);
             if (setStateFunc){
-                setStateFunc(projectData[0]);
+                setStateFunc(data);
             }
         }
         fetchProject();
