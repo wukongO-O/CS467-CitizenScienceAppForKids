@@ -1,9 +1,11 @@
-import OrderedList from "../components/OrderedList";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { useProject } from "../hooks/useProject";
+import Portal from "../components/navigation/Portal";
 import ProjectMainInfoView from "../components/projects/ProjectMainInfoView";
 import ProjectObservationsFormView from "../components/projects/ProjectObservationsFormView";
-import { useProject } from "../hooks/useProject";
+import PieChart from "../components/graphs/PieChart";
+import MyCalendar from "../components/MyCalendar";
 
 const Project = () => {
     const [currentView, setCurrentView] = useState("main");
@@ -38,8 +40,8 @@ const Project = () => {
                         <div className="full-width-section project-nav">
                             <Link
                                 className="button "
-                                to={`/project/${id}/submissions`}>
-                                Submissions
+                                to={`/project/${id}/observations`}>
+                                Observations
                             </Link>
                             <Link 
                                 className="button"
@@ -50,6 +52,11 @@ const Project = () => {
                         </div>
                     </div>
                 </div>
+                <Portal>
+                    <MyCalendar/>
+                    <PieChart id={id} projectData={info.observations}/>
+                </Portal>
+
         </div>
     )
 }

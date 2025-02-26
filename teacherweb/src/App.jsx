@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
-import {BrowserRouter as Router, Routes, Route, Navigate, useParams} from 'react-router-dom';
-import NavBar from './components/Navbar';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import NavBar from './components/navigation/NavBar';
 import LoginSignupPage from './pages/LoginSignup/LoginSignupPage';
 import Homepage from './pages/Home/Homepage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -10,13 +10,24 @@ import ProjectPage from './pages/ProjectPage';
 import ProjectSubmissionsPage from './pages/ProjectSubmissionsPage';
 import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
-import Calendar from './components/Calendar';
+import MyCalendar from './components/MyCalendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     localStorage.getItem('isAuthenticated') === 'true'
   );
+
+  // Start of connecting to back end
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/users')
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => console.error('Error:', error));
+  }, []);
+  // End of connecting to back end
 
   const handleLogin = () => {
     setIsAuthenticated(true);
@@ -28,8 +39,6 @@ function App() {
     localStorage.removeItem('isAuthenticated'); // Remove login 
   };
 
-
-
   return (
     <div className='wrapper flow'>
       <Router>
@@ -39,21 +48,20 @@ function App() {
 
               {/*Need to login to view any of the following pages */}
               <Route path="/homepage" element={isAuthenticated ? <Homepage /> : <Navigate to ="/" />} />
-              <Route path="/projects" element={isAuthenticated ? <ProjectsPage /> : <Navigate to="/" />} />
               <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
               <Route path="/add" element={isAuthenticated ? <AddProjectPage /> : <Navigate to="/" />} />
               <Route path="/project/:id" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/" />} />
-              <Route path="/project/:id/submissions" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
-              <Route path="/edit:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
-              <Route path="/projectlist" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
+              <Route path="/project/:id/observations" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
+              <Route path="/edit/:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
+              <Route path="/projects" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
           </Routes>
       </Router>
-
-      <div className = 'right-container'>
-        <Calendar/>
-      </div>
-
+    
+    {/* Working on connecting to back end below */}  
+    <div>
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
+  </div>
   );
 }
 
