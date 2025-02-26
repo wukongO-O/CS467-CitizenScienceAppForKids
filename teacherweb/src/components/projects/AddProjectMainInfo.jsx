@@ -1,10 +1,10 @@
 import { useState } from "react";
 import OrderedList from "../OrderedList";
 
-const AddProjectMainInfo = ({changeView, handleMainInfoUpdate}) => {
+const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes}) => {
     const [projectName, setProjectName] = useState();
     const [projectDescription, setProjectDescription] = useState();
-    const [classType, setClassType] = useState("Biology Honors");
+    const [classType, setClassType] = useState(teacher_classes[0].class_id);
     const [startDate, setStartDate] = useState();
     const [dueDate, setDueDate] = useState();
     const [step, setStep] = useState();
@@ -21,10 +21,12 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate}) => {
             start_date:startDate,
             due_at: dueDate,
             description: projectDescription,
-            project_class:classType,
-            directions: steps
+            class_id:classType,
+            directions: JSON.stringify(steps),
+            project_code:"test"
         }
-        handleMainInfoUpdate(mainInfo)
+        handleMainInfoUpdate(mainInfo);
+        changeView("observations")
     }
 
 
@@ -51,11 +53,13 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate}) => {
                 <div className="right-form-wrapper">
                     <label htmlFor="class-name">Class Name</label>
                     <select 
-                        name="class-name" 
+                        name="class_name" 
                         value={classType}
                         onChange={(e)=>setClassType(e.target.value)} >
-                        <option value="bio_honors">Biology Honors</option>
-                        <option value="chem_ii">Chemistry II</option>
+                        {teacher_classes.map((teacher_class)=> {
+                                
+                                return <option value={teacher_class.class_id} key={teacher_class.class_code}>{teacher_class.class_name}</option>
+                            })}
                     </select>
                     <label htmlFor="start-date">Start Date</label>
                         <input 
@@ -95,7 +99,9 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate}) => {
                                 }
                             }} > Add Step </button>
                 </div>
-                <button type="submit" className="button">Save and Continue</button>
+                <button 
+                    type="submit" 
+                    className="button">Save and Continue</button>
             </form>
     )
 }
