@@ -34,7 +34,7 @@ const Project = () => {
                             info={info}/> : 
                         <ProjectObservationsFormView 
                             changeView={changeView} 
-                            form_definition={info.form_definition}/>
+                            form_definition={info.form_definition.form_definition}/>
                     }
                         <div className="full-width-section project-nav">
                             <Link

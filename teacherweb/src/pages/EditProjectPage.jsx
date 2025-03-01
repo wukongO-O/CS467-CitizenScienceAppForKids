@@ -45,7 +45,7 @@ const EditProjectPage = () => {
                             changeView={changeView}
                             handleUpdate={handleUpdate}/> :
                         <EditProjectObservationDetails
-                            form_definition={infoToDisplay.form_definition}
+                            form_definition={infoToDisplay.form_definition.form_definition}
                             changeView={changeView}
                             handleUpdate={handleUpdate}/>
                     }
