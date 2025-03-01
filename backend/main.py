@@ -256,7 +256,12 @@ def get_a_project(project_id):
         "project_id": project_obj.project_id,
         "title": project_obj.title,
         "description": project_obj.description,
-        "directions": project_obj.directions
+        "directions": project_obj.directions,
+        "form_definition": project_obj.form_definition,
+        "start_date": project_obj.start_date.isoformat(),
+        "due_at": project_obj.due_at.isoformat(),
+        "created_at": project_obj.created_at.isoformat(),
+        "updated_at": project_obj.updated_at.isoformat()
     }
 
     return jsonify(result), 200
