@@ -267,6 +267,46 @@ def get_a_project(project_id):
     return jsonify(result), 200
 
 
+# Update a project form project id
+@app.route("/projects/<int:project_id>", methods=["PUT"])
+def update_a_project(project_id):
+    data = request.json
+    project_obj = Projects.query.filter_by(project_id=project_id).first()
+
+    if not project_obj:
+        return jsonify({"error": "Project not found"}), 404
+
+    if project_obj:
+        if "project_code" in data:
+            project_obj.project_code = data["project_code"]
+        if "title" in data:
+            project_obj.title = data["title"]
+        if "description" in data:
+            project_obj.description = data["description"]
+        if "directions" in data:
+            project_obj.directions = data["directions"]
+        if "form_definition" in data:
+            project_obj.form_definition = data["form_definition"]
+        if "start_date" in data:
+            project_obj.start_date = data["start_date"]
+        if "due_at" in data:
+            project_obj.due_at = data["due_at"]
+
+        db.session.commit()
+
+        return jsonify({
+            "message": "Project updated successfully!",
+            "project_id": project_obj.project_id,
+            "project_code": project_obj.project_code,
+            "title": project_obj.title,
+            "description": project_obj.description,
+            "directions": project_obj.directions,
+            "form_definition": project_obj.form_definition,
+            "start_date": project_obj.start_date.isoformat(),
+            "due_at": project_obj.due_at.isoformat()
+        }), 200
+
+
 # -------------------- OBSERVATIONS ROUTES --------------------
 # Add an observation
 @app.route("/observations", methods=["POST"])
