@@ -414,8 +414,8 @@ def test_create_project(client):
         "description": "Check water sources",
         "directions": "Step 1: Collect samples, Step 2: Test pH",
         "form_definition": {"questions": ["Q1", "Q2"]},
-        "start_date": "2021-06-01",
-        "due_at": "2021-06-30"
+        "start_date": "2021-06-01T00:00:00Z",  # Ensure proper datetime format
+        "due_at": "2021-06-30T23:59:59Z"
     }
 
     # ----------- create project ----------------
@@ -426,3 +426,11 @@ def test_create_project(client):
     assert response.status_code == 201
     assert response.get_json()["message"] == "Project created successfully!"
     print("Finished test_create_project!" + "\n")
+
+    # ----------- update project ----------------
+    print("Starting test_update_project...")
+    update_data = {"title": "Water Quality - Updated"}
+    response = client.put(f"/projects/{project_id}", json=update_data)
+    assert response.status_code == 200
+    assert response.get_json()["message"] == "Project updated successfully!"
+    print("Finished test_update_project!" + "\n")

@@ -3,6 +3,7 @@ from flask import request, jsonify
 from models import User, Classes, Projects, Anonymous_users, Observations
 from token_generator import generate_token
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_cors import cross_origin
 
 
 # Adapted code for API from this guide:
@@ -108,8 +109,6 @@ def create_class():
         return jsonify({"message": "Class created successfully!",
                         "class": data,
                         "class_id": new_class.class_id}), 201
-                        "class": data,
-                        "class_id": new_class.class_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -189,8 +188,19 @@ def delete_class(class_id):
 
 # -------------------- PROJECTS ROUTES --------------------
 # Create a new project
-@app.route("/projects", methods=["POST"])
+# ensure OPTIONS method is allowed for CORS
+@app.route("/projects", methods=["POST", "OPTIONS"])
+# Add cross_origin decorator to allow CORS
+# https://flask-cors.readthedocs.io/en/latest/
+@cross_origin(origins="*",
+              methods=["POST", "OPTIONS"],
+              allow_headers=["Content-Type", "Authorization"])
 def create_project():
+
+    if request.method == "OPTIONS":
+        # check preflight status
+        return jsonify({"message": "Preflight OK"}), 200
+
     data = request.json
     try:
         new_project = Projects(
@@ -200,8 +210,7 @@ def create_project():
             title=data["title"],
             description=data["description"],
             directions=data["directions"],
-            directions=data["directions"],
-            form_definition=data["form_definition"],
+            form_definition=data["form_definition"]
         )
         db.session.add(new_project)
         db.session.commit()
