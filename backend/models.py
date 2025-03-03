@@ -85,9 +85,9 @@ class Projects(db.Model):
 
     form_definition = db.Column(db.JSON, nullable=False)
 
-    start_date = db.Column(db.DateTime, nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False, default=db.func.now())
 
-    due_at = db.Column(db.DateTime, nullable=False)
+    due_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 

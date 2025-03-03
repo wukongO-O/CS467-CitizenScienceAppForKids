@@ -3,6 +3,7 @@ from flask import request, jsonify
 from models import User, Classes, Projects, Anonymous_users, Observations
 from token_generator import generate_token
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_cors import cross_origin
 
 
 # Adapted code for API from this guide:
@@ -108,8 +109,6 @@ def create_class():
         return jsonify({"message": "Class created successfully!",
                         "class": data,
                         "class_id": new_class.class_id}), 201
-                        "class": data,
-                        "class_id": new_class.class_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
@@ -189,8 +188,19 @@ def delete_class(class_id):
 
 # -------------------- PROJECTS ROUTES --------------------
 # Create a new project
-@app.route("/projects", methods=["POST"])
+# ensure OPTIONS method is allowed for CORS
+@app.route("/projects", methods=["POST", "OPTIONS"])
+# Add cross_origin decorator to allow CORS
+# https://flask-cors.readthedocs.io/en/latest/
+@cross_origin(origins="*",
+              methods=["POST", "OPTIONS"],
+              allow_headers=["Content-Type", "Authorization"])
 def create_project():
+
+    if request.method == "OPTIONS":
+        # check preflight status
+        return jsonify({"message": "Preflight OK"}), 200
+
     data = request.json
     try:
         new_project = Projects(
@@ -200,8 +210,7 @@ def create_project():
             title=data["title"],
             description=data["description"],
             directions=data["directions"],
-            directions=data["directions"],
-            form_definition=data["form_definition"],
+            form_definition=data["form_definition"]
         )
         db.session.add(new_project)
         db.session.commit()
@@ -265,6 +274,46 @@ def get_a_project(project_id):
     }
 
     return jsonify(result), 200
+
+
+# Update a project form project id
+@app.route("/projects/<int:project_id>", methods=["PUT"])
+def update_a_project(project_id):
+    data = request.json
+    project_obj = Projects.query.filter_by(project_id=project_id).first()
+
+    if not project_obj:
+        return jsonify({"error": "Project not found"}), 404
+
+    if project_obj:
+        if "project_code" in data:
+            project_obj.project_code = data["project_code"]
+        if "title" in data:
+            project_obj.title = data["title"]
+        if "description" in data:
+            project_obj.description = data["description"]
+        if "directions" in data:
+            project_obj.directions = data["directions"]
+        if "form_definition" in data:
+            project_obj.form_definition = data["form_definition"]
+        if "start_date" in data:
+            project_obj.start_date = data["start_date"]
+        if "due_at" in data:
+            project_obj.due_at = data["due_at"]
+
+        db.session.commit()
+
+        return jsonify({
+            "message": "Project updated successfully!",
+            "project_id": project_obj.project_id,
+            "project_code": project_obj.project_code,
+            "title": project_obj.title,
+            "description": project_obj.description,
+            "directions": project_obj.directions,
+            "form_definition": project_obj.form_definition,
+            "start_date": project_obj.start_date.isoformat(),
+            "due_at": project_obj.due_at.isoformat()
+        }), 200
 
 
 # -------------------- OBSERVATIONS ROUTES --------------------
