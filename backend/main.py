@@ -274,6 +274,10 @@ def get_a_project(project_id):
     if not project_obj:
         return jsonify({"error": "Project not found"}), 404
 
+    class_obj = Classes.query.filter_by(class_id=project_obj.class_id).first()
+    if not class_obj:
+        return jsonify({"error": "Class not found"}), 404
+
     result = {
         "project_id": project_obj.project_id,
         "title": project_obj.title,
@@ -283,7 +287,13 @@ def get_a_project(project_id):
         "start_date": project_obj.start_date.isoformat(),
         "due_at": project_obj.due_at.isoformat(),
         "created_at": project_obj.created_at.isoformat(),
-        "updated_at": project_obj.updated_at.isoformat()
+        "updated_at": project_obj.updated_at.isoformat(),
+        "class": {
+            "class_id": class_obj.class_id,
+            "class_name": class_obj.class_name,
+            "description": class_obj.description,
+            "number_of_students": class_obj.number_of_students
+        }
     }
 
     return jsonify(result), 200
