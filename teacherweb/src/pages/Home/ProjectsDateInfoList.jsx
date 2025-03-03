@@ -34,8 +34,10 @@ const ProjectsDateInfoList = () => {
 
   return (
     <div>
-      <p><strong>Total Active Projects:</strong> {totalProjects}</p>
-      <p><strong>Projects Due Today:</strong> {dueTodayCount}</p>
+      <p>You have <strong>{totalProjects}</strong> active Projects </p>
+      <div className='subsection-container purple'>
+        <p><strong> {dueTodayCount} </strong> projects are due today</p>
+      </div>
       <p><strong>Projects Due in the Future:</strong> {dueFutureCount}</p>
       
       <ul>
