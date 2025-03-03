@@ -75,6 +75,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             </div>
             
             <div className="wide-form-wrapper flow" >
+                <p>Additional input fields</p>
             {customFields.length>0? 
                 <CustomFormCreator 
                     removeField={removeField}
@@ -99,7 +100,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
                         <button 
                             type="submit"
                             name="additional-field-info"
-                            className="button"
+                            className="no-background"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 setCustomOptions([...customOptions, additionalFieldInfo])
@@ -114,7 +115,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
                             value={customInputLabel}
                             onChange={(e) => setCustomInputLabel(e.target.value)} />
                         <button
-                            className="button"
+                            className="no-background"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 handleCustomField()    
@@ -138,6 +139,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
 
                 </div>
             </div>
+            <div className="wide-form-wrapper">
                 <button 
                         type="submit" 
                         className="button"
@@ -151,6 +153,8 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
                         e.preventDefault()
                         onEdit()    
                     }}> Save Changes </button>
+
+            </div>
         </form>
     )
 }

@@ -22,9 +22,10 @@ const ProjectObservationsFormView = ({form_definition, changeView}) => {
                         name="location" />
             </div>
             <div className="wide-form-wrapper">
+                {form_definition ? 
                 <CustomFormCreator 
                     fields={form_definition}
-                    removeField={false}/>
+                    removeField={false}/> : null}
             </div>
             <div>
                     <button

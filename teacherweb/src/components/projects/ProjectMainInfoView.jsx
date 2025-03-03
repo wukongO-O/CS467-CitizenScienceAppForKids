@@ -34,7 +34,7 @@ const ProjectMainInfoView = ({info, changeView}) => {
                 </div>
                 <div>
                     <button
-                            className="button"
+                            className="button large"
                             onClick={(e)=> {
                                 e.preventDefault()
                                 changeView("observations")}}>

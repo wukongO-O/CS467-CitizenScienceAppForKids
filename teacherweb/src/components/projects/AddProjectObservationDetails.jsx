@@ -97,7 +97,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             onChange={(e)=>setAdditionalFieldInfo(e.target.value)} />
                         <button 
                             type="submit"
-                            className="button"
+                            className="no-background"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 setCustomOptions([...customOptions, additionalFieldInfo])
@@ -112,7 +112,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             value={customInputLabel}
                             onChange={(e) => setCustomInputLabel(e.target.value)} />
                         <button
-                            className="button"
+                            className="no-background"
                             onClick={(e)=>{
                                 e.preventDefault()
                                 handleCustomField()    

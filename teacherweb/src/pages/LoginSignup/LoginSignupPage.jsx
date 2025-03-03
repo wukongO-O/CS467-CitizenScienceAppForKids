@@ -26,8 +26,8 @@ export default function LoginSignupPage({ onAuthSuccess}) {
   };
 
   return (
-    <div className="login-signup-container">
-      <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+    <div className="login-signup-container subsection-container">
+      <h2 >{isLogin ? "Login" : "Sign Up"}</h2>
       <LoginSignupForm isLogin={isLogin} onAuthSuccess={handleAuthSuccess} />
       <p onClick={toggleForm} className="toggle-text">
         {isLogin ? "Need an account? Sign up" : "Already have an account? Log in"}

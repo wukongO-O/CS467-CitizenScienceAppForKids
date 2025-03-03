@@ -73,7 +73,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess }) {
         required
       />
       {error && <p className="error">{error}</p>}
-      <button type="submit">{isLogin ? "Login" : "Sign Up"}</button>
+      <button type="submit" className = "button">{isLogin ? "Login" : "Sign Up"}</button>
     </form>
   );
 }
