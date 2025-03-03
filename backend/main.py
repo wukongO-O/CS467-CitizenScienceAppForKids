@@ -27,6 +27,19 @@ def index():
 
 
 # -------------------- USER ROUTES --------------------
+# Login route
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    username = data["username"]
+    password = data["password"]
+    user = User.query.filter_by(username=username).first()
+    if user and (user.password == password):
+        return jsonify({"message": "Login successful!",
+                        "user": {"id": user.id, "username": user.username,
+                                 "email": user.email, "role": user.role}}), 200
+    return jsonify({"error": "Invalid credentials"}), 401
+
 # Create a new user (teacher/admin)
 @app.route("/users", methods=["POST"])
 def create_user():
