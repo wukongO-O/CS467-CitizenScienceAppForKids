@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 // Define an interface for the observation data
 interface ObservationData {
@@ -68,39 +69,48 @@ export default function ListObservation() {
     });
   };
 
+  // Determine text color based on the current color scheme
+  const textColor = colorScheme === 'dark' ? 'white' : 'black';
+  // Determine background color for item container based on the current color scheme
+  const itemBackgroundColor = colorScheme === 'dark' ? '#333' : '#FFFFFF';
+
   return (
-    <View style={[styles.container, colorScheme === 'dark' ? styles.darkContainer : styles.lightContainer]}>
-      {/* Display the logo */}
-      <Image
-        source={require('@/assets/images/partial-react-logo.png')}
-        style={styles.reactLogo}
-      />
-      {/* Display the title of the project */}
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Observations for {projectTitle}</ThemedText>
-      </ThemedView>
+    <View style={styles.container}>
+      <ParallaxScrollView
+        headerBackgroundColor={{ dark: '#A0D4FF', light: '#A0D4FF' }} // Light Blue
+        headerImage={
+          <View style={styles.headerImageContainer}>
+            <Image
+              source={require('@/assets/images/Logo.png')}
+              style={styles.reactLogo}
+            />
+          </View>
+        }
+      >
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">Observations for {projectTitle}</ThemedText>
+        </ThemedView>
 
-      {/* Display the list of observations */}
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <FlatList
-          data={observationData}
-          keyExtractor={(item) => item.obs_id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              {Object.entries(item.data).map(([key, value], index) => (
-                <View key={index} style={styles.dataContainer}>
-                  <ThemedText style={styles.dataLabel}>{key}:</ThemedText>
-                  <ThemedText style={styles.dataValue}>{value}</ThemedText>
-                </View>
-              ))}
-            </View>
-          )}
-        />
-      )}
-
-      {/* Display the bottom navigation buttons */}
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <FlatList
+            data={observationData}
+            keyExtractor={(item) => item.obs_id.toString()}
+            renderItem={({ item }) => (
+              <View style={[styles.itemContainer, { backgroundColor: itemBackgroundColor }]}>
+                {Object.entries(item.data).map(([key, value], index) => (
+                  <View key={index} style={styles.dataContainer}>
+                    <ThemedText style={[styles.dataLabel, { color: textColor }]}>{key}:</ThemedText>
+                    <ThemedText style={[styles.dataValue, { color: textColor }]}>{value}</ThemedText>
+                  </View>
+                ))}
+              </View>
+            )}
+            ListFooterComponent={<View style={styles.buffer} />} // Add buffer at the bottom
+          />
+        )}
+      </ParallaxScrollView>
       <View style={styles.bottomNavContainer}>
         <TouchableOpacity style={styles.navButton} onPress={navigateToHome}>
           <Ionicons name="home-outline" size={24} color="white" />
@@ -122,22 +132,25 @@ export default function ListObservation() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E1F5FE', // Light background color
   },
-  lightContainer: {
-    backgroundColor: '#fff',
-  },
-  darkContainer: {
-    backgroundColor: '#000',
+  headerImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200, // Adjust the height as needed
   },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+    alignItems: 'center', // Align items vertically
     padding: 10,
   },
   itemContainer: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    borderRadius: 5,
   },
   dataContainer: {
     flexDirection: 'row',
@@ -152,10 +165,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+    height: 173,
+    width: 150,
+    resizeMode: 'contain', // Ensure the logo is contained within the view
   },
   bottomNavContainer: {
     position: 'absolute',
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#4CAF50', // Green background for bottom navigation
     paddingVertical: 10,
   },
   navButton: {
@@ -175,5 +187,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     marginTop: 4,
+  },
+  buffer: {
+    height: 100, // Adjust the height of the buffer to match the height of the bottom navigation
   },
 });

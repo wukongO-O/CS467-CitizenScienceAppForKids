@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, useColorScheme, Image, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Image, TouchableOpacity, Text, Modal, Button } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
@@ -22,7 +22,7 @@ export default function Home() {
   const [data, setData] = useState<DataItem[]>([]); // State to store fetched data
   const [isLoading, setIsLoading] = useState(true); // State to manage loading state
   const [selectedProject, setSelectedProject] = useState<string>(''); // State to store selected project
-  const colorScheme = useColorScheme(); // Determine the current color scheme
+  const [modalVisible, setModalVisible] = useState(false); // State to manage modal visibility
   const router = useRouter(); // Get the router object for navigation
 
   useEffect(() => {
@@ -79,20 +79,19 @@ export default function Home() {
 
   // Find the selected project data
   const selectedProjectData = data.find(item => item.title === selectedProject);
-  console.log('Selected project data:', selectedProjectData); // Debugging log
-
-  // Determine picker styles based on the current color scheme
-  const pickerStyle = colorScheme === 'dark' ? styles.pickerDark : styles.pickerLight;
+  // console.log('Selected project data:', selectedProjectData); // Debugging log - Removed
 
   return (
     <View style={styles.container}>
       <ParallaxScrollView
-        headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
+        headerBackgroundColor={{ dark: '#A0D4FF', light: '#A0D4FF' }} // Light Blue
         headerImage={
-          <Image
-            source={require('@/assets/images/partial-react-logo.png')}
-            style={styles.reactLogo}
-          />
+          <View style={styles.headerImageContainer}>
+            <Image
+              source={require('@/assets/images/Logo.png')}
+              style={styles.reactLogo}
+            />
+          </View>
         }
       >
         <ThemedView style={styles.titleContainer}>
@@ -106,7 +105,7 @@ export default function Home() {
             <Picker
               selectedValue={selectedProject}
               onValueChange={handleProjectChange}
-              style={pickerStyle}
+              style={styles.picker}
             >
               <Picker.Item label="Select a project" value="" />
               {data.map((item) => (
@@ -116,8 +115,25 @@ export default function Home() {
           )}
           {selectedProjectData ? (
             <View style={styles.itemContainer}>
+              <ThemedText style={styles.itemTitle}>Description</ThemedText>
               <ThemedText style={styles.itemDescription}>{selectedProjectData.description}</ThemedText>
-              <ThemedText style={styles.itemDirections}>{selectedProjectData.directions}</ThemedText>
+              <ThemedText style={styles.itemTitle}>Directions</ThemedText>
+              <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+                <Text style={styles.buttonText}>View Directions</Text>
+              </TouchableOpacity>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>{selectedProjectData.directions}</Text>
+                  <Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
+                </View>
+              </Modal>
             </View>
           ) : null}
         </ThemedView>
@@ -143,57 +159,88 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#E1F5FE', // Light background color
   },
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  headerImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200, // Adjust the height as needed
   },
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
     alignItems: 'center', // Align items vertically
+    padding: 10,
   },
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+    padding: 10,
   },
   picker: {
     height: 50,
     width: '100%',
-  },
-  pickerLight: {
-    backgroundColor: '#fff',
-    color: '#000',
-  },
-  pickerDark: {
-    backgroundColor: '#333',
-    color: '#fff',
+    backgroundColor: '#FFFFFF', // White background for picker
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#B0BEC5', // Light border color
   },
   itemContainer: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    backgroundColor: '#FFFFFF', // White background for item container
+    borderRadius: 5,
   },
   itemTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#37474F', // Dark text color
+    marginTop: 10,
   },
   itemDescription: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: 16,
+    color: '#546E7A', // Medium text color
   },
   itemDirections: {
     fontSize: 14,
-    color: '#666',
+    color: '#546E7A', // Medium text color
+  },
+  button: {
+    backgroundColor: '#4CAF50', // Green background for button
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    height: 173,
+    width: 150,
+    resizeMode: 'contain', // Ensure the logo is contained within the view
   },
   bottomNavContainer: {
     position: 'absolute',
@@ -203,7 +250,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#4CAF50', // Green background for bottom navigation
     paddingVertical: 10,
   },
   navButton: {

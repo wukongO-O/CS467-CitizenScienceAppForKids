@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Button, Image, StyleSheet, Platform, useColorScheme, Alert } from 'react-native';
+import { Text, View, TextInput, Button, Image, StyleSheet, useColorScheme, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -16,7 +16,7 @@ interface DataItem {
 export default function HomeScreen() {
   // Get the current color scheme (light or dark)
   const colorScheme = useColorScheme();
-  
+
   // State to store the entered class code
   const [classCode, setClassCode] = useState('');
   // State to store the validity of the entered class code
@@ -39,7 +39,6 @@ export default function HomeScreen() {
   const validateCode = () => {
     // Fetch data from the API
     fetch(`http://localhost:5000/projects/class_code/${classCode}`)
-    //console.log(classCode)
       .then(response => response.json())
       .then(data => {
         if (data.length > 0) {
@@ -70,15 +69,19 @@ export default function HomeScreen() {
   const textColor = colorScheme === 'dark' ? 'white' : 'black';
   // Determine placeholder text color based on the current color scheme
   const placeholderColor = colorScheme === 'dark' ? '#888' : '#ccc';
+  // Determine input background color based on the current color scheme
+  const inputBackgroundColor = colorScheme === 'dark' ? '#333' : '#FFFFFF';
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ dark: '#A0D4FF', light: '#A0D4FF' }} // Light Blue
       headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
+        <View style={styles.headerImageContainer}>
+          <Image
+            source={require('@/assets/images/Logo.png')}
+            style={styles.reactLogo}
+          />
+        </View>
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome to the Citizen Science App!</ThemedText>
@@ -86,12 +89,15 @@ export default function HomeScreen() {
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Enter your class code below.</ThemedText>
         <TextInput
-          style={{ color: textColor }}
+          style={[styles.input, { color: textColor, backgroundColor: inputBackgroundColor }]}
           placeholder="Class Code"
           placeholderTextColor={placeholderColor}
           value={classCode}
-          onChangeText={setClassCode}/>
-        <Button title="Validate Code" onPress={validateCode} />
+          onChangeText={setClassCode}
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="Validate Code" onPress={validateCode} color="#4CAF50" />
+        </View>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
       </ThemedView>
@@ -100,31 +106,41 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  // Style for the title container
+  container: {
+    flex: 1,
+    backgroundColor: '#E1F5FE', // Light background color
+  },
+  headerImageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200, // Adjust the height as needed
+  },
   titleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 8,
+    alignItems: 'center', // Align items vertically
+    padding: 10,
   },
-  // Style for the step container
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+    padding: 10,
   },
-  // Style for the input field
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 12,
     paddingHorizontal: 8,
+    borderRadius: 5,
   },
-  // Style for the react logo
+  buttonContainer: {
+    marginTop: 12,
+  },
   reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    height: 173,
+    width: 150,
+    resizeMode: 'contain', // Ensure the logo is contained within the view
   },
 });
