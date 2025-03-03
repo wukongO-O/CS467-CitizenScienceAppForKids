@@ -4,13 +4,11 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom
 import NavBar from './components/navigation/NavBar';
 import LoginSignupPage from './pages/LoginSignup/LoginSignupPage';
 import Homepage from './pages/Home/Homepage';
-import ProjectsPage from './pages/ProjectsPage';
 import Account from './pages/Account';
 import ProjectPage from './pages/ProjectPage';
 import ProjectSubmissionsPage from './pages/ProjectSubmissionsPage';
 import AddProjectPage from './pages/AddProjectPage';
 import EditProjectPage from './pages/EditProjectPage';
-import MyCalendar from './components/MyCalendar';
 import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 
 function App() {
@@ -49,7 +47,7 @@ function App() {
               {/*Need to login to view any of the following pages */}
               <Route path="/homepage" element={isAuthenticated ? <Homepage /> : <Navigate to ="/" />} />
               <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
-              <Route path="/add" element={isAuthenticated ? <AddProjectPage /> : <Navigate to="/" />} />
+              <Route path="/add" element={isAuthenticated ? <AddProjectPage /> : <Navigate to="/" />} /> 
               <Route path="/project/:id" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/" />} />
               <Route path="/project/:id/observations" element={isAuthenticated ? <ProjectSubmissionsPage /> : <Navigate to="/" />} />
               <Route path="/edit/:id" element={isAuthenticated ? <EditProjectPage /> : <Navigate to="/" />} />
@@ -58,9 +56,9 @@ function App() {
       </Router>
     
     {/* Working on connecting to back end below */}  
-    <div>
+    {/* <div>
       {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-    </div>
+    </div> */}
   </div>
   );
 }

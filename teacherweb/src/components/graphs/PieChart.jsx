@@ -1,20 +1,22 @@
 import {Pie} from "react-chartjs-2";
 import {Chart as ChartJS, Tooltip, Legend, ArcElement} from "chart.js";
 import { useClassInfo } from "../../hooks/useClassInfo";
+import { useProjectObservations } from "../../hooks/useProjectObservations";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
 
-const PieChart = ({id, projectData}) => {
+const PieChart = ({id}) => {
 
     const classInfo = useClassInfo(id);
+    const observations = useProjectObservations(id);
 
-    if (!classInfo) {
+    if (!classInfo || !observations) {
         return <div>Loading...</div>
     }
 
     const totalStudents = classInfo.number_of_students;
-    const totalObservations = projectData.length;
+    const totalObservations = observations.length;
     const notStarted = totalStudents - totalObservations;
 
     const data = {

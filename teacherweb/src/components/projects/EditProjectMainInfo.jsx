@@ -5,10 +5,10 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
     const [projectName, setProjectName] = useState(info.title);
     const [projectDescription, setProjectDescription] = useState(info.description);
     const [classType, setClassType] = useState(info.project_class);
-    const [startDate, setStartDate] = useState(info.start_date);
-    const [dueDate, setDueDate] = useState(info.due_at);
+    const [startDate, setStartDate] = useState('pending');
+    const [dueDate, setDueDate] = useState('pending');
     const [step, setStep] = useState(); 
-    const [steps, setSteps]=useState(info.directions);
+    const [steps, setSteps]=useState(JSON.parse(info.directions));
 
     const deleteStep = (i) => {
         const newSteps = [...steps.slice(0,i), ... steps.slice(i+1)];

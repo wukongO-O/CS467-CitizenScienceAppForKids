@@ -44,16 +44,19 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
         setCustomFields(newCustomFields)
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = () => {
         // submits form details to backend and generates code
-        e.preventDefault();
-
         handleSubmit({form_definition: customFields})
     }
 
     return(
         //observations textarea and location are the default fields
-        <form className="observation-details-form">
+        <form 
+            className="observation-details-form"
+            onSubmit = {(e)=>{
+                e.preventDefault()
+                handleFormSubmit()    
+            }}>
             <div className="left-form-wrapper">
                 <label htmlFor="observations">Observations</label>
                     <textarea 
@@ -134,10 +137,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
             </div>
             <button
                 className="button"
-                onClick={(e)=>{
-                    e.preventDefault()
-                    handleFormSubmit()    
-                }}> Save Form and Publish </button>
+                type="submit"> Save Form and Publish </button>
         </form>
     )
 }

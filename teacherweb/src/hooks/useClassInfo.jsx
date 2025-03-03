@@ -4,19 +4,19 @@ export const useClassInfo = (id, setStateFunc) => {
     const [currClass, setCurrClass] = useState(null);
 
     useEffect( ()=> {
-        async function fetchProject () {
-            // const response = await fetch(`/class/${id}`)
-            const response = await fetch(`/src/components/classdata.json`);
+        async function fetchClassInfo () {
+            const response = await fetch(`http://127.0.0.1:5000/class/${id}`)
+            // const response = await fetch(`/src/components/classdata.json`);
             const data = await response.json();
-            const classData = data.classes.filter((oneClass)=> oneClass.class_id == id);
-            setCurrClass(classData[0]);
+            // const classData = data.classes.filter((oneClass)=> oneClass.class_id == id);
+            setCurrClass(data);
 
             if (setStateFunc){
-                setStateFunc(currClass[0]);
+                setStateFunc(data);
             }
         }
-        fetchProject();
-    },[id, currClass, setStateFunc])
+        fetchClassInfo();
+    },[id, setStateFunc])
 
     return currClass;
 }

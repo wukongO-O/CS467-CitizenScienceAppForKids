@@ -9,7 +9,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="main-container">
       <h1>Welcome Back, Teacher!</h1>
       <p>Here’s a quick overview of your active projects:</p>
       <ProjectsDateInfoList />
