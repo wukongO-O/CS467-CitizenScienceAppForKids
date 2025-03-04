@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { useClassInfo } from "../../hooks/useClassInfo";
+import PropTypes from 'prop-types';
 import OrderedList from "../OrderedList";
+import { useClassesInfo } from "../../hooks/useClassesInfo";
 
-const EditProjectMainInfo = ({info,changeView, handleUpdate, teacher_classes}) => {
-    // const project_class = useClassInfo(info.class_id);
+const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
     const [projectName, setProjectName] = useState(info.title);
     const [projectDescription, setProjectDescription] = useState(info.description);
-    // const [classType, setClassType] = useState(info.project_class);
-    const [startDate, setStartDate] = useState('pending');
-    const [dueDate, setDueDate] = useState('pending');
+    const [classType, setClassType] = useState();
+    const [startDate, setStartDate] = useState(new Date(info.start_date).toISOString().split('T')[0]);
+    const [dueDate, setDueDate] = useState(new Date(info.due_at).toISOString().split('T')[0]);
     const [step, setStep] = useState(); 
     const [steps, setSteps]=useState(info.directions);
+    const teacher_classes = useClassesInfo(1);
 
-    if (!project_class) {
-        return( <div className="loading">Loading...</div>)
+    if(!teacher_classes){
+        return <div className="loading">Loading...</div>
     }
 
     const deleteStep = (i) => {
@@ -23,7 +24,7 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate, teacher_classes}) =
 
     const onEdit = () => {
         const data= {projectName, projectDescription, classType, startDate, dueDate, steps}
-        handleUpdate(data)
+        handleUpdate(false, data)
     }
 
     //changing the view, but saving the updated data first
@@ -67,9 +68,9 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate, teacher_classes}) =
                         name="class-name" 
                         value={classType}
                         onChange={(e)=>setClassType(e.target.value)} >
-                        {teacher_classes.map((teacher_class)=> {
+                        {teacher_classes.map((teacher_class, i)=> {
                                 
-                                return <option value={teacher_class.class_id} key={teacher_class.class_code}>{teacher_class.class_name}</option>
+                                return <option value={teacher_class.class_id} key={`${teacher_class.class_code}${i}`}>{teacher_class.class_name}</option>
                             })}
                     </select>
                     <label htmlFor="start-date">Start Date</label>
@@ -124,6 +125,14 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate, teacher_classes}) =
                 </div>
             </form>
     )
-}
+};
+
+EditProjectMainInfo.propTypes = {
+    info: PropTypes.object.isRequired,
+    changeView: PropTypes.func.isRequired,
+    handleUpdate: PropTypes.func.isRequired,
+    // teacher_classes: PropTypes.array.isRequired 
+};
+
 
 export default EditProjectMainInfo

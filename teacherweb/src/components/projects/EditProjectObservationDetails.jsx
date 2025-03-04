@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from "react";
+import PropTypes from 'prop-types';
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
 
@@ -50,8 +51,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
     }
 
     const onEdit = () => {
-        const data = {fields:customFields}
-        handleUpdate(data)
+        handleUpdate(true, customFields)
         // submits form details to backend to update form
     }
 
@@ -79,7 +79,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             {form_definition ? 
                 <CustomFormCreator 
                     removeField={removeField}
-                    fields={form_definition} /> :null}
+                    fields={customFields} /> :null}
                     <p className="small-text"> Click 'Save Changes' when done editing your observations form.</p>
                 <div className="observation-details-form">
                 {/* the following should only show if the field type requires additional information from the user */}
@@ -157,6 +157,12 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             </div>
         </form>
     )
-}
+};
+
+EditProjectObservationDetails.propTypes = {
+    form_definition: PropTypes.array,
+    changeView: PropTypes.func.isRequired,
+    handleUpdate: PropTypes.func.isRequired
+};
 
 export default EditProjectObservationDetails

@@ -1,10 +1,9 @@
-import { useState } from "react";
+import PropTypes from 'prop-types';
 import CheckboxOrRadio from "./CheckboxOrRadio";
 import InputField from "./InputField";
 
-// eslint-disable-next-line react/prop-types
 const CustomFormCreator = ({fields, removeField}) => {
-
+    
     const handleRemove = (id) => {
         removeField(id)
     }
@@ -34,6 +33,13 @@ const CustomFormCreator = ({fields, removeField}) => {
             })}
         </div>
     )
-}
+};
+
+
+CustomFormCreator.propTypes = {
+    fields: PropTypes.array,
+    removeField: PropTypes.func
+};
+
 
 export default CustomFormCreator
