@@ -28,22 +28,26 @@ const AddProjectPage = () => {
     }
 
     const handleSubmit = async (form_definition) => {
-        setData(prevData => ({
-            ...prevData,
-            form_definition,
-        }));
-        await addProject();
+        setData((data) => {
+            const updatedData = {
+              ...data,
+              form_definition: form_definition, 
+            };
+            addProject(updatedData);
+            return updatedData;
+          });
     }
 
     //adds a project and gets back a code for the project
-    async function addProject(){
+    async function addProject(payload){
         //while user waits for data to post and return code a 'loading' message will be shown
         setLoading(true);
         try{
         const dataToSend = {
-            ...data,
-            directions: JSON.stringify(data.directions), // Stringify only directions
+            ...payload,
+            directions: JSON.stringify(payload.directions) // Stringify only directions
         };
+
         const res = await fetch(`http://127.0.0.1:5000/projects`, {
             method: "POST",
             headers:{
