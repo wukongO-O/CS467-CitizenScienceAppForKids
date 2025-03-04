@@ -22,7 +22,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
             due_at: dueDate,
             description: projectDescription,
             class_id:classType,
-            directions: JSON.stringify(steps),
+            directions: steps,
             project_code:"test"
         }
         handleMainInfoUpdate(mainInfo);

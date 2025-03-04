@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { useClassInfo } from "../../hooks/useClassInfo";
 import OrderedList from "../OrderedList";
 
-const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
+const EditProjectMainInfo = ({info,changeView, handleUpdate, teacher_classes}) => {
+    // const project_class = useClassInfo(info.class_id);
     const [projectName, setProjectName] = useState(info.title);
     const [projectDescription, setProjectDescription] = useState(info.description);
-    const [classType, setClassType] = useState(info.project_class);
+    // const [classType, setClassType] = useState(info.project_class);
     const [startDate, setStartDate] = useState('pending');
     const [dueDate, setDueDate] = useState('pending');
     const [step, setStep] = useState(); 
-    const [steps, setSteps]=useState(JSON.parse(info.directions));
+    const [steps, setSteps]=useState(info.directions);
+
+    if (!project_class) {
+        return( <div className="loading">Loading...</div>)
+    }
 
     const deleteStep = (i) => {
         const newSteps = [...steps.slice(0,i), ... steps.slice(i+1)];
@@ -61,8 +67,10 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
                         name="class-name" 
                         value={classType}
                         onChange={(e)=>setClassType(e.target.value)} >
-                        <option value="bio_honors">Biology Honors</option>
-                        <option value="chem_ii">Chemistry II</option>
+                        {teacher_classes.map((teacher_class)=> {
+                                
+                                return <option value={teacher_class.class_id} key={teacher_class.class_code}>{teacher_class.class_name}</option>
+                            })}
                     </select>
                     <label htmlFor="start-date">Start Date</label>
                         <input 

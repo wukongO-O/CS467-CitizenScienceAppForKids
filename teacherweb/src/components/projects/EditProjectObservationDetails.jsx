@@ -76,10 +76,10 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             
             <div className="wide-form-wrapper flow" >
                 <p>Additional input fields</p>
-            {customFields.length>0? 
+            {form_definition ? 
                 <CustomFormCreator 
                     removeField={removeField}
-                    fields={customFields} /> :null}
+                    fields={form_definition} /> :null}
                     <p className="small-text"> Click 'Save Changes' when done editing your observations form.</p>
                 <div className="observation-details-form">
                 {/* the following should only show if the field type requires additional information from the user */}

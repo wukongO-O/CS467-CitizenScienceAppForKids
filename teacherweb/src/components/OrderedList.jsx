@@ -2,7 +2,6 @@
 import { CiSquareRemove } from "react-icons/ci";
 
 const OrderedList = ({items, edit, handleDelete}) => {
-  
     return(
              <ol>
                     {items.map((step, i)=>{

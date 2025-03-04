@@ -18,7 +18,7 @@ const Project = () => {
             setCurrentView("main")
         }
     }
-
+    
     if(!info){
         return <div className="loading">Loading...</div>
     }

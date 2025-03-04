@@ -2,7 +2,7 @@ import { useClassInfo } from "../../hooks/useClassInfo"
 import OrderedList from "../OrderedList"
 
 const ProjectMainInfoView = ({info, changeView}) => {
-    const project_class = useClassInfo(info.project_id);
+    const project_class = useClassInfo(info.class_id);
 
     if (!project_class) {
         return( <div className="loading">Loading...</div>)

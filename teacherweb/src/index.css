@@ -107,19 +107,6 @@
     --fs-900:3.75rem;
 
 
-
-    @media (width > 760px){
-      --fs-300: 0.875rem;
-      --fs-400: 1rem;
-      --fs-500:1.25rem;
-      --fs-600:1.5rem;
-      --fs-700:2rem;
-
-    }
-  }
-
-    :root{
-
       --text-paragraph-light: var(--clr-paragraph-500);
       --text-paragraph: var(--clr-paragraph-600);
       --text-high-contrast:500;
@@ -141,6 +128,25 @@
       --border-radius-sm: 10px;
       --border-radius-md: 0.937rem;
       --border-radius-lg: 1.56rem;
+
+      @media (width > 760px){
+        --fs-300: 0.875rem;
+        --fs-400: 1rem;
+        --fs-500:1.25rem;
+        --fs-600:1.5rem;
+        --fs-700:2rem;
+  
+      }
+
+    }
+
+
+    @media (min-width: 1921px) {
+      /* Styles for screens larger than 1920px (e.g., 2K, 4K, or larger) */
+    
+      .main-container{
+        width: 800px;
+      }
     }
 
     html{
@@ -404,8 +410,9 @@
 
     table{
       border-collapse: collapse;
-      border-radius: var(--border-radius-md);
+      border-radius: var(--border-radius-md) var(--border-radius-md) var(--border-radius-md) var(--border-radius-md);
       background-color: var(--clr-white);
+      overflow:hidden;
     }
 
     table td{
