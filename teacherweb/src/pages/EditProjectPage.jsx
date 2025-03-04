@@ -34,22 +34,22 @@ const EditProjectPage = () => {
             }
         }
 
-        const handleUpdate = async (updateForm, form_definition ) => {
+        const handleUpdate = async (updateForm, updates ) => {
             if(updateForm) {
                 setData((data) => {
                   const updatedData = {
                     ...data,
                     ...infoToDisplay,
-                    form_definition: form_definition
+                    form_definition: updates
                   };
                   updatedProject(updatedData);
                   return updatedData;
                 });
             }else{
-                setData((data) => {
+                setData((infoToDisplay) => {
                     const updatedData = {
-                      ...data,
-                      ...infoToDisplay
+                      ...infoToDisplay,
+                      ...updates
                     };
                     updatedProject(updatedData);
                     return updatedData;

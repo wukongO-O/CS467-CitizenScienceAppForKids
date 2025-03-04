@@ -23,7 +23,7 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
     }
 
     const onEdit = () => {
-        const data= {projectName, projectDescription, classType, startDate, dueDate, steps}
+        const data= {title:projectName, description:projectDescription, class_name:classType, start_date:startDate, due_at:dueDate, directions:steps}
         handleUpdate(false, data)
     }
 
