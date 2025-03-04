@@ -15,15 +15,13 @@ const ProjectsListPage = () => {
   }
 
   return (
-    <div className="main-container">
-      <h1>Project List Page</h1> 
-      <p>Here’s a quick overview of your active projects:</p>
+    <div className="main-container projects-list">
       <ProjectsList  projects={projects}/>
       
       <Portal>
           <MyCalendar/>
       </Portal>
-      <button onClick={() => navigate("/add")} style={{ padding: "8px 12px", marginTop: "10px" }}>
+      <button onClick={() => navigate("/add")} className='button'>
       Add Project
       </button>
     </div>

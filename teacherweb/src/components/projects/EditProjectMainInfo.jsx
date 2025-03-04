@@ -89,10 +89,11 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
                             type="text" 
                             name="step"
                             value={step}
+                            placeholder="Enter additional steps"
                             onChange={(e)=>{
                                 setStep(e.target.value)}} />
                         <button
-                            className="button"
+                            className="no-background"
                             type="submit"
                             onClick={(e)=>{
                                 e.preventDefault()
@@ -102,14 +103,17 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
                                 }
                             }} > Add Step </button>
                 </div>
-                <button type="submit" className="button">Update</button>
-                <button 
-                    type="submit" 
-                    className="button"
-                    onClick={(e)=>{
-                        e.preventDefault();
-                        handleChangeView();
-                        }}>Edit Observations</button>
+                <div className="wide-form-wrapper">
+                    <button type="submit" className="button">Update</button>
+                    <button 
+                        type="submit" 
+                        className="button"
+                        onClick={(e)=>{
+                            e.preventDefault();
+                            handleChangeView();
+                            }}>Edit Observations</button>
+
+                </div>
             </form>
     )
 }

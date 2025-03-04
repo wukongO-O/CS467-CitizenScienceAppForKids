@@ -20,13 +20,12 @@ const ProjectMainInfoView = ({info, changeView}) => {
                 </div>
                 <div>
                     <h3 className="section-subtitle">Start Date</h3>
-                    {/* <p className="rg-text">{info.start_date}</p> */}
-                    <p className="rg-text">pending</p>
+                    <p className="rg-text">{new Date(info.start_date).toLocaleDateString().split(',')[0]}</p>
+                    {/* <p className="rg-text">pending</p> */}
                 </div>
                 <div>
                     <h3 className="section-subtitle">End Date</h3>
-                    {/* <p className="rg-text">{info.due_at}</p> */}
-                    <p className="rg-text">pending</p>
+                    <p className="rg-text">{new Date(info.due_at).toLocaleDateString().split(',')[0]}</p>
                 </div>
 
                 <div className="full-width-section">
@@ -35,7 +34,7 @@ const ProjectMainInfoView = ({info, changeView}) => {
                 </div>
                 <div>
                     <button
-                            className="button"
+                            className="button large"
                             onClick={(e)=> {
                                 e.preventDefault()
                                 changeView("observations")}}>

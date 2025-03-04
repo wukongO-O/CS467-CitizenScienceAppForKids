@@ -37,18 +37,21 @@ const EditProjectPage = () => {
     
         return(
             <div>
-                <h1 className="header">{info.title}</h1>
                 <div className="main-container">
+                <h3 className="section-title">{info.title}</h3>
+                <div className="project-view">
                     {view == "main" ?
                         <EditProjectMainInfo 
                             info={infoToDisplay}
                             changeView={changeView}
                             handleUpdate={handleUpdate}/> :
                         <EditProjectObservationDetails
-                            form_definition={infoToDisplay.form_definition}
+                            form_definition={infoToDisplay.form_definition.form_definition}
                             changeView={changeView}
                             handleUpdate={handleUpdate}/>
                     }
+
+                </div>
                 </div>
             <Portal>
                 <MyCalendar/>

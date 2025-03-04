@@ -10,13 +10,16 @@ const Homepage = () => {
 
   return (
     <div className="main-container">
-      <h1>Welcome Back, Teacher!</h1>
-      <p>Here’s a quick overview of your active projects:</p>
-      <ProjectsDateInfoList />
+      <p className="section-subtitle">Hello  < span className="header"> Teacher!</span> </p>
+      <div className="section-container">
+        {/* <p>Here’s a quick overview of your active projects:</p> */}
+        <ProjectsDateInfoList />
+
+      </div>
       <Portal>
           <MyCalendar/>
         </Portal>
-        <button onClick={() => navigate("/add")} style={{ padding: "8px 12px", marginTop: "10px" }}>
+        <button onClick={() => navigate("/add")} className="button">
         Add Project
         </button>
     </div>

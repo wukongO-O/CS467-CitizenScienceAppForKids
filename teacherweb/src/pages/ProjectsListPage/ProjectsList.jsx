@@ -58,9 +58,11 @@ const downloadCSV = () => {
 };
 
 return (
-  <div>
-    <h2>Active Projects</h2>
-    <table border="1" cellPadding="10">
+  <div >
+    <button onClick={downloadCSV} className='button'>
+        Export to CSV
+      </button>
+    <table >
       <thead>
         <tr>
           <th>Project Name</th>
@@ -82,10 +84,6 @@ return (
         ))}
       </tbody>
     </table>
-    
-    <button onClick={downloadCSV} style={{ marginTop: "10px", padding: "8px 12px" }}>
-        Export Project Info to CSV
-      </button>
   </div>
 );
 };

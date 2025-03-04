@@ -25,29 +25,31 @@ const Project = () => {
     
     return(
         <div>
-            <h1 className="header">{info.title}</h1>
-            <div className="main-container">
+            <div className="main-container project">
+            <h3 className="section-title">{info.title}</h3>
+            <Link 
+                    className="button"
+                    to={`/edit/${id}`}
+                    >
+                    Edit Project
+                </Link>
                 <div className="project-view">
+
                     {currentView == "main" ? 
                         <ProjectMainInfoView 
                             changeView={changeView} 
                             info={info}/> : 
                         <ProjectObservationsFormView 
                             changeView={changeView} 
-                            form_definition={info.form_definition}/>
+                            form_definition={info.form_definition.form_definition}/>
                     }
                         <div className="full-width-section project-nav">
                             <Link
-                                className="button "
+                                className="button large"
                                 to={`/project/${id}/observations`}>
-                                Observations
+                                See Students' Observations
                             </Link>
-                            <Link 
-                                className="button"
-                                to={`/edit/${id}`}
-                                >
-                                Edit Project
-                            </Link>
+
                         </div>
                     </div>
                 </div>
