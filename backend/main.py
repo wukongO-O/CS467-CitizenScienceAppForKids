@@ -4,12 +4,13 @@ from models import User, Classes, Projects, Anonymous_users, Observations
 from token_generator import generate_token
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import cross_origin
+from datetime import datetime
 
 
 # Adapted code for API from this guide:
 # https://diptochakrabarty.medium.com/flask-python-swagger-for-rest-apis-6efdf0100bd7
-SWAGGER_URL="/swagger"
-API_URL="/static/swagger.json"
+SWAGGER_URL = "/swagger"
+API_URL = "/static/swagger.json"
 
 swagger_ui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
@@ -223,7 +224,11 @@ def create_project():
             title=data["title"],
             description=data["description"],
             directions=data["directions"],
-            form_definition=data["form_definition"]
+            form_definition=data["form_definition"],
+            start_date=datetime.fromisoformat(data["start_date"])
+            if "start_date" in data else db.func.now(),
+            due_at=datetime.fromisoformat(data["due_at"])
+            if "due_at" in data else db.func.now(),
         )
         db.session.add(new_project)
         db.session.commit()
