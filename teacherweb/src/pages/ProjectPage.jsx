@@ -41,7 +41,7 @@ const Project = () => {
                             info={info}/> : 
                         <ProjectObservationsFormView 
                             changeView={changeView} 
-                            form_definition={info.form_definition.form_definition}/>
+                            form_definition={info.form_definition}/>
                     }
                         <div className="full-width-section project-nav">
                             <Link
@@ -55,7 +55,7 @@ const Project = () => {
                 </div>
                 <Portal>
                     <MyCalendar/>
-                    <PieChart id={id} />
+                    <PieChart id={info.class.class_id} />
                 </Portal>
 
         </div>
