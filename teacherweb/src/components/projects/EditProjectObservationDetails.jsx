@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from "react";
+import PropTypes from 'prop-types';
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
 
@@ -50,8 +51,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
     }
 
     const onEdit = () => {
-        const data = {fields:customFields}
-        handleUpdate(data)
+        handleUpdate(true, customFields)
         // submits form details to backend to update form
     }
 
@@ -76,7 +76,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             
             <div className="wide-form-wrapper flow" >
                 <p>Additional input fields</p>
-            {customFields.length>0? 
+            {form_definition ? 
                 <CustomFormCreator 
                     removeField={removeField}
                     fields={customFields} /> :null}
@@ -157,6 +157,12 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             </div>
         </form>
     )
-}
+};
+
+EditProjectObservationDetails.propTypes = {
+    form_definition: PropTypes.array,
+    changeView: PropTypes.func.isRequired,
+    handleUpdate: PropTypes.func.isRequired
+};
 
 export default EditProjectObservationDetails

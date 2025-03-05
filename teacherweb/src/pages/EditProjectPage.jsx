@@ -8,32 +8,84 @@ import MyCalendar from "../components/MyCalendar";
 
 const EditProjectPage = () => {
         const [infoToDisplay, setInfoToDisplay] = useState([]);
+        const [loading, setLoading] = useState(false);
         const [view, setView] = useState("main");
         const {id} = useParams();
         const info = useProject(id, setInfoToDisplay);
+        const [data, setData] = useState({teacher_id:1});
         const navigate = useNavigate();
         const [updatedData, setupdatedData] = useState();
-
-        const changeView = (data) => {
-            if (view == "main"){
-                let newUpdatedData = {...infoToDisplay, ...data};
-                setInfoToDisplay(newUpdatedData);
-                setView("observations")
-            }else{
-                const form_definiton_values = {form_definition:data}
-                let newUpdatedData = {...infoToDisplay, ...form_definiton_values};
-                setInfoToDisplay(newUpdatedData);
-                setView("main")
-            }
-        }
-
-        const handleUpdate = (data) =>{
-            navigate('/projects')
-        }
 
         if(!info){
             return <div className="loading">Loading...</div>
         }
+        const changeView = (data) => {
+            if (view == "main"){
+                let newUpdatedData = {...infoToDisplay, ...data};
+                setInfoToDisplay(newUpdatedData);
+                
+                setView("observations")
+            }else{
+                                
+                setInfoToDisplay((infoToDisplay)=>({
+                    ...infoToDisplay, 
+                    form_definition: data}),setView("main"));
+                
+            }
+        }
+
+        const handleUpdate = async (updateForm, updates ) => {
+            if(updateForm) {
+                setData((data) => {
+                  const updatedData = {
+                    ...data,
+                    ...infoToDisplay,
+                    form_definition: updates
+                  };
+                  updatedProject(updatedData);
+                  return updatedData;
+                });
+            }else{
+                setData((infoToDisplay) => {
+                    const updatedData = {
+                      ...infoToDisplay,
+                      ...updates
+                    };
+                    updatedProject(updatedData);
+                    return updatedData;
+                  });
+            }
+          };
+
+        async function updatedProject (new_data) {
+            //while user waits for data to post and return code a 'loading' message will be shown
+            setLoading(true);
+            try{
+                const dataToSend = {
+                    ...new_data,
+                    directions: JSON.stringify(new_data.directions) // Stringify only directions
+                };
+                
+                const res = await fetch(`http://127.0.0.1:5000/projects/${id}`, {
+                method: "PUT",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataToSend),
+            });
+                if (!res.ok){
+                    throw new Error ()
+                }
+                
+                const projectData = await res.json();
+                setLoading(false);
+                alert(`Project Updated!`)
+                navigate(`/project/${id}`);
+            } catch(err){
+                console.log("There was an error adding the project")
+            }
+        }
+
     
         return(
             <div>
@@ -43,10 +95,11 @@ const EditProjectPage = () => {
                     {view == "main" ?
                         <EditProjectMainInfo 
                             info={infoToDisplay}
+
                             changeView={changeView}
                             handleUpdate={handleUpdate}/> :
                         <EditProjectObservationDetails
-                            form_definition={infoToDisplay.form_definition.form_definition}
+                            form_definition={infoToDisplay.form_definition}
                             changeView={changeView}
                             handleUpdate={handleUpdate}/>
                     }

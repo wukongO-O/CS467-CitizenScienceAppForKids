@@ -8,6 +8,7 @@ const NavBar = ({isAuthenticated, onLogout}) => {
                 <h3 className='purple-header'> Teacher's Portal</h3>
             </div>
 
+            {isAuthenticated ? 
             <nav>
                 <NavLink to='/homepage'>
                 Home
@@ -19,12 +20,12 @@ const NavBar = ({isAuthenticated, onLogout}) => {
                 Account
                 </NavLink>
                 {/* Show logout button only if user is authenticated */}
-                {isAuthenticated && (
+                
                     <button onClick={onLogout} className="logout-button">
                         Logout
                     </button>
-                )}
             </nav>
+                : null}
         </div>
     );
 };

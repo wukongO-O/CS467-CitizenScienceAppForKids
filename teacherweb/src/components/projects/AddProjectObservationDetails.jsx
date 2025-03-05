@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from "react"
 import CustomFormCreator from "../CustomFormCreator";
 import OrderedList from "../OrderedList";
@@ -46,7 +47,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
 
     const handleFormSubmit = () => {
         // submits form details to backend and generates code
-        handleSubmit({form_definition: customFields})
+        handleSubmit(customFields)
     }
 
     return(
@@ -140,6 +141,11 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                 type="submit"> Save Form and Publish </button>
         </form>
     )
+}
+
+
+AddProjectObservationDetails.propTypes = {
+    handleSubmit: PropTypes.func.isRequired
 }
 
 export default AddProjectObservationDetails

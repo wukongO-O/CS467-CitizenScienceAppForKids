@@ -1,5 +1,7 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import OrderedList from "../OrderedList";
+
 
 const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes}) => {
     const [projectName, setProjectName] = useState();
@@ -22,7 +24,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
             due_at: dueDate,
             description: projectDescription,
             class_id:classType,
-            directions: JSON.stringify(steps),
+            directions: steps,
             project_code:"test"
         }
         handleMainInfoUpdate(mainInfo);
@@ -104,6 +106,12 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
                     className="button">Save and Continue</button>
             </form>
     )
+};
+
+AddProjectMainInfo.propTypes = {
+    changeView: PropTypes.func.isRequired,
+    handleMainInfoUpdate: PropTypes.func.isRequired,
+    teacher_classes: PropTypes.array.isRequired
 }
 
 export default AddProjectMainInfo

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import teacherData from '../../components/teacherdata.json';
 
-export default function LoginSignupForm({ isLogin, onAuthSuccess }) {
+export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChange }) {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
 
@@ -73,6 +73,17 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess }) {
         required
       />
       {error && <p className="error">{error}</p>}
+      <p>
+        {isLogin ? 
+        <p> Need an account? <a onClick={(e)=>{
+                                                e.preventDefault()
+                                                handleViewChange()
+                                                }}>Sign up</a> </p> :
+        <p> Already have an account? <a onClick={(e)=>{
+                                                e.preventDefault()
+                                                handleViewChange()
+                                                }}>Log in</a> </p>}
+      </p>
       <button type="submit" className = "button">{isLogin ? "Login" : "Sign Up"}</button>
     </form>
   );
