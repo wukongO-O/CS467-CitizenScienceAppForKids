@@ -38,7 +38,9 @@ const ProjectsDateInfoList = () => {
       <div className='subsection-container purple'>
         <p><strong> {dueTodayCount} </strong> projects are due today</p>
       </div>
-      <p><strong>Projects Due in the Future:</strong> {dueFutureCount}</p>
+      <div className='subsection-container yellow'>
+        <p><strong>{dueFutureCount}</strong> Projects Due in the Future  </p>
+      </div>
       
       <ul>
         {projects.map((project) => (
