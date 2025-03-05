@@ -19,6 +19,10 @@ export default function LoginSignupPage({ onAuthSuccess}) {
 
   const toggleForm = () => setIsLogin(!isLogin);
 
+  const handleViewChange = () => {
+    toggleForm()
+  }
+
   const handleAuthSuccess = () => {
     localStorage.setItem("isAuthenticated", "true");
     onAuthSuccess();
@@ -26,12 +30,12 @@ export default function LoginSignupPage({ onAuthSuccess}) {
   };
 
   return (
-    <div className="login-signup-container subsection-container">
-      <h2 >{isLogin ? "Login" : "Sign Up"}</h2>
-      <LoginSignupForm isLogin={isLogin} onAuthSuccess={handleAuthSuccess} />
-      <p onClick={toggleForm} className="toggle-text">
+    <div className="login-signup-container">
+      {/* <h2 >{isLogin ? "Login" : "Sign Up"}</h2> */}
+      <LoginSignupForm isLogin={isLogin} onAuthSuccess={handleAuthSuccess} handleViewChange={handleViewChange} />
+      {/* <p onClick={toggleForm} className="toggle-text">
         {isLogin ? "Need an account? Sign up" : "Already have an account? Log in"}
-      </p>
+      </p> */}
     </div>
   );
 }
