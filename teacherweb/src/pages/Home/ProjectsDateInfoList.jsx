@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import studentData from '../../components/studentdata.json';
+import { useProjects } from '../../hooks/useProjects';
 
-const ProjectsDateInfoList = () => {
-  const [projects, setProjects] = useState([]);
+const ProjectsDateInfoList = ({teacher_id}) => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [dueTodayCount, setDueTodayCount] = useState(0);
-  const [dueFutureCount, setDueFutureCount] = useState(0);
   const [dueThisWeekCount, setDueThisWeekCount] = useState(0);
+  const projects = useProjects(teacher_id);
 
   useEffect(() => {
-    setProjects(studentData.projects);
-    setTotalProjects(studentData.projects.length);
+    if (projects) {
+      setTotalProjects(projects.length);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -28,7 +27,7 @@ const ProjectsDateInfoList = () => {
     let dueFuture = 0;
     let dueThisWeek = 0;
 
-    studentData.projects.forEach((project) => {
+    projects.forEach((project) => {
       const dueDate = new Date(project.due_at);
       dueDate.setHours(0, 0, 0, 0);
 
@@ -48,20 +47,19 @@ const ProjectsDateInfoList = () => {
     });
 
     setDueTodayCount(dueToday);
-    setDueFutureCount(dueFuture);
     setDueThisWeekCount(dueThisWeek);
-  }, []);
+  }
+}, [projects]);
 
   return (
     <div>
       <p>You have <strong>{totalProjects}</strong> active projects</p>
 
       <div className="subsection-container purple">
-        <p><strong>{dueTodayCount}</strong> projects due today</p>
+        <p><strong>{dueTodayCount}</strong> projects are due today</p>
       </div> <div className="subsection-container yellow">
-        <p><strong>{dueThisWeekCount}</strong> projects due this week</p>
+        <p><strong>{dueThisWeekCount}</strong> projects are due this week</p>
       </div>
-
     </div>
   );
 };
