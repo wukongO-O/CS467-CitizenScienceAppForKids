@@ -40,7 +40,7 @@ const Account = () => {
               <ul>
                 {teacherClasses.length > 0 ? (
                   teacherClasses.map((className, index) => (
-                    <li key={index} className="rg-text">{className}</li>
+                    <p key={index} className="rg-text">{className}</p>
                   ))
                 ) : (
                   <p>No assigned classes found.</p>
