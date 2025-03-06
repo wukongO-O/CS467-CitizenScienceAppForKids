@@ -76,7 +76,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             
             <div className="wide-form-wrapper flow" >
                 <p>Additional input fields</p>
-            {form_definition ? 
+            {customFields.length > 0 ? 
                 <CustomFormCreator 
                     removeField={removeField}
                     fields={customFields} /> :null}
@@ -142,13 +142,13 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
             <div className="wide-form-wrapper">
                 <button 
                         type="submit" 
-                        className="button"
+                        className="button medium"
                         onClick={(e)=>{
                             e.preventDefault();
                             handleChangeView();
                             }}>Main Info</button>
                     <button
-                    className="button"
+                    className="button medium"
                     onClick={(e)=>{
                         e.preventDefault()
                         onEdit()    

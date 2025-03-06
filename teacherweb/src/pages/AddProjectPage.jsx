@@ -42,6 +42,7 @@ const AddProjectPage = () => {
     async function addProject(payload){
         //while user waits for data to post and return code a 'loading' message will be shown
         setLoading(true);
+        
         try{
         const dataToSend = {
             ...payload,
@@ -71,6 +72,8 @@ const AddProjectPage = () => {
 
     return(
         <div className="main-container">
+            <div className="section-container">
+
             {view == "main" ? 
                 <AddProjectMainInfo 
                     changeView={changeView}
@@ -79,6 +82,7 @@ const AddProjectPage = () => {
                 <AddProjectObservationDetails
                     handleSubmit={handleSubmit}/>
              }
+            </div>
         <Portal>
             <MyCalendar/>
         </Portal>

@@ -21,18 +21,18 @@ const Homepage = () => {
         <ProjectsDateInfoList />
       </div>
 
-      <button onClick={() => navigate("/add")} className="button">
-      Add Project
+      <button onClick={() => navigate("/add")} className="button medium">
+      Add New Project
       </button>
 
     <div className="section-container home-add-info">
-    <p>Upcoming projects</p>
+    <p className="section-subtitle">Upcoming projects</p>
         <ul>
           {projects.length > 0 ? (
             projects.map((project) => (
               <li key={project.project_id}>
-                <strong style={{ marginRight: "3px" }}>{project.title}</strong>
-                <strong>Due Date:</strong>  {new Date(project.due_at).toLocaleDateString()}
+                <p>{project.title}</p>
+                <p className="purple-txt">Starting:  {new Date(project.start_date).toLocaleDateString()}</p>
               </li>
             ))
           ) : (

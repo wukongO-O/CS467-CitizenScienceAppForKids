@@ -27,25 +27,33 @@ const Account = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Teacher Account</h1>
-      {teacherName ? (
-        <div>
-          <h3>Username: {teacherName}</h3>
-          <h3>Assigned Classes:</h3>
-          <ul>
-            {teacherClasses.length > 0 ? (
-              teacherClasses.map((className, index) => (
-                <li key={index}>{className}</li>
-              ))
-            ) : (
-              <p>No assigned classes found.</p>
-            )}
-          </ul>
-        </div>
-      ) : (
-        <p>No teacher is logged in.</p>
-      )}
+    <div className="main-container">
+      <div className="section-container account">
+        <h1 className="section-title">Teacher's Profile</h1>
+        {teacherName ? (
+          <div>
+            <div>
+              <h3 className="section-subtitle">Username:</h3> <p className="rg-text">{teacherName}</p>
+          </div>
+          <div>
+              <h3 className="section-subtitle">Assigned Classes:</h3>
+              <ul>
+                {teacherClasses.length > 0 ? (
+                  teacherClasses.map((className, index) => (
+                    <li key={index} className="rg-text">{className}</li>
+                  ))
+                ) : (
+                  <p>No assigned classes found.</p>
+                )}
+              </ul>
+
+          </div>
+          </div>
+        ) : (
+          <p>No teacher is logged in.</p>
+        )}
+
+      </div>
       <Portal>
           <MyCalendar/>
       </Portal>

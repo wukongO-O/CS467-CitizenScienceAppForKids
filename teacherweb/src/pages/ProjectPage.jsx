@@ -28,7 +28,7 @@ const Project = () => {
             <div className="main-container project">
             <h3 className="section-title">{info.title}</h3>
             <Link 
-                    className="button"
+                    className="button medium"
                     to={`/edit/${id}`}
                     >
                     Edit Project

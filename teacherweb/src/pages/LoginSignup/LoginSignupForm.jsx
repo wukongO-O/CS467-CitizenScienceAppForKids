@@ -19,6 +19,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       // Logic for log in
       const teacher = storedTeachers.find(
         (teacher) =>
+          
           teacher.username === formData.username && teacher.password === formData.password
       );
 
@@ -72,7 +73,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
         onChange={handleChange}
         required
       />
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error purple-txt">{error}</p>}
       <p>
         {isLogin ? 
         <p> Need an account? <a onClick={(e)=>{

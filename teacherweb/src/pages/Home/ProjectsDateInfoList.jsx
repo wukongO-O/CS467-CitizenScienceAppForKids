@@ -57,9 +57,9 @@ const ProjectsDateInfoList = () => {
       <p>You have <strong>{totalProjects}</strong> active projects</p>
 
       <div className="subsection-container purple">
-        <p><strong>{dueTodayCount}</strong> projects are due today</p>
+        <p><strong>{dueTodayCount}</strong> projects due today</p>
       </div> <div className="subsection-container yellow">
-        <p><strong>{dueThisWeekCount}</strong> projects are due this week</p>
+        <p><strong>{dueThisWeekCount}</strong> projects due this week</p>
       </div>
 
     </div>

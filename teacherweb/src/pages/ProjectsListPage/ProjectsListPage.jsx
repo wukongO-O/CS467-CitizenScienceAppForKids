@@ -21,8 +21,8 @@ const ProjectsListPage = () => {
       <Portal>
           <MyCalendar/>
       </Portal>
-      <button onClick={() => navigate("/add")} className='button'>
-      Add Project
+      <button onClick={() => navigate("/add")} className='button medium'>
+      Add New Project
       </button>
     </div>
   );

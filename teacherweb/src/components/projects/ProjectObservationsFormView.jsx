@@ -6,7 +6,7 @@ const ProjectObservationsFormView = ({form_definition, changeView}) => {
     const [editMode, setEditMode] = useState(false);
 
     return(
-        <div className="observation-details-form">
+        <div className="observation-details-form view-page">
             <div className="left-form-wrapper">
                 <label htmlFor="observations">Observations</label>
                     <textarea
@@ -22,14 +22,14 @@ const ProjectObservationsFormView = ({form_definition, changeView}) => {
                         name="location" />
             </div>
             <div className="wide-form-wrapper">
-                {form_definition ? 
+                {form_definition.length > 0 ? 
                 <CustomFormCreator 
                     fields={form_definition}
                     removeField={false}/> : null}
             </div>
-            <div>
+            <div className="project-nav">
                     <button
-                            className="button"
+                            className="button large"
                             onClick={(e)=> {
                                 e.preventDefault()
                                 changeView("main")}}>
