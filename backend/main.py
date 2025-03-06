@@ -247,6 +247,8 @@ def get_projects(class_id):
     result = [{"project_id": p.project_id,
                "title": p.title,
                "description": p.description,
+               "start_date": p.start_date.isoformat(),
+               "due_at": p.due_at.isoformat(),
                } for p in projects]
     return jsonify(result), 200
 
