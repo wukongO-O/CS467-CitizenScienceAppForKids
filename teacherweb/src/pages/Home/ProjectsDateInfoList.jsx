@@ -58,15 +58,7 @@ const ProjectsDateInfoList = () => {
 
       <div className="subsection-container purple">
         <p><strong>{dueTodayCount}</strong> projects are due today</p>
-      </div>
-<<<<<<< HEAD
-      <div className='subsection-container yellow'>
-        <p><strong>{dueFutureCount}</strong> Projects Due in the Future  </p>
-      </div>
-=======
->>>>>>> 2852cc8 (Updated homepage to better match mockups. Login/signup hooks started)
-      
-      <div className="subsection-container yellow">
+      </div> <div className="subsection-container yellow">
         <p><strong>{dueThisWeekCount}</strong> projects are due this week</p>
       </div>
 
