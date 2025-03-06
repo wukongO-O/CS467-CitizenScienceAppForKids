@@ -33,6 +33,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
 
 
     return(
+            
             <form
                 onSubmit={(e) =>{
                     e.preventDefault()
@@ -47,6 +48,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
                             onChange={(e) => setProjectName(e.target.value)} />
                     <label htmlFor="project-desciption">Project Description</label>
                         <textarea 
+                            required
                             name="project-description" 
                             value={projectDescription}
                             onChange= {(e) => setProjectDescription(e.target.value)} >
@@ -91,7 +93,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
                             onChange={(e)=>{
                                 setStep(e.target.value)}} />
                         <button
-                            className="button"
+                            className="no-background"
                             type="submit"
                             onClick={(e)=>{
                                 e.preventDefault()
@@ -103,7 +105,7 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
                 </div>
                 <button 
                     type="submit" 
-                    className="button">Save and Continue</button>
+                    className="button medium">Save and Continue</button>
             </form>
     )
 };

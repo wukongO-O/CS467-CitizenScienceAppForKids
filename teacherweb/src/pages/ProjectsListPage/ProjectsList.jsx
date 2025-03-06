@@ -59,7 +59,7 @@ const downloadCSV = () => {
 
 return (
   <div >
-    <button onClick={downloadCSV} className='button'>
+    <button onClick={downloadCSV} className='button medium'>
         Export to CSV
       </button>
     <table >
@@ -67,7 +67,6 @@ return (
         <tr>
           <th>Project Name</th>
           <th>Class Name</th>
-          <th>Project Code</th>
           <th>Start Date</th>
           <th>Due Date</th>
         </tr>
@@ -77,8 +76,7 @@ return (
           <tr key={project.project_id}>
             <td><Link to={`/project/${project.project_id}`}>{project.title}</Link></td>
             <td>{project.class_name}</td>
-            <td>{project.project_id}</td>
-            <td>{project.start_date}</td>
+            <td>{new Date(project.start_date).toLocaleDateString().split(',')[0]}</td>
             <td>{project.due_at}</td>
           </tr>
         ))}

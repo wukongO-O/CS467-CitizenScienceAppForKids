@@ -65,6 +65,7 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
                 <div className="right-form-wrapper">
                     <label htmlFor="class-name">Class Name</label>
                     <select 
+                        required
                         name="class-name" 
                         value={classType}
                         onChange={(e)=>setClassType(e.target.value)} >
@@ -112,11 +113,13 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
                                 }
                             }} > Add Step </button>
                 </div>
-                <div className="wide-form-wrapper">
-                    <button type="submit" className="button">Update</button>
+                <div className="wide-form-wrapper project-nav">
                     <button 
                         type="submit" 
-                        className="button"
+                        className="button medium">Update Project</button>
+                    <button 
+                        type="submit" 
+                        className="button medium"
                         onClick={(e)=>{
                             e.preventDefault();
                             handleChangeView();

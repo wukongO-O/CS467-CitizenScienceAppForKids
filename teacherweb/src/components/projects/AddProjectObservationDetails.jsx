@@ -80,7 +80,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                 <CustomFormCreator 
                     removeField={removeField}
                     fields={customFields} /> :null}
-                    <p className="small-text"> Design your observation details form by selecting each input field. Click 'Save Form and Publish' when done.</p>
+                    <p className="small-text"> Design your observation details form by selecting each input field.<br></br> Click 'Save Form and Publish' when done.</p>
                 <div className="observation-details-form">
                                         {/* the following should only show if the field type requires additional information from the user */}
                                         {showAdditionalField ? 
@@ -89,9 +89,10 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             edit={true}
                             handleDelete={deleteOption}
                             items={customOptions}/>
-                        <p className="small-text">Click Add Field again when done entering options</p>
+                        <p className="small-text purple-txt">Click Add Field again when done entering options</p>
                         <label htmlFor="additonal-field-info">Option</label>
                         <input
+                            id="additional-field-input"
                             name="additonal-field-info"
                             type="text"
                             value={additionalFieldInfo}
@@ -137,7 +138,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                 </div>
             </div>
             <button
-                className="button"
+                className="button large"
                 type="submit"> Save Form and Publish </button>
         </form>
     )
