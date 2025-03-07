@@ -5,7 +5,6 @@ const ProjectsDateInfoList = ({projects}) => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [dueTodayCount, setDueTodayCount] = useState(0);
   const [dueThisWeekCount, setDueThisWeekCount] = useState(0);
-  const projects = useProjects(teacher_id);
 
   useEffect(() => {
     // setProjects(studentData.projects);
@@ -27,30 +26,29 @@ const ProjectsDateInfoList = ({projects}) => {
     let dueFuture = 0;
     let dueThisWeek = 0;
 
-    projects.forEach((project) => {
-    projects.forEach((project) => {
-      const dueDate = new Date(project.due_at);
-      dueDate.setHours(0, 0, 0, 0);
+      projects.forEach((project) => {
+        const dueDate = new Date(project.due_at);
+        dueDate.setHours(0, 0, 0, 0);
 
-      // Count projects due today
-      if (dueDate.getTime() === today.getTime()) {
-        dueToday++;
-      } 
-      // Count projects due in the future
-      else if (dueDate > today) {
-        dueFuture++;
-      }
+        // Count projects due today
+        if (dueDate.getTime() === today.getTime()) {
+          dueToday++;
+        } 
+        // // Count projects due in the future
+        // else if (dueDate > today) {
+        //   dueFuture++;
+        // }
 
-      // Count projects due this week
-      if (dueDate >= startOfWeek && dueDate <= endOfWeek) {
-        dueThisWeek++;
-      }
-    });
+        // Count projects due this week
+        if (dueDate >= startOfWeek && dueDate <= endOfWeek) {
+          dueThisWeek++;
+        }
+      });
 
-    setDueTodayCount(dueToday);
-    setDueThisWeekCount(dueThisWeek);
-  }
-}, [projects]);
+      setDueTodayCount(dueToday);
+      setDueThisWeekCount(dueThisWeek);
+      
+    }, [projects]);
 
   return (
     <div>
