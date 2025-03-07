@@ -9,7 +9,7 @@ const CustomFormCreator = ({fields, removeField}) => {
     }
     
     return (
-        <div id="custom-form-preview" >
+        <div className="observation-details-form">
             {fields.map((inField, i) => {
                 
                 if(inField.type == "checkbox" || inField.type == "radio"){
@@ -21,6 +21,14 @@ const CustomFormCreator = ({fields, removeField}) => {
                                 options = {inField.options}
                                 handleRemove={removeField ? handleRemove : false}/>
                 }
+                else if(inField.type === "textarea"){
+                    return (
+                        <div key={`textarea${i}`} className="wide-form-wrapper move-first"> 
+                            <label>{inField.label}</label>
+                            <textarea></textarea>
+                        </div>
+                    )
+                }
                 else{
                     return <InputField 
                                 id={i}
@@ -30,7 +38,8 @@ const CustomFormCreator = ({fields, removeField}) => {
                                 onChange={null}
                                 handleRemove={removeField ? handleRemove : false}/>
                 }
-            })}
+            })
+        }
         </div>
     )
 };

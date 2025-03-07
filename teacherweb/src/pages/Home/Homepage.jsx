@@ -17,7 +17,7 @@ const Homepage = () => {
         <ProjectsDateInfoList teacher_id={teacher_id} />
       </div>
 
-      <button onClick={() => navigate("/add")} className="button medium">
+      <button onClick={() => navigate("/add")} className="button medium extra-top-margin">
       Add New Project
       </button>
 

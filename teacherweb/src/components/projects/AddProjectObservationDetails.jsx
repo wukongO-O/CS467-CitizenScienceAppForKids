@@ -47,7 +47,9 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
 
     const handleFormSubmit = () => {
         // submits form details to backend and generates code
-        handleSubmit(customFields)
+        //adding observations textarea for all projects
+        const form_w_observations = [...customFields, {label:'Observations', type:'textarea', name:'observations'}]
+        handleSubmit(form_w_observations)
     }
 
     return(
@@ -58,6 +60,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                 e.preventDefault()
                 handleFormSubmit()    
             }}>
+            <p className="small-text form-info"> Design your observation details form by selecting each input field.<br></br> Click 'Save Form and Publish' when done.</p>
             <div className="left-form-wrapper">
                 <label htmlFor="observations">Observations</label>
                     <textarea 
@@ -66,21 +69,20 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             onChange= {(e) => setObservations(e.target.value)} >
                     </textarea>
             </div>
-            <div className="right-form-wrapper">
+            {/* <div className="right-form-wrapper">
                 <label htmlFor="location">Location</label>
                     <input 
                         type="text" 
                         name="location" 
                         value={location}
                         onChange={(e) => setLocation(e.target.value)} />
-            </div>
+            </div> */}
             
             <div className="wide-form-wrapper flow" >
             {customFields.length>0? 
                 <CustomFormCreator 
                     removeField={removeField}
                     fields={customFields} /> :null}
-                    <p className="small-text"> Design your observation details form by selecting each input field.<br></br> Click 'Save Form and Publish' when done.</p>
                 <div className="observation-details-form">
                                         {/* the following should only show if the field type requires additional information from the user */}
                                         {showAdditionalField ? 
@@ -106,35 +108,37 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                                 setAdditionalFieldInfo('')
                             }} > Add Option </button>
                     </div> : null }
-                    <div className="left-form-wrapper">
-                        <label htmlFor="custom-input-label">Input Label</label>
-                        <input
-                            type="text"
-                            name="custom-input-label"
-                            value={customInputLabel}
-                            onChange={(e) => setCustomInputLabel(e.target.value)} />
-                        <button
-                            className="no-background"
-                            onClick={(e)=>{
-                                e.preventDefault()
-                                handleCustomField()    
-                            }}> Add Field </button>
-                    </div>
-                    <div className="right-form-wrapper">
-                    <label htmlFor="custom-input-type">Input Type</label>
-                        <select 
-                            name="custom-input-type" 
-                            value={customInputType}
-                            onChange={(e)=>setCustomInputType(e.target.value)} >
-                            <option value="text">Text</option>
-                            <option value="date">Date</option>
-                            <option value="number">Number</option>
-                            <option value="radio">Radio</option>
-                            <option value="checkbox">Checkbox</option>
-                            {/* <option value="image">File</option>  stretch goal*/}
-                        </select>
+  
+                        <div>
+                            <label htmlFor="custom-input-label">Input Label</label>
+                            <input
+                                type="text"
+                                name="custom-input-label"
+                                value={customInputLabel}
+                                onChange={(e) => setCustomInputLabel(e.target.value)} />
+                                <button
+                                    className="no-background"
+                                    onClick={(e)=>{
+                                        e.preventDefault()
+                                        handleCustomField()    
+                                    }}> Add Field </button>
                         </div>
-
+                        <div>
+                            <label htmlFor="custom-input-type">Input Type</label>
+                                <select 
+                                    name="custom-input-type" 
+                                    value={customInputType}
+                                    onChange={(e)=>setCustomInputType(e.target.value)} >
+                                    <option value="text">Text</option>
+                                    <option value="date">Date</option>
+                                    <option value="number">Number</option>
+                                    <option value="radio">Radio</option>
+                                    <option value="checkbox">Checkbox</option>
+                                    {/* <option value="image">File</option>  stretch goal*/}
+                                </select>
+                        </div>
+                        
+                    
                 </div>
             </div>
             <button
