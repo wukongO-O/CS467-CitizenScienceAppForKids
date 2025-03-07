@@ -1,27 +1,26 @@
-import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectsDateInfoList from './ProjectsDateInfoList';
 import Portal from "../../components/navigation/Portal";
 import MyCalendar from "../../components/MyCalendar";
-import studentData from '../../components/studentdata.json';
+import { useProjects } from "../../hooks/useProjects";
 
 
 const Homepage = () => {
-  const [projects, setProjects] = useState([]);
+  const projects = useProjects(1);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setProjects(studentData.projects);;
-  }, []);
+  if(!projects){
+    return <div className="loading">Loading...</div>
+  }
 
   return (
     <div className="main-container home">
       <p className="section-subtitle">Hello  < span className="header"> Teacher!</span> </p>
       <div className="section-container">
-        <ProjectsDateInfoList />
+        <ProjectsDateInfoList projects={projects}/>
       </div>
 
-      <button onClick={() => navigate("/add")} className="button medium">
+      <button onClick={() => navigate("/add")} className="button medium extra-top-margin">
       Add New Project
       </button>
 
@@ -29,7 +28,7 @@ const Homepage = () => {
     <p className="section-subtitle">Upcoming projects</p>
         <ul>
           {projects.length > 0 ? (
-            projects.map((project) => (
+            projects.slice(0,3).map((project) => (
               <li key={project.project_id}>
                 <p>{project.title}</p>
                 <p className="purple-txt">Starting:  {new Date(project.start_date).toLocaleDateString()}</p>

@@ -6,10 +6,10 @@ import { useProjectObservations } from "../../hooks/useProjectObservations";
 ChartJS.register(Tooltip, Legend, ArcElement);
 
 
-const PieChart = ({id}) => {
+const PieChart = ({class_id, project_id}) => {
 
-    const classInfo = useClassInfo(id);
-    const observations = useProjectObservations(id);
+    const classInfo = useClassInfo(class_id);
+    const observations = useProjectObservations(project_id);
 
     if (!classInfo || !observations) {
         return <div>Loading...</div>

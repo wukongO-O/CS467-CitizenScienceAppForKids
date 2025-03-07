@@ -57,25 +57,8 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
 
     return(
         <form className="observation-details-form">
-            <div className="left-form-wrapper">
-                <label htmlFor="observations">Observations</label>
-                    <textarea 
-                            name="observations" 
-                            value={observations}
-                            onChange= {(e) => setObservations(e.target.value)} >
-                    </textarea>
-            </div>
-            <div className="right-form-wrapper">
-                <label htmlFor="location">Location</label>
-                    <input 
-                        type="text" 
-                        name="location" 
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)} />
-            </div>
             
             <div className="wide-form-wrapper flow" >
-                <p>Additional input fields</p>
             {customFields.length > 0 ? 
                 <CustomFormCreator 
                     removeField={removeField}
@@ -139,7 +122,7 @@ const EditProjectObservationDetails = ({form_definition, changeView, handleUpdat
 
                 </div>
             </div>
-            <div className="wide-form-wrapper">
+            <div className="wide-form-wrapper project-nav">
                 <button 
                         type="submit" 
                         className="button medium"
