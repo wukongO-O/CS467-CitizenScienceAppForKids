@@ -27,7 +27,7 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch(`http://localhost:5000/projects/class_code/${classCode}`)
+    fetch(`https://citsciapp.pythonanywhere.com/projects/class_code/${classCode}`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data); // Debugging log

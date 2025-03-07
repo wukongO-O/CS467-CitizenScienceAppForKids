@@ -35,7 +35,7 @@ export default function ListObservation() {
   useEffect(() => {
     if (project_id) {
       // Fetch data from the API
-      fetch(`http://localhost:5000/observations/project/${project_id}`)
+      fetch(`https://citsciapp.pythonanywhere.com/observations/project/${project_id}`)
         .then(response => response.json())
         .then(data => {
           console.log('Fetched data:', data); // Debugging log

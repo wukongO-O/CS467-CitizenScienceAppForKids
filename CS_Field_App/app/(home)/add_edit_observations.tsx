@@ -42,7 +42,7 @@ export default function AddEditObservations() {
   useEffect(() => {
     console.log('Fetching data for project_id:', project_id); // Debugging log
     // Fetch observation data from the API
-    fetch(`http://localhost:5000/observations/project/${project_id}`)
+    fetch(`https://citsciapp.pythonanywhere.com/observations/project/${project_id}`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data); // Debugging log
@@ -74,7 +74,7 @@ export default function AddEditObservations() {
   const handleAddObservation = async () => {
     try {
       // Create a new anonymous user
-      const userResponse = await fetch(`http://localhost:5000/anonymous_users`, {
+      const userResponse = await fetch(`https://citsciapp.pythonanywhere.com/anonymous_users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default function AddEditObservations() {
       console.log('Sending new observation:', newObs); // Debugging log
 
       // Add the new observation to the backend
-      const response = await fetch(`http://localhost:5000/observations`, {
+      const response = await fetch(`https://citsciapp.pythonanywhere.com/observations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ export default function AddEditObservations() {
 
     // Update the observation data in the backend
     try {
-      const response = await fetch(`http://localhost:5000/observations/${newObservation.obs_id}`, {
+      const response = await fetch(`https://citsciapp.pythonanywhere.com/observations/${newObservation.obs_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
