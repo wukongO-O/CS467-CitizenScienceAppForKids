@@ -55,7 +55,7 @@ const Project = () => {
                 </div>
                 <Portal>
                     <MyCalendar/>
-                    <PieChart id={info.class.class_id} />
+                    <PieChart class_id={info.class.class_id} project_id={id}/>
                 </Portal>
 
         </div>

@@ -5,19 +5,18 @@ import studentData from '../components/studentdata.json';
 import Portal from '../components/navigation/Portal';
 import MyCalendar from '../components/MyCalendar';
 import PieChart from '../components/graphs/PieChart';
+import { useProjectObservations } from '../hooks/useProjectObservations';
 
 
 const ProjectSubmissionsPage = () => {
     //const [projects, setProjects] = useState([]);
     const {id} = useParams(); //getting the project id from the url
-    const info = useProject(id);// getting the project information with custom hook, this returns information for the one project we need, including the observations list that is needed for this page
-
+    const project_info = useProject(id);// getting the project project_information with custom hook, this returns project_information for the one project we need, including the observations list that is needed for this page
+    const observationsList = useProjectObservations(id)
     
-    if(!info){
+    if(!project_info || !observationsList){
       return <div className="loading">Loading...</div>
     }
-
-    const observations = info.observations || [];
 
     // Convert data to CSV format
     const convertToCSV = (data) => {
@@ -28,10 +27,10 @@ const ProjectSubmissionsPage = () => {
 
       data.forEach((obs) => {
           const values = [
-              `"${info.title}"`,
-              `"${info.due_at}"`,
-              `"${obs.student_id}"`,
-              `"${obs.date_completed || 'N/A'}"`
+              `"${project_info.title}"`,
+              `"${project_info.due_at}"`,
+              `"${obs.anon_user_id}"`,
+              `"${obs.timestamp || 'N/A'}"`
           ];
           csvRows.push(values.join(","));
       });
@@ -41,7 +40,7 @@ const ProjectSubmissionsPage = () => {
 
   // Trigger CSV download
   const downloadCSV = () => {
-    const csvContent = convertToCSV(observations);
+    const csvContent = convertToCSV(observationsList);
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
 
@@ -54,38 +53,40 @@ const ProjectSubmissionsPage = () => {
 };
 
 return (
-    <div>
-        <h1 style={{ marginBottom: '30px' }}>Project Observations - {info.title}</h1>
-
-        {observations.length > 0 ? (
-            <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                    <tr>
-                        <th style={{ padding: '8px', textAlign: 'left' }}>Student ID</th>
-                        <th style={{ padding: '8px', textAlign: 'left' }}>Date Completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {observations.map((obs) => (
-                        <tr key={obs.obs_id}>
-                            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.student_id}</td>
-                            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{obs.date_completed || 'N/A'}</td>
+    <div className='main-container observations-list'>
+        <h1 className='section-title'> {project_info.title}  </h1>
+        <h3 className="section-subtitle">Students' Observations</h3>
+        <p className='small-text'>Due: {new Date(project_info.due_at).toLocaleDateString().split(',')[0]}</p>
+        {observationsList.length > 0 ? 
+            <div className='observations-table'>
+                {/* Export using CSV button */}
+                <button onClick={downloadCSV} className='button medium extra-top-margin'>
+                Export to CSV
+                </button>
+                <table >
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Date Completed</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        ) : (
-            <p>No observations submitted yet.</p>
+                    </thead>
+                    <tbody>
+                        {observationsList.map((obs) => (
+                            <tr key={obs.obs_id}>
+                                <td >{obs.anon_user_id}</td>
+                                <td >{new Date(obs.timestamp).toLocaleDateString().split(',')[0] || 'N/A'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div> : (
+            <p className='subsection-container'>No observations submitted yet.</p>
         )}
 
-        {/* Export using CSV button */}
-        <button onClick={downloadCSV} style={{ marginTop: "10px", padding: "8px 12px" }}>
-        Export Observations and Project Info to CSV
-        </button>
   
         <Portal>
           <MyCalendar />
-          <PieChart id={id} projectData={observations} />
+          <PieChart class_id={project_info.class.class_id} project_id={id}/>
         </Portal>
       </div>
     );

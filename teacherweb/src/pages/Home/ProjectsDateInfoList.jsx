@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useProjects } from '../../hooks/useProjects';
 
-const ProjectsDateInfoList = ({teacher_id}) => {
+const ProjectsDateInfoList = ({projects}) => {
   const [totalProjects, setTotalProjects] = useState(0);
   const [dueTodayCount, setDueTodayCount] = useState(0);
   const [dueThisWeekCount, setDueThisWeekCount] = useState(0);
   const projects = useProjects(teacher_id);
 
   useEffect(() => {
-    if (projects) {
-      setTotalProjects(projects.length);
+    // setProjects(studentData.projects);
+    setTotalProjects(projects.length);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -27,6 +27,7 @@ const ProjectsDateInfoList = ({teacher_id}) => {
     let dueFuture = 0;
     let dueThisWeek = 0;
 
+    projects.forEach((project) => {
     projects.forEach((project) => {
       const dueDate = new Date(project.due_at);
       dueDate.setHours(0, 0, 0, 0);

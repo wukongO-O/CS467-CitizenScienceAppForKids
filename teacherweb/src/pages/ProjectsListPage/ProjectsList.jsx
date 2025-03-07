@@ -77,7 +77,7 @@ return (
             <td><Link to={`/project/${project.project_id}`}>{project.title}</Link></td>
             <td>{project.class_name}</td>
             <td>{new Date(project.start_date).toLocaleDateString().split(',')[0]}</td>
-            <td>{project.due_at}</td>
+            <td>{new Date(project.due_at).toLocaleDateString().split(',')[0]}</td>
           </tr>
         ))}
       </tbody>

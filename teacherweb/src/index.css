@@ -195,7 +195,7 @@
     }
 
     .section-subtitle{
-      color:var(--text-subheader);
+      color:var(--text-header);
       font-size: var(--font-size-rg);
     }
 
@@ -382,6 +382,18 @@
     text-align: center;
     }
 
+    .observations-list .small-text,
+    .observations-list .section-subtitle{
+      margin-left: 20px;
+    }
+
+    .observations-table{
+      width:85%;
+      margin: auto;
+      table{
+        min-width: 100%;
+      }
+    }
   }
 
   @layer forms {
