@@ -5,9 +5,10 @@ import useSignup from "../../hooks/useSignup";
 import teacherData from '../../components/teacherdata.json';
 
 export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChange }) {
-  const [formData, setFormData] = useState({ username: "", password: ""});
+  const [formData, setFormData] = useState({ username: "", password: "", email: "" });
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const { login, error: loginError, loading: loginLoading } = useLogin();
   const { signup, error: signupError, loading: signupLoading } = useSignup();
   const navigate = useNavigate();
@@ -31,6 +32,13 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
     } else {
       setPasswordError("");
     }
+
+    if (!formData.email.includes("@")) {
+      setEmailError("Must be a valid email");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
     return isValid;
   };
 
@@ -48,7 +56,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       }
     } else {
       // Sign up user
-      const response = await signup(formData.username, formData.password);
+      const response = await signup(formData.username, formData.email, formData.password);
       if (response.success) {
         alert("Account created successfully, please log in.");
         handleViewChange(); // Switch to login form
@@ -70,6 +78,19 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
         required
       />
       {usernameError && <p className="error">{usernameError}</p>}
+      {!isLogin && (
+        <>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          {emailError && <p className="error">{emailError}</p>}
+        </>
+      )}
       <input
         type="password"
         name="password"

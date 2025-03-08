@@ -4,7 +4,7 @@ const useSignup = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const signup = async (username, password) => {
+  const signup = async (username, email, password) => {
     setLoading(true);
     setError(null);
 
@@ -14,7 +14,7 @@ const useSignup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password}),
+        body: JSON.stringify({ username, email, password, role:"teacher" }),
       });
 
       const data = await response.json();
