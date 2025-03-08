@@ -9,19 +9,12 @@ export default function LoginSignupPage({ onAuthSuccess}) {
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    console.log("Login Page Loaded - Authenticated:", isAuthenticated);
-
     if (isAuthenticated === "true") {
-      console.log("Redirecting to /homepage...");
       navigate("/homepage");
     }
   }, [navigate]);
 
-  const toggleForm = () => setIsLogin(!isLogin);
-
-  const handleViewChange = () => {
-    toggleForm()
-  }
+  const handleViewChange = () => setIsLogin(!isLogin);
 
   const handleAuthSuccess = () => {
     localStorage.setItem("isAuthenticated", "true");
@@ -31,11 +24,7 @@ export default function LoginSignupPage({ onAuthSuccess}) {
 
   return (
     <div className="login-signup-container">
-      {/* <h2 >{isLogin ? "Login" : "Sign Up"}</h2> */}
       <LoginSignupForm isLogin={isLogin} onAuthSuccess={handleAuthSuccess} handleViewChange={handleViewChange} />
-      {/* <p onClick={toggleForm} className="toggle-text">
-        {isLogin ? "Need an account? Sign up" : "Already have an account? Log in"}
-      </p> */}
     </div>
   );
 }

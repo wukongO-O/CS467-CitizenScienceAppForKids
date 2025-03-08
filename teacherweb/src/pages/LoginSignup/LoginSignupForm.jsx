@@ -1,60 +1,61 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
+import useSignup from "../../hooks/useSignup";
 import teacherData from '../../components/teacherdata.json';
 
 export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChange }) {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState(null);
-
-  const storedTeachers = JSON.parse(localStorage.getItem("teachers")) || [];
+  const [formData, setFormData] = useState({ username: "", password: ""});
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const { login, error: loginError, loading: loginLoading } = useLogin();
+  const { signup, error: signupError, loading: signupLoading } = useSignup();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    let isValid = true;
+    if (formData.username.length < 3) {
+      setUsernameError("Username must be at least 3 characters");
+      isValid = false;
+    } else {
+      setUsernameError("");
+    }
+
+    if (formData.password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+    return isValid;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form", formData);
+    if (!validateForm()) {
+      return;
+    }
 
     if (isLogin) {
       // Logic for log in
-      const teacher = storedTeachers.find(
-        (teacher) =>
-          
-          teacher.username === formData.username && teacher.password === formData.password
-      );
-
-      if (teacher) {
-        console.log("Login successful");
-        setError(null);
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("loggedInTeacher", formData.username); // Store username for account page
+      const response = await login(formData.username, formData.password);
+      if (response.success) {
         onAuthSuccess();
-      } else {
-        console.log("Login failed");
-        setError("Invalid username or password");
       }
     } else {
-      // Logic for sign up
-      const existingUser = storedTeachers.find(
-        (teacher) => teacher.username === formData.username
-      );
-
-      if (existingUser) {
-        setError("Username already exists. Choose a different one.");
-        return;
+      // Sign up user
+      const response = await signup(formData.username, formData.password);
+      if (response.success) {
+        alert("Account created successfully, please log in.");
+        handleViewChange(); // Switch to login form
       }
-
-      // Add new teacher to temporary storage
-      const updatedTeachers = [...storedTeachers, { username: formData.username, password: formData.password }];
-      localStorage.setItem("teachers", JSON.stringify(updatedTeachers));
-
-      console.log("Signup successful");
-      setError(null);
-      alert("Account created successfully, please log in.");
-      navigate("/");
     }
-
   };
+
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
       <h1 style={{ textAlign: "center", marginBottom: "15px", marginTop: "-10px" }}>
@@ -68,6 +69,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
         onChange={handleChange}
         required
       />
+      {usernameError && <p className="error">{usernameError}</p>}
       <input
         type="password"
         name="password"
@@ -76,8 +78,10 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
         onChange={handleChange}
         required
       />
-      {error && <p className="error purple-txt">{error}</p>}
-      <p>
+      {passwordError && <p className="error">{passwordError}</p>}
+      {loginError && <p className="error">{loginError}</p>}
+      {signupError && <p className="error">{signupError}</p>}
+      
         {isLogin ? 
         <p> Need an account? <a onClick={(e)=>{
                                                 e.preventDefault()
@@ -87,8 +91,8 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
                                                 e.preventDefault()
                                                 handleViewChange()
                                                 }}>Log in</a> </p>}
-      </p>
-      <button type="submit" className = "button" style={{ display: "block", margin: "15px auto" }}>{isLogin ? "Login" : "Sign Up"}</button>
+      
+      <button type="submit" className = "button" style={{ display: "block", margin: "15px auto" }} disabled={loginLoading || signupLoading}>{isLogin ? "Login" : "Sign Up"}</button>
     </form>
   );
 }
