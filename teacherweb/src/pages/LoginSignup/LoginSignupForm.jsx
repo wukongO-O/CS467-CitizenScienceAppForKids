@@ -88,7 +88,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
                                                 handleViewChange()
                                                 }}>Log in</a> </p>}
       </p>
-      <button type="submit" className = "button">{isLogin ? "Login" : "Sign Up"}</button>
+      <button type="submit" className = "button" style={{ display: "block", margin: "15px auto" }}>{isLogin ? "Login" : "Sign Up"}</button>
     </form>
   );
 }
