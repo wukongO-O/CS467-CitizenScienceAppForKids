@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 import useSignup from "../../hooks/useSignup";
-import teacherData from '../../components/teacherdata.json';
 
 export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChange }) {
   const [formData, setFormData] = useState({ username: "", password: "", email: "" });
@@ -32,7 +31,6 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
     } else {
       setPasswordError("");
     }
-
      
     if (!isLogin && !formData.email.includes("@")) {
       setEmailError("Must be a valid email");
@@ -43,31 +41,22 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
     return isValid;
   };
   
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
 
-    console.log("isLogin:", isLogin); // Add console log
-
     if (isLogin) {
       // Logic for log in
-      console.log("Logging in with:", formData.username, formData.password); // Add console log
       const response = await login(formData.username, formData.password);
-      console.log("Login response:", response); // Add console log
       if (response.success) {
-        console.log("Login successful!"); // Add console log
         onAuthSuccess();
       } else {
-        console.log("Login failed:", response.error); // Add console log
       }
     } else {
       // Sign up user
-      console.log("Signing up with:", formData.username, formData.email, formData.password); // Add console log
       const response = await signup(formData.username, formData.email, formData.password);
-      console.log("Signup response:", response); // Add console log
       if (response.success) {
         alert("Account created successfully, please log in.");
         handleViewChange(); // Switch to login form
