@@ -1,5 +1,10 @@
+// This file is the main entry point for the app.
+// This is where students enter their class code to access the app.
+// The class code is validated against the API to ensure it is correct.
+// This code was built with help Github's copilot AI.
+
 import React, { useState } from 'react';
-import { Text, View, TextInput, Button, Image, StyleSheet, useColorScheme, Alert } from 'react-native';
+import { Text, View, TextInput, Button, Image, StyleSheet, useColorScheme, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -25,22 +30,41 @@ export default function HomeScreen() {
   const router = useRouter();
 
   // Function to create an alert with two buttons
-  const createTwoButtonAlert = () =>
-    Alert.alert('Invalid Code', 'Please try again.', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      { text: 'OK', onPress: () => console.log('OK Pressed') },
-    ]);
+  const createTwoButtonAlert = () => {
+    if (Platform.OS === 'web') {
+      // Use browser's alert function for web
+      alert('Invalid Code. Please try again.');
+    } else {
+      // Use React Native's Alert API for mobile
+      Alert.alert('Invalid Code', 'Please try again.', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]);
+    }
+  };
 
   // Function to validate the entered class code
   const validateCode = () => {
+    console.log('Validating class code:', classCode); // Debugging log
     // Fetch data from the API
-    fetch(`http://localhost:5000/projects/class_code/${classCode}`)
-      .then(response => response.json())
+    fetch(`https://citsciapp.pythonanywhere.com/projects/class_code/${classCode}`)
+      .then(response => {
+        console.log('Response status:', response.status); // Debugging log
+        if (response.status === 404) {
+          // If the status is 404, show an alert
+          createTwoButtonAlert();
+          // Set the isValid state to false
+          setIsValid(false);
+          throw new Error('Class code not found');
+        }
+        return response.json();
+      })
       .then(data => {
+        console.log('Fetched data:', data); // Debugging log
         if (data.length > 0) {
           // If the code is valid, set the isValid state to true
           setIsValid(true);
@@ -58,8 +82,6 @@ export default function HomeScreen() {
       })
       .catch(error => {
         console.error('Error fetching data:', error);
-        // If there is an error, show an alert
-        createTwoButtonAlert();
         // Set the isValid state to false
         setIsValid(false);
       });
@@ -72,6 +94,9 @@ export default function HomeScreen() {
   // Determine input background color based on the current color scheme
   const inputBackgroundColor = colorScheme === 'dark' ? '#333' : '#FFFFFF';
 
+  // Render the component with the ParallaxScrollView
+  // This is the main UI for the HomeScreen component
+  // A header image, title, input field, and button are displayed
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ dark: '#A0D4FF', light: '#A0D4FF' }} // Light Blue

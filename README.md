@@ -98,43 +98,93 @@ To run the server on http://127.0.0.1:5000
 -  [Summary of API endpoints](backend/static/API_documentation.md)
 
 
-# Welcome to your Expo app 👋
+# CS_Field_App Development Instructions
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Prerequisites
 
-## Get started
+Before you begin, make sure you have the following installed:
 
-1. Install dependencies
+-   **Node.js:** Ensure you have Node.js installed on your system. You can download it from [nodejs.org](https://nodejs.org/). It's recommended to use the latest LTS version.
+-   **npm or Yarn:** Node.js comes with npm (Node Package Manager). Alternatively, you can use Yarn.
+-   **Expo CLI:** Install the Expo CLI globally to manage your Expo projects.
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install -g expo-cli
+    ```
 
-2. Start the app
+    or
 
-   ```bash
-    npx expo start
-   ```
+    ```bash
+    yarn global add expo-cli
+    ```
 
-In the output, you'll find options to open the app in a
+-   **Git:** You'll need Git for version control.  Install it from [git-scm.com](https://git-scm.com).
+-   **Expo Go (Optional):**  For testing on a physical device, download the Expo Go app on your iOS or Android device.
+    -   [Expo Go on the App Store](https://apps.apple.com/app/expo-go/id982107779)
+    -   [Expo Go on the Google Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US)
+-   **Android Studio/Xcode (Optional):** If you plan to build native Android or iOS apps, you'll need to install Android Studio (for Android) or Xcode (for iOS).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Getting Started
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1.  **Clone the repository:**
 
-## Learn more
+    ```bash
+    git clone <repository-url>
+    cd CS_Field_App
+    ```
 
-To learn more about developing your project with Expo, look at the following resources:
+2.  **Install dependencies:**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+    ```bash
+    npm install
+    ```
 
-## Join the community
+    or
 
-Join our community of developers creating universal apps.
+    ```bash
+    yarn install
+    ```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+3.  **Start the development server:**
+
+    ```bash
+    npm start
+    ```
+
+    or
+
+    ```bash
+    yarn start
+    ```
+
+    This will start the Expo development server. You can then:
+
+    -   Scan the QR code with the Expo Go app (on a physical device).
+    -   Run on an Android emulator or iOS simulator.
+    -   Open in your web browser.
+
+## Useful Commands
+
+-   `npm start` or `yarn start`: Starts the Expo development server.
+-   `npm run android` or `yarn android`: Runs the app on an Android emulator/device.
+-   `npm run ios` or `yarn ios`: Runs the app on an iOS simulator/device.
+-   `npm run web` or `yarn web`: Runs the app in the web browser.
+-   `npm run lint` or `yarn lint`: Runs the linter to check for code quality.
+-   `npm test` or `yarn test`: Runs the test suite.
+-   `npm run reset-project`: Resets the project by moving directories and creating new app directories.
+
+## Directory Structure
+
+-   `app/`: Contains the main application code, including screens and components.
+-   `assets/`: Contains images, icons, and other static assets.
+-   `components/`: Reusable React Native components.
+-   `constants/`:  Constants used throughout the application.
+-   `hooks/`: Custom React hooks.
+-   `scripts/`:  Scripts for project setup and maintenance.
+
+## Resetting the Project
+
+The project includes a script to reset the project structure:
+
+```bash
+npm run reset-project

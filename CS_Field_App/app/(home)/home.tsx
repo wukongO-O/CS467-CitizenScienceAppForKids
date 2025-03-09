@@ -1,3 +1,8 @@
+//Home.tsx is the main screen of the app. 
+// It displays a list of projects for a class and allows the user to select a project to view its description and directions. 
+// The user can also navigate to other screens to view observations or add/edit observations.
+// This code was built with help Github's copilot AI.
+
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, Image, TouchableOpacity, Text, Modal, Button } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -27,7 +32,7 @@ export default function Home() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch(`http://localhost:5000/projects/class_code/${classCode}`)
+    fetch(`https://citsciapp.pythonanywhere.com/projects/class_code/${classCode}`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data); // Debugging log
@@ -79,8 +84,11 @@ export default function Home() {
 
   // Find the selected project data
   const selectedProjectData = data.find(item => item.title === selectedProject);
-  // console.log('Selected project data:', selectedProjectData); // Debugging log - Removed
 
+  // Render the component
+  // The component displays a list of projects for a class and allows the user to select a project to view 
+  // its description and directions.
+  // The user can also navigate to other screens to view observations or add/edit observations.
   return (
     <View style={styles.container}>
       <ParallaxScrollView

@@ -1,3 +1,8 @@
+// add_edit_observations.tsx fetches observation data for a specific project and displays it in a list. 
+// The user can add a new observation or edit an existing observation.
+// The data is fetched from the API using the project_id parameter passed from the home screen.
+// This code was built with help Github's copilot AI.
+
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, Button, FlatList, TouchableOpacity, Text, useColorScheme, ActivityIndicator, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -42,7 +47,7 @@ export default function AddEditObservations() {
   useEffect(() => {
     console.log('Fetching data for project_id:', project_id); // Debugging log
     // Fetch observation data from the API
-    fetch(`http://localhost:5000/observations/project/${project_id}`)
+    fetch(`https://citsciapp.pythonanywhere.com/observations/project/${project_id}`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data); // Debugging log
@@ -74,7 +79,7 @@ export default function AddEditObservations() {
   const handleAddObservation = async () => {
     try {
       // Create a new anonymous user
-      const userResponse = await fetch(`http://localhost:5000/anonymous_users`, {
+      const userResponse = await fetch(`https://citsciapp.pythonanywhere.com/anonymous_users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +102,7 @@ export default function AddEditObservations() {
       console.log('Sending new observation:', newObs); // Debugging log
 
       // Add the new observation to the backend
-      const response = await fetch(`http://localhost:5000/observations`, {
+      const response = await fetch(`https://citsciapp.pythonanywhere.com/observations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,7 +167,7 @@ export default function AddEditObservations() {
 
     // Update the observation data in the backend
     try {
-      const response = await fetch(`http://localhost:5000/observations/${newObservation.obs_id}`, {
+      const response = await fetch(`https://citsciapp.pythonanywhere.com/observations/${newObservation.obs_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -194,6 +199,10 @@ export default function AddEditObservations() {
     });
   };
 
+  // Render the component
+  // The component displays a list of observations for a project and allows the user to add or edit observations.
+  // The user can also switch between Add Mode and Edit Mode.
+  // The user can navigate to the home screen or the list of observations screen.
   return (
     <View style={styles.container}>
       <ParallaxScrollView
