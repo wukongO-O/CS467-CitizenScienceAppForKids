@@ -1,3 +1,8 @@
+// This file is the main entry point for the app.
+// This is where students enter their class code to access the app.
+// The class code is validated against the API to ensure it is correct.
+// This code was built with help Github's copilot AI.
+
 import React, { useState } from 'react';
 import { Text, View, TextInput, Button, Image, StyleSheet, useColorScheme, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -89,6 +94,9 @@ export default function HomeScreen() {
   // Determine input background color based on the current color scheme
   const inputBackgroundColor = colorScheme === 'dark' ? '#333' : '#FFFFFF';
 
+  // Render the component with the ParallaxScrollView
+  // This is the main UI for the HomeScreen component
+  // A header image, title, input field, and button are displayed
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ dark: '#A0D4FF', light: '#A0D4FF' }} // Light Blue

@@ -1,3 +1,9 @@
+// list_observation.tsx fetches observation data for a specific project and displays it in a list. 
+// The observation data is displayed in a FlatList component, with each observation displayed as a separate item. 
+// The data is fetched from the API using the project_id parameter passed from the home screen. 
+// This code was built with help Github's copilot AI.
+
+
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, View, FlatList, TouchableOpacity, Text, useColorScheme, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -74,6 +80,10 @@ export default function ListObservation() {
   // Determine background color for item container based on the current color scheme
   const itemBackgroundColor = colorScheme === 'dark' ? '#333' : '#FFFFFF';
 
+  // Render the component
+  // The component displays a ParallaxScrollView with a header image and a title.
+  // The observation data is displayed in a FlatList component.
+  // A bottom navigation bar is displayed with buttons to navigate to the home screen, menu, and add/edit observations screen.
   return (
     <View style={styles.container}>
       <ParallaxScrollView

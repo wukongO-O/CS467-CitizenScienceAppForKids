@@ -1,3 +1,8 @@
+// add_edit_observations.tsx fetches observation data for a specific project and displays it in a list. 
+// The user can add a new observation or edit an existing observation.
+// The data is fetched from the API using the project_id parameter passed from the home screen.
+// This code was built with help Github's copilot AI.
+
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, Button, FlatList, TouchableOpacity, Text, useColorScheme, ActivityIndicator, Image, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -194,6 +199,10 @@ export default function AddEditObservations() {
     });
   };
 
+  // Render the component
+  // The component displays a list of observations for a project and allows the user to add or edit observations.
+  // The user can also switch between Add Mode and Edit Mode.
+  // The user can navigate to the home screen or the list of observations screen.
   return (
     <View style={styles.container}>
       <ParallaxScrollView
