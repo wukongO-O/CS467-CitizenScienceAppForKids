@@ -33,7 +33,8 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       setPasswordError("");
     }
 
-    if (!formData.email.includes("@")) {
+     
+    if (!isLogin && !formData.email.includes("@")) {
       setEmailError("Must be a valid email");
       isValid = false;
     } else {
@@ -41,25 +42,37 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
     }
     return isValid;
   };
-
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
 
+    console.log("isLogin:", isLogin); // Add console log
+
     if (isLogin) {
       // Logic for log in
+      console.log("Logging in with:", formData.username, formData.password); // Add console log
       const response = await login(formData.username, formData.password);
+      console.log("Login response:", response); // Add console log
       if (response.success) {
+        console.log("Login successful!"); // Add console log
         onAuthSuccess();
+      } else {
+        console.log("Login failed:", response.error); // Add console log
       }
     } else {
       // Sign up user
+      console.log("Signing up with:", formData.username, formData.email, formData.password); // Add console log
       const response = await signup(formData.username, formData.email, formData.password);
+      console.log("Signup response:", response); // Add console log
       if (response.success) {
         alert("Account created successfully, please log in.");
         handleViewChange(); // Switch to login form
+      } else {
+        console.log("Signup failed:", response.error); // Add console log
       }
     }
   };
@@ -103,17 +116,40 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       {loginError && <p className="error">{loginError}</p>}
       {signupError && <p className="error">{signupError}</p>}
       
-        {isLogin ? 
-        <p> Need an account? <a onClick={(e)=>{
-                                                e.preventDefault()
-                                                handleViewChange()
-                                                }}>Sign up</a> </p> :
-        <p> Already have an account? <a onClick={(e)=>{
-                                                e.preventDefault()
-                                                handleViewChange()
-                                                }}>Log in</a> </p>}
+        {isLogin ? (
+          <p>
+            Need an account?{" "}
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                handleViewChange();
+              }}
+            >
+              Sign up
+            </a>{" "}
+          </p>
+        ) : (
+          <p>
+            Already have an account?{" "}
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                handleViewChange();
+              }}
+            >
+              Log in
+            </a>{" "}
+          </p>
+        )}
       
-      <button type="submit" className = "button" style={{ display: "block", margin: "15px auto" }} disabled={loginLoading || signupLoading}>{isLogin ? "Login" : "Sign Up"}</button>
+      <button
+        type="submit"
+        className="button"
+        style={{ display: "block", margin: "15px auto" }}
+        disabled={loginLoading || signupLoading}
+      >
+        {isLogin ? "Login" : "Sign Up"}
+      </button>
     </form>
   );
 }
