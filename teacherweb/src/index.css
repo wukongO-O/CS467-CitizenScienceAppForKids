@@ -535,7 +535,11 @@
     }
 
     table td{
-      padding-bottom: 20px; 
+      padding-bottom: 20px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 150px; 
     }
 
     thead{
