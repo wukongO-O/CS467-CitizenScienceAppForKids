@@ -11,7 +11,7 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
     const [dueDate, setDueDate] = useState(new Date(info.due_at).toISOString().split('T')[0]);
     const [step, setStep] = useState(); 
     const [steps, setSteps]=useState(info.directions);
-    const teacher_classes = useClassesInfo(1);
+    const teacher_classes = useClassesInfo(localStorage.user_id);
 
     if(!teacher_classes){
         return <div className="loading">Loading...</div>

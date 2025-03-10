@@ -8,7 +8,7 @@ import { useClassesInfo } from '../../hooks/useClassesInfo';
 
 const ProjectsListPage = () => {
   const navigate = useNavigate();
-  const projects = useProjects(1); //this hsould be the teacher's id 
+  const projects = useProjects(localStorage.user_id); 
 
   if(!projects){
     return <div className="loading">Loading...</div>

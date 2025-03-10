@@ -10,8 +10,8 @@ const AddProjectPage = () => {
     const [view, setView] = useState("main");
     const [loading, setLoading] = useState(false);
     const [errorPosting, setErrorPosting] = useState(false);
-    const [data, setData] = useState({teacher_id:1});
-    const teacher_classes = useClassesInfo(1);
+    const [data, setData] = useState({teacher_id:localStorage.user_id});
+    const teacher_classes = useClassesInfo(localStorage.user_id);
     const navigate = useNavigate();
 
     if(!teacher_classes){

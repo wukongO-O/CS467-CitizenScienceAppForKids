@@ -6,7 +6,7 @@ import { useProjects } from "../../hooks/useProjects";
 
 
 const Homepage = () => {
-  const projects = useProjects(1);
+  const projects = useProjects(localStorage.user_id);
   const navigate = useNavigate();
 
   if(!projects){
@@ -15,7 +15,7 @@ const Homepage = () => {
 
   return (
     <div className="main-container home">
-      <p className="section-subtitle">Hello  < span className="header"> Teacher!</span> </p>
+      <p className="section-subtitle wide-form-wrapper">Hello  < span className="header"> {localStorage.username}!</span> </p>
       <div className="section-container">
         <ProjectsDateInfoList projects={projects}/>
       </div>

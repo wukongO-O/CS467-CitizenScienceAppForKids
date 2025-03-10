@@ -25,7 +25,8 @@ const useLogin = () => {
 
       localStorage.setItem("isAuthenticated", "true");
       if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("user_id", data.user.id)
+        localStorage.setItem('username', data.user.username);
       }
 
       return { success: true, user: data.user };
