@@ -1,6 +1,6 @@
 # CS467-CitizenScienceApp
 ## 
-The Citizen Science App for Kids App is a tool for enabling teachers and students to participate in citizen science. 
+The Citizen Science App for Kids is a tool for enabling teachers and students to participate in citizen science. 
 Currently, the backend is hosted at https://citsciapp.pythonanywhere.com/
 
 ## Backend Development Guide
@@ -33,23 +33,32 @@ To run the server locally on http://127.0.0.1:5000
   
 - Create database and tables for testing - only needed the first time
   ```bash
-    # Connect to MySQL and enter/copy-paste password when prompted: OSUcapstone
-      mysql -u capstone -p
+  # Connect as root 
+    mysql -u root -p  
+  #(Enter root password)
+  #Create database
+    CREATE DATABASE citizen_science_app; 
+    CREATE USER 'capstone'@'localhost' IDENTIFIED BY 'OSUcapstone';
+    GRANT ALL PRIVILEGES ON *.* TO 'capstone'@'localhost';
+    FLUSH PRIVILEGES;
+    EXIT;  
+  # Connect to MySQL as capstone user and enter/copy-paste password when prompted: OSUcapstone
+    mysql -u capstone -p
   
-    # At MySQL interface: 
-      # Create the database
-      CREATE DATABASE citizen_science_app;  
-      # Verify the database is created
-      SHOW DATABASES; 
-      EXIT; 
+  # At MySQL interface:  
+    # Verify the database is created
+    SHOW DATABASES; 
+    # If citizen_science_app does not exist, create the database
+    CREATE DATABASE citizen_science_app; 
+    EXIT; 
   
-    # Perform a database migration afresh to create tables: 
-    # The following 3 commands will generate a new migration python file in backend/migrations/versions
-    # Do not push/merge any testing migration python file to prevent errors 
-    # Reference: https://stackoverflow.com/questions/17768940/target-database-is-not-up-to-date
-      flask --app main db stamp head 
-      flask --app main db migrate -m "Fresh migration"
-      flask --app main db upgrade
+  # Perform a database migration afresh to create tables: 
+  # The following 3 commands will generate a new migration python file in backend/migrations/versions
+  # Do not push/merge any testing migration python file to prevent errors 
+  # Reference: https://stackoverflow.com/questions/17768940/target-database-is-not-up-to-date
+    flask --app main db stamp head 
+    flask --app main db migrate -m "Fresh migration"
+    flask --app main db upgrade
     ```
 
 - Run Flask server
