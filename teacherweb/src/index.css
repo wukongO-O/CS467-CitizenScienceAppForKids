@@ -506,6 +506,10 @@
         margin-inline:5px;
         text-align: center;
       }
+      .section-title{
+        text-align: center;
+        padding-bottom: 7px;
+      }
     }
 
     .login-signup-container{
