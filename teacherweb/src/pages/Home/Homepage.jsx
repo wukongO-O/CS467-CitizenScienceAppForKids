@@ -15,7 +15,7 @@ const Homepage = () => {
 
   return (
     <div className="main-container home">
-      <p className="section-subtitle wide-form-wrapper">Hello  < span className="header"> {localStorage.username}!</span> </p>
+      <p className="section-subtitle">Hello  < span className="header"> Teacher!</span> </p>
       <div className="section-container">
         <ProjectsDateInfoList projects={projects}/>
       </div>

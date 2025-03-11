@@ -69,7 +69,9 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
-
+      <h1 style={{ textAlign: "center", marginBottom: "15px", marginTop: "-10px" }}>
+        {isLogin ? "Teacher Login" : "Create an Account"}
+      </h1>
       <input
         type="username"
         name="username"
