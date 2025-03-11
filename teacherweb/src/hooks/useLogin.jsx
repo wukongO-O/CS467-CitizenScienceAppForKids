@@ -9,7 +9,7 @@ const useLogin = () => {
     setError(null);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/login/${user.id}`, {
+      const response = await fetch(`http://127.0.0.1:5000/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,9 @@ const useLogin = () => {
       }
 
       localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
 
       return { success: true, user: data.user };
     } catch (err) {

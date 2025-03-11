@@ -32,13 +32,22 @@ def index():
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
-    username = data["username"]
-    password = data["password"]
+    username = data.get("username")
+    password = data.get("password")
+
     user = User.query.filter_by(username=username).first()
-    if user and (user.password == password):
-        return jsonify({"message": "Login successful!",
-                        "user": {"id": user.id, "username": user.username,
-                                 "email": user.email, "role": user.role}}), 200
+
+    if user and user.verify_password(password):
+        return jsonify({
+            "message": "Login successful!",
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role
+            }
+        }), 200
+
     return jsonify({"error": "Invalid credentials"}), 401
 
 # Create a new user (teacher/admin)

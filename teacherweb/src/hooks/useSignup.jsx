@@ -4,17 +4,17 @@ const useSignup = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const signup = async (username, email, password, role) => {
+  const signup = async (username, email, password) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+      const response = await fetch(`http://127.0.0.1:5000/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, role }),
+        body: JSON.stringify({ username, email, password, role:"teacher" }),
       });
 
       const data = await response.json();

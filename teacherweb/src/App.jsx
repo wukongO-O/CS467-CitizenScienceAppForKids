@@ -16,17 +16,6 @@ function App() {
     localStorage.getItem('isAuthenticated') === 'true'
   );
 
-  // Start of connecting to back end
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/users')
-      .then(response => response.json())
-      .then(data => setData(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
-  // End of connecting to back end
-
   const handleLogin = () => {
     setIsAuthenticated(true);
     localStorage.setItem('isAuthenticated', 'true'); // Request login
@@ -43,7 +32,6 @@ function App() {
           <NavBar isAuthenticated={isAuthenticated} onLogout={handleLogout}/>
           <Routes>
             <Route path="/" element={<LoginSignupPage onAuthSuccess={handleLogin} />} />
-
               {/*Need to login to view any of the following pages */}
               <Route path="/homepage" element={isAuthenticated ? <Homepage /> : <Navigate to ="/" />} />
               <Route path="/account" element={isAuthenticated ? <Account /> : <Navigate to="/" />} />
@@ -54,11 +42,6 @@ function App() {
               <Route path="/projects" element={isAuthenticated ? <ProjectsListPage /> : <Navigate to="/" />} />
           </Routes>
       </Router>
-    
-    {/* Working on connecting to back end below */}  
-    {/* <div>
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-    </div> */}
   </div>
   );
 }
