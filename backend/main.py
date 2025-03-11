@@ -75,7 +75,7 @@ def get_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user:
         return jsonify({"id": user.id, "username": user.username,
-                        "email": user.email, "role": user.role})
+                        "email": user.email, "role": user.role}), 200
     return jsonify({"error": "User not found"}), 404
 
 
@@ -270,7 +270,6 @@ def get_projects_by_class_code(class_code):
         "directions": project_obj.directions
     } for project_obj in project_objs]
 
-    return jsonify(result), 200
     return jsonify(result), 200
 
 
