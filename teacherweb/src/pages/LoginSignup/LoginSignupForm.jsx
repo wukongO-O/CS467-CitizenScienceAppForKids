@@ -53,6 +53,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       if (response.success) {
         onAuthSuccess();
       } else {
+        console.log("Login failed:", response.error);
       }
     } else {
       // Sign up user
