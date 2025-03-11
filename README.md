@@ -1,5 +1,10 @@
 # CS467-CitizenScienceApp
-To run the server on http://127.0.0.1:5000
+## 
+The Citizen Science App for Kids App is a tool for enabling teachers and students to participate in citizen science. 
+Currently, the backend is hosted at https://citsciapp.pythonanywhere.com/
+
+## Backend Development Guide
+To run the server locally on http://127.0.0.1:5000
 - Navigate to project directory
 - Create/activate virtual environment
 
@@ -53,7 +58,7 @@ To run the server on http://127.0.0.1:5000
     ```
 
 
-# To interact with REST API:
+## To interact with REST API:
 - Create/activate a virtual environment (see commands above)
 - Install flask_swagger_ui package - skip this step if all dependencies are installed
     ```bash
