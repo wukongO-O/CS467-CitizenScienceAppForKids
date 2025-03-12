@@ -13,23 +13,18 @@ import ProjectsListPage from './pages/ProjectsListPage/ProjectsListPage';
 import { useUserContext } from './context/UserContext';
 
 function App() {
-  const { user, logout } = useUserContext();
+  const { user, logout, loading } = useUserContext();
 
-  // Remove isAuthenticated state and localStorage logic
-  // const [isAuthenticated, setIsAuthenticated] = useState(
-  //   localStorage.getItem('isAuthenticated') === 'true'
-  // );
-
-  // const handleLogin = () => {
-  //   setIsAuthenticated(true);
-  //   localStorage.setItem('isAuthenticated', 'true'); // Request login
-  // };
 
   const handleLogout = () => {
     logout()
     // setIsAuthenticated(false);
     // localStorage.removeItem('isAuthenticated'); // Remove login
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="wrapper flow">

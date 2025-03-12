@@ -2,17 +2,18 @@ import { useState } from "react";
 import LoginSignupForm from "./LoginSignupForm";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useUserContext } from "../../context/UserContext";
 
 export default function LoginSignupPage() {
+  const { user } = useUserContext();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const isAuthenticated = localStorage.getItem("isAuthenticated");
-  //   if (isAuthenticated === "true") {
-  //     navigate("/homepage");
-  //   }
-  // }, [navigate]);
+  useEffect(() => {
+    if (user) {
+      navigate("/homepage");
+    }
+  }, [user, navigate]);
 
   const handleViewChange = () => setIsLogin(!isLogin);
 
