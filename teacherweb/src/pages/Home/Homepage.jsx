@@ -13,7 +13,7 @@ const Homepage = () => {
 
   if (Array.isArray(classes) && classes.length === 0) {
     alert("It looks like you don't have any classes on your profile. Redirecting you to your account page to add a class.");
-    navigate("/account", { state: { classes: classes } });
+    navigate("/account");
     return null; // Prevent further rendering
   }
   else if (!user || projects === null) {

@@ -1,16 +1,18 @@
-import {useState} from "react";
+import {useEffect, useState, useReducer} from "react";
 import Portal from "../components/navigation/Portal";
 import MyCalendar from "../components/MyCalendar";
 import { useUserContext } from "../context/UserContext";
 import {useClassesInfo} from "../hooks/useClassesInfo";
 import CreateClassForm from "../components/CreateClassForm";
+import { useNavigate } from "react-router";
 
 const Account = () => {
   const {user} = useUserContext();
-  const [localClasses, setLocalClasses]= useState();
+  const [localClasses, setLocalClasses]= useState([]);
   const classes = useClassesInfo(user.id, setLocalClasses);
   const [addClassForm, setAddClassForm] = useState(false);
   const [errorAddingClass, setErrorAddingClass] = useState(false);
+  let navigate = useNavigate();
 
 
 
@@ -20,7 +22,6 @@ const Account = () => {
         <p>Loading...</p>
       </div>)
   }
-
   const handleClassSubmit = async (class_data) => { 
     try {
       const res = await fetch(import.meta.env.VITE_API_BASE_URL + `/classes`, {
@@ -37,7 +38,8 @@ const Account = () => {
       const new_class = await res.json();
       setErrorAddingClass(false);
       setAddClassForm(false);
-      setLocalClasses((localClasses) => [...localClasses, new_class.class]);
+      alert("Added Class Successfully!")
+      navigate("/");
     } catch (err) {
       setErrorAddingClass(true);
       console.error("Couldn't add new class:", err);
@@ -61,7 +63,7 @@ const Account = () => {
               <div className="full-width-section classes-list">
                 <h3 className="section-subtitle">Classes:</h3> 
                 <ul>
-                  {localClasses.length > 0 ? localClasses.map((cls, i)=>{
+                  {classes.length > 0 ? classes.map((cls, i)=>{
                     return <li key={"cls"+i}>{cls.class_name}</li>
                   }):null}
 
@@ -76,7 +78,7 @@ const Account = () => {
               </div>
               {errorAddingClass ? <p className="purple-txt full-width-section">There was an error adding your class. If this persists, contact your system administrator</p> : null}
               {addClassForm ? 
-                <CreateClassForm handleClassSubmit={handleClassSubmit}/> 
+                <CreateClassForm onClassSubmit={handleClassSubmit}/> 
               : null } 
 
         

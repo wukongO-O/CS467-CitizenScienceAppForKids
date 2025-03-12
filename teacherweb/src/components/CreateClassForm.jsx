@@ -1,14 +1,14 @@
 import  PropTypes  from "prop-types";
 import { useState } from "react";
 
-const CreateClassForm = ({handleClassSubmit}) => {
-    const [class_name, setClassName] = useState();
-    const [description, setDescription] = useState();
-    const [number_of_students, setTotalOfStudents] = useState();
+const CreateClassForm = ({onClassSubmit}) => {
+    const [class_name, setClassName] = useState("");
+    const [description, setDescription] = useState("");
+    const [number_of_students, setTotalOfStudents] = useState(0);
 
     const handleSubmit = () =>{
         const class_code = class_name.substring(0,3).toUpperCase() + "101";
-        handleClassSubmit({class_name, description, number_of_students, class_code})
+        onClassSubmit({class_name, description, number_of_students, class_code})
     }
 
     return(
@@ -20,6 +20,7 @@ const CreateClassForm = ({handleClassSubmit}) => {
             <div className="bigger-input">
                 <label htmlFor="class_name" >Class Name</label>
                 <input
+                required
                     type="text"
                     value={class_name}
                     onChange={e=> setClassName(e.target.value)}/>
@@ -27,6 +28,7 @@ const CreateClassForm = ({handleClassSubmit}) => {
             <div >
                 <label htmlFor="class_name">Total Students</label>
                 <input
+                required
                     className="smaller-input"
                     type="number"
                     value={number_of_students}
@@ -35,6 +37,7 @@ const CreateClassForm = ({handleClassSubmit}) => {
             <div className="wide-form-wrapper">
                 <label htmlFor="class_name">Description</label>
                 <textarea
+                required
                     value={description}
                     onChange={e=> setDescription(e.target.value)}>
                     </textarea>
@@ -47,7 +50,7 @@ const CreateClassForm = ({handleClassSubmit}) => {
 }
 
 CreateClassForm.propTypes = {
-    handleClassSubmit: PropTypes.func.isRequired
+    onClassSubmit: PropTypes.func.isRequired
 }
 
 export default CreateClassForm;
