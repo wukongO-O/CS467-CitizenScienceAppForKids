@@ -1,26 +1,85 @@
-import React from "react";
-import useUser from "../hooks/useUser";
+import {useState} from "react";
 import Portal from "../components/navigation/Portal";
 import MyCalendar from "../components/MyCalendar";
+import { useUserContext } from "../context/UserContext";
+import {useClassesInfo} from "../hooks/useClassesInfo";
+import CreateClassForm from "../components/CreateClassForm";
 
 const Account = () => {
-  const user = useUser();
+  const {user} = useUserContext();
+  const [localClasses, setLocalClasses]= useState();
+  const classes = useClassesInfo(user.id, setLocalClasses);
+  const [addClassForm, setAddClassForm] = useState(false);
+  const [errorAddingClass, setErrorAddingClass] = useState(false);
+
+
+
+  if (!user || classes === null) {
+    return (
+      <div className="main-container home">
+        <p>Loading...</p>
+      </div>)
+  }
+
+  const handleClassSubmit = async (class_data) => { 
+    try {
+      const res = await fetch(import.meta.env.VITE_API_BASE_URL + `/classes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...class_data, teacher_id: user.id }), // Include teacher_id in the body
+      });
+      if (!res.ok) {
+        setErrorAddingClass(true);
+        throw new Error("Failed to add class");
+      }
+      const new_class = await res.json();
+      setErrorAddingClass(false);
+      setAddClassForm(false);
+      setLocalClasses((localClasses) => [...localClasses, new_class.class]);
+    } catch (err) {
+      setErrorAddingClass(true);
+      console.error("Couldn't add new class:", err);
+    }
+  };
+
+  const handleAddClassForm = () => {
+    setAddClassForm(!addClassForm)
+  }
 
   return (
-    <div className="main-container">
-      <div className="section-container account">
+    <div className="main-container" >
         <h1 className="section-title">Teacher's Profile</h1>
-        {user ? (
-          <div>
-            <div>
-              <h3 className="section-subtitle">Username:</h3> <p className="rg-text">{user.username}</p>
-            </div>
-            </div>
-          ) : (
-            <div>
-          <p>No teacher is logged in.</p>
-        </div> 
-        )}
+        <div className="section-container account-view">
+
+
+              <div className="full-width-section">
+                <h3 className="section-subtitle">Username:</h3> 
+                <p className="rg-text">{user.username}</p>
+              </div>
+              <div className="full-width-section classes-list">
+                <h3 className="section-subtitle">Classes:</h3> 
+                <ul>
+                  {localClasses.length > 0 ? localClasses.map((cls, i)=>{
+                    return <li key={"cls"+i}>{cls.class_name}</li>
+                  }):null}
+
+                </ul>
+              </div>
+              <div className="full-width-section">
+              <button 
+                className="button medium"
+                onClick= {handleAddClassForm}
+              
+              >Add New Class</button>
+              </div>
+              {errorAddingClass ? <p className="purple-txt full-width-section">There was an error adding your class. If this persists, contact your system administrator</p> : null}
+              {addClassForm ? 
+                <CreateClassForm handleClassSubmit={handleClassSubmit}/> 
+              : null } 
+
+        
       </div>
       <Portal>
         <MyCalendar />

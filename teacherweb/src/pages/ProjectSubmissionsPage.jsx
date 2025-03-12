@@ -9,10 +9,13 @@ import { useProjectObservations } from '../hooks/useProjectObservations';
 
 
 const ProjectSubmissionsPage = () => {
-    //const [projects, setProjects] = useState([]);
+    // const [obsData, setObsData] = useState([]);
+    const [headers, setHeaders] = useState([]);
+
     const {id} = useParams(); //getting the project id from the url
     const project_info = useProject(id);// getting the project project_information with custom hook, this returns project_information for the one project we need, including the observations list that is needed for this page
-    const observationsList = useProjectObservations(id)
+    const observationsList = useProjectObservations(id, setHeaders)
+
     
     if(!project_info || !observationsList){
       return <div className="loading">Loading...</div>
@@ -22,16 +25,26 @@ const ProjectSubmissionsPage = () => {
     const convertToCSV = (data) => {
       if (!data.length) return "";
 
-      const headers = ["Project Name", "Due Date", "Student ID", "Date Completed"];
-      const csvRows = [headers.join(",")];
-
+      const default_headers = ["Project Name", "Due Date", "Student ID", "Date Completed"];
+      const all_headers= [...default_headers,...headers];
+      const csvRows = [all_headers.join(",")];
+      
       data.forEach((obs) => {
-          const values = [
-              `"${project_info.title}"`,
-              `"${project_info.due_at}"`,
-              `"${obs.anon_user_id}"`,
-              `"${obs.timestamp || 'N/A'}"`
-          ];
+        const form_values = Object.values(obs.data).map(value=>{
+            if (typeof value == 'string'){
+                value= value.replace(/"/g, '""');
+                return `"${value}"`
+            }
+            return value;
+        });
+        const values = [
+            `"${project_info.title}"`,
+            `"${project_info.due_at}"`,
+            `"${obs.anon_user_id}"`,
+            `"${obs.timestamp || 'N/A'}"`,
+            ...form_values
+        ];
+        
           csvRows.push(values.join(","));
       });
 
@@ -52,6 +65,7 @@ const ProjectSubmissionsPage = () => {
     document.body.removeChild(link);
 };
 
+
 return (
     <div className='main-container observations-list'>
         <h1 className='section-title'> {project_info.title}  </h1>
@@ -68,6 +82,11 @@ return (
                         <tr>
                             <th>Student ID</th>
                             <th>Date Completed</th>
+                            {headers.map((header, i)=>{
+                                return(                                   
+                                    <th key={'header'+i}>{header}</th>
+                                )
+                            })}
                         </tr>
                     </thead>
                     <tbody>
@@ -75,6 +94,7 @@ return (
                             <tr key={obs.obs_id}>
                                 <td >{obs.anon_user_id}</td>
                                 <td >{new Date(obs.timestamp).toLocaleDateString().split(',')[0] || 'N/A'}</td>
+                                {Object.values(obs.data).map((value,i)=> <td key={"val"+i}>{value}</td>)}
                             </tr>
                         ))}
                     </tbody>

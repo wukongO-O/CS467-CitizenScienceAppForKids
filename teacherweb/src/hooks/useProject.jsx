@@ -5,7 +5,7 @@ export const useProject = (id, setStateFunc) => {
 
     useEffect( ()=> {
         async function fetchProject () {
-            const response = await fetch(`http://127.0.0.1:5000/projects/${id}`)
+            const response = await fetch(import.meta.env.VITE_API_BASE_URL + `/projects/${id}`)
             const data = await response.json();
             const parsedData = await parseBackendData(data)
             setProject(parsedData);

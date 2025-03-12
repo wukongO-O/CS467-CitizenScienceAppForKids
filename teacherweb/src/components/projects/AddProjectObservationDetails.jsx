@@ -5,7 +5,6 @@ import OrderedList from "../OrderedList";
 
 const AddProjectObservationDetails = ({handleSubmit}) => {
     const [observations, setObservations] = useState();
-    const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
     const [customInputType, setCustomInputType] = useState("text");
     const [customFields, setCustomFields] = useState([]);
@@ -53,7 +52,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
     }
 
     return(
-        //observations textarea and location are the default fields
+        //observations textarea are the default fields
         <form 
             className="observation-details-form"
             onSubmit = {(e)=>{
@@ -69,14 +68,6 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             onChange= {(e) => setObservations(e.target.value)} >
                     </textarea>
             </div>
-            {/* <div className="right-form-wrapper">
-                <label htmlFor="location">Location</label>
-                    <input 
-                        type="text" 
-                        name="location" 
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)} />
-            </div> */}
             
             <div className="wide-form-wrapper flow" >
             {customFields.length>0? 
@@ -91,7 +82,7 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             edit={true}
                             handleDelete={deleteOption}
                             items={customOptions}/>
-                        <p className="small-text purple-txt">Click Add Field again when done entering options</p>
+                        <p className="small-text purple-txt">Click Add Field button below when done entering options</p>
                         <label htmlFor="additonal-field-info">Option</label>
                         <input
                             id="additional-field-input"
@@ -104,8 +95,9 @@ const AddProjectObservationDetails = ({handleSubmit}) => {
                             className="no-background"
                             onClick={(e)=>{
                                 e.preventDefault()
+                                if (additionalFieldInfo.length > 0){
                                 setCustomOptions([...customOptions, additionalFieldInfo])
-                                setAdditionalFieldInfo('')
+                                setAdditionalFieldInfo('')}
                             }} > Add Option </button>
                     </div> : null }
   

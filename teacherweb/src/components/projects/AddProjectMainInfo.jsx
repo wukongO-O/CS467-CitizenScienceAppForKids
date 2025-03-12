@@ -60,9 +60,9 @@ const AddProjectMainInfo = ({changeView, handleMainInfoUpdate, teacher_classes})
                         name="class_name" 
                         value={classType}
                         onChange={(e)=>setClassType(e.target.value)} >
-                        {teacher_classes.map((teacher_class)=> {
+                        {teacher_classes.map((teacher_class,i)=> {
                                 
-                                return <option value={teacher_class.class_id} key={teacher_class.class_code}>{teacher_class.class_name}</option>
+                                return <option value={teacher_class.class_id} key={teacher_class.class_code+i}>{teacher_class.class_name}</option>
                             })}
                     </select>
                     <label htmlFor="start-date">Start Date</label>

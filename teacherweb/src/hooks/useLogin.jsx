@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useUserContext } from "../context/UserContext";
 
 const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {setUser} = useUserContext();
 
   const login = async (username, password) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/login`, {
+      const response = await fetch(import.meta.env.VITE_API_BASE_URL + `/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,6 +28,7 @@ const useLogin = () => {
       localStorage.setItem("isAuthenticated", "true");
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
       }
 
       return { success: true, user: data.user };

@@ -1,0 +1,53 @@
+import  PropTypes  from "prop-types";
+import { useState } from "react";
+
+const CreateClassForm = ({handleClassSubmit}) => {
+    const [class_name, setClassName] = useState();
+    const [description, setDescription] = useState();
+    const [number_of_students, setTotalOfStudents] = useState();
+
+    const handleSubmit = () =>{
+        const class_code = class_name.substring(0,3).toUpperCase() + "101";
+        handleClassSubmit({class_name, description, number_of_students, class_code})
+    }
+
+    return(
+        <form
+            className="full-width-section account-form"
+            onSubmit={((e)=>{
+                    e.preventDefault()
+                    handleSubmit()})}>
+            <div className="bigger-input">
+                <label htmlFor="class_name" >Class Name</label>
+                <input
+                    type="text"
+                    value={class_name}
+                    onChange={e=> setClassName(e.target.value)}/>
+            </div>
+            <div >
+                <label htmlFor="class_name">Total Students</label>
+                <input
+                    className="smaller-input"
+                    type="number"
+                    value={number_of_students}
+                    onChange={e=> setTotalOfStudents(parseInt(e.target.value, 10) || 0)}/>
+            </div>
+            <div className="wide-form-wrapper">
+                <label htmlFor="class_name">Description</label>
+                <textarea
+                    value={description}
+                    onChange={e=> setDescription(e.target.value)}>
+                    </textarea>
+            </div>
+            <button
+                type="submit"
+                className="button medium">Submit Class</button>
+        </form>
+    )
+}
+
+CreateClassForm.propTypes = {
+    handleClassSubmit: PropTypes.func.isRequired
+}
+
+export default CreateClassForm;

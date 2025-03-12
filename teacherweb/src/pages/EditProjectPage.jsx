@@ -5,16 +5,18 @@ import EditProjectMainInfo from "../components/projects/EditProjectMainInfo";
 import EditProjectObservationDetails from "../components/projects/EditProjectObservationDetails";
 import Portal from "../components/navigation/Portal";
 import MyCalendar from "../components/MyCalendar";
+import { useUserContext } from "../context/UserContext";
 
 const EditProjectPage = () => {
+        const {user} = useUserContext();
         const [infoToDisplay, setInfoToDisplay] = useState([]);
         const [loading, setLoading] = useState(false);
         const [view, setView] = useState("main");
         const {id} = useParams();
         const info = useProject(id, setInfoToDisplay);
-        const [data, setData] = useState({teacher_id:1});
+        const [data, setData] = useState({teacher_id:user.id});
         const navigate = useNavigate();
-        const [updatedData, setupdatedData] = useState();
+        // const [updatedData, setupdatedData] = useState();
 
         if(!info){
             return <div className="loading">Loading...</div>
@@ -66,7 +68,7 @@ const EditProjectPage = () => {
                     directions: JSON.stringify(new_data.directions) // Stringify only directions
                 };
                 
-                const res = await fetch(`http://127.0.0.1:5000/projects/${id}`, {
+                const res = await fetch(import.meta.env.VITE_API_BASE_URL + `/projects/${id}`, {
                 method: "PUT",
                 headers:{
                     "Content-Type": "application/json"
@@ -95,7 +97,7 @@ const EditProjectPage = () => {
                     {view == "main" ?
                         <EditProjectMainInfo 
                             info={infoToDisplay}
-
+                            teacher_id={user.id}
                             changeView={changeView}
                             handleUpdate={handleUpdate}/> :
                         <EditProjectObservationDetails

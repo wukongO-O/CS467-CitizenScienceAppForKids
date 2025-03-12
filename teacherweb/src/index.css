@@ -268,6 +268,7 @@
       text-align: left;
       padding: 0;
       padding-top:20px;
+      cursor: pointer;
     }
   }
 
@@ -378,9 +379,6 @@
       align-self: end;
     }
 
-    .section-container.account {
-    text-align: center;
-    }
 
     .observations-list .small-text,
     .observations-list .section-subtitle{
@@ -388,7 +386,6 @@
     }
 
     .observations-table{
-      width:85%;
       margin: auto;
       table{
         min-width: 100%;
@@ -453,10 +450,14 @@
       grid-column-end: 3;
     }
 
-
+    .account-form{
+      padding-inline: 100px;
+      box-shadow: var(--clr-shadow);
+      border-radius: var(--border-radius-sm);
+    }
 
     .check-rad{
-      margin-top: 10px;
+
       margin-left: 10px;
       display:flex;
       align-items: center;
@@ -506,6 +507,10 @@
         margin-inline:5px;
         text-align: center;
       }
+      .section-title{
+        text-align: center;
+        padding-bottom: 7px;
+      }
     }
 
     .login-signup-container{
@@ -535,7 +540,11 @@
     }
 
     table td{
-      padding-bottom: 20px; 
+      padding-bottom: 20px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 150px; 
     }
 
     thead{
@@ -544,7 +553,7 @@
       height: 3.75rem;
       font-size:var(--font-size-rg);
       border-top-left-radius: var(--border-radius-md);
-      font-weight: 600;;
+      font-weight: 400;
     }
 
     thead > tr{
@@ -647,7 +656,8 @@
       
     }
 
-    .project-view-main{
+    .project-view-main,
+    .account-view{
       display:grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: min-content 1fr min-content;
@@ -713,9 +723,13 @@
       }
     
       .check-rad-input-wrapper{
-        width: fit-content;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+
+        display: flex;
+        flex-direction: column;
+      }
+
+      .account-form>.smaller-input{
+        width: 80px;
       }
 
       #additional-field{
@@ -787,6 +801,10 @@
   .react-calendar__month-view__days__day {
     padding: 8px;
     align-self: center;
+  }
+
+  abbr[title]{
+    text-decoration: none;
   }
 
   .react-calendar__tile--now {

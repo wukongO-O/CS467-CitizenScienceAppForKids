@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-import studentData from '../../components/studentdata.json';
+import  PropTypes  from "prop-types";
 import { useProjects } from '../../hooks/useProjects';
 
 const ProjectsList = ({projects}) => {
-  // const [projects, setProjects] = useState([]);
-
-//   useEffect(() => {
-//     setProjects(studentData.projects);
-// }, []);
 
 // Convert data to CSV format
 const convertToCSV = (data) => {
@@ -85,5 +79,9 @@ return (
   </div>
 );
 };
+
+ProjectsList.propTypes = {
+  projects:PropTypes.array.isRequired
+}
 
 export default ProjectsList;

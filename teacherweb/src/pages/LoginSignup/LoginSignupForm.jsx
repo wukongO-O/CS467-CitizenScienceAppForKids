@@ -1,7 +1,9 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
 import useSignup from "../../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
+
 
 export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChange }) {
   const [formData, setFormData] = useState({ username: "", password: "", email: "" });
@@ -51,7 +53,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       // Logic for log in
       const response = await login(formData.username, formData.password);
       if (response.success) {
-        onAuthSuccess();
+        navigate("/homepage")
       } else {
         console.log("Login failed:", response.error);
       }
@@ -69,7 +71,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
-      <h1 style={{ textAlign: "center", marginBottom: "15px", marginTop: "-10px" }}>
+      <h1 className="section-title">
         {isLogin ? "Teacher Login" : "Create an Account"}
       </h1>
       <input
@@ -92,6 +94,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
             required
           />
           {emailError && <p className="error">{emailError}</p>}
+          {signupError && <p className="error">There was a problem creating a new account</p>}
         </>
       )}
       <input
@@ -103,8 +106,7 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
         required
       />
       {passwordError && <p className="error">{passwordError}</p>}
-      {loginError && <p className="error">{loginError}</p>}
-      {signupError && <p className="error">{signupError}</p>}
+      {loginError && <p className="error">There was a problem verifying your credentials</p>}
       
         {isLogin ? (
           <p>
@@ -142,4 +144,11 @@ export default function LoginSignupForm({ isLogin, onAuthSuccess, handleViewChan
       </button>
     </form>
   );
+}
+
+
+LoginSignupForm.propTypes = {
+  isLogin : PropTypes.bool.isRequired,
+  onAuthSuccess:PropTypes.func,
+  handleViewChange: PropTypes.func.isRequired
 }
