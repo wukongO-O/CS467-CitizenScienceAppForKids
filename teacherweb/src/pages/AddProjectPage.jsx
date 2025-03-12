@@ -53,7 +53,7 @@ const AddProjectPage = () => {
             directions: JSON.stringify(payload.directions) // Stringify only directions
         };
 
-        const res = await fetch(`http://127.0.0.1:5000/projects`, {
+        const res = await fetch(import.meta.env.VITE_API_BASE_URL + `/projects`, {
             method: "POST",
             headers:{
                 "Content-Type": "application/json"

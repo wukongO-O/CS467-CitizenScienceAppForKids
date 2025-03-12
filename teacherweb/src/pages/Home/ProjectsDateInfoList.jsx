@@ -23,7 +23,6 @@ const ProjectsDateInfoList = ({projects}) => {
     endOfWeek.setHours(23, 59, 59, 999); // End of the day on Saturday
 
     let dueToday = 0;
-    let dueFuture = 0;
     let dueThisWeek = 0;
 
       projects.forEach((project) => {
@@ -34,10 +33,6 @@ const ProjectsDateInfoList = ({projects}) => {
         if (dueDate.getTime() === today.getTime()) {
           dueToday++;
         } 
-        // // Count projects due in the future
-        // else if (dueDate > today) {
-        //   dueFuture++;
-        // }
 
         // Count projects due this week
         if (dueDate >= startOfWeek && dueDate <= endOfWeek) {

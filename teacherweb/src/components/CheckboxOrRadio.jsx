@@ -6,10 +6,13 @@ const CheckboxOrRadio = ({id, type, options, label, handleRemove}) => {
 
     return(
         <div className="check-rad-input-wrapper" id={id}>
+            <div>
             <label>{label}</label>
             <CiSquareRemove 
                 className={handleRemove ? "icon" : "hide-icon"}
                 onClick={() => handleRemove(id)}/>
+
+            </div>
                 {options.map((opt, i)=>{
                     return(
                         <div className="check-rad" id={id} key={"cbrd"+i}>

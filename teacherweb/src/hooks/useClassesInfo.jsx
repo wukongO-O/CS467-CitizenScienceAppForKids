@@ -5,7 +5,7 @@ export const useClassesInfo = (teacher_id, setStateFunc) => {
 
     useEffect(()=>{
         async function fetchClassesInfo () {
-            const response = await fetch(`http://127.0.0.1:5000/classes/${teacher_id}`);
+            const response = await fetch(import.meta.env.VITE_API_BASE_URL + `/classes/${teacher_id}`);
             const data = await response.json();
             setClasses(data);
 

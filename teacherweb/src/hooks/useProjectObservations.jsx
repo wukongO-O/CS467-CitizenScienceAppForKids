@@ -5,7 +5,7 @@ export const useProjectObservations = (project_id, setHeadersStateFunc) => {
 
     useEffect( ()=> {
         async function fetchObservations () {
-            const response = await fetch(`http://127.0.0.1:5000//observations/project/${project_id}`)
+            const response = await fetch(import.meta.env.VITE_API_BASE_URL + `/observations/project/${project_id}`)
             const data = await response.json();
             
             setObservations(data);

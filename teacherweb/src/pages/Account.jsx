@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import Portal from "../components/navigation/Portal";
 import MyCalendar from "../components/MyCalendar";
 import { useUserContext } from "../context/UserContext";
@@ -21,9 +21,9 @@ const Account = () => {
       </div>)
   }
 
-  const handleClassSubmit = async (class_data) => { // Make handleClassSubmit async
+  const handleClassSubmit = async (class_data) => { 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/classes`, {
+      const res = await fetch(import.meta.env.VITE_API_BASE_URL + `/classes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ const Account = () => {
       const new_class = await res.json();
       setErrorAddingClass(false);
       setAddClassForm(false);
-      setLocalClasses((prevClasses) => [...prevClasses, new_class.class]);
+      setLocalClasses((localClasses) => [...localClasses, new_class.class]);
     } catch (err) {
       setErrorAddingClass(true);
       console.error("Couldn't add new class:", err);

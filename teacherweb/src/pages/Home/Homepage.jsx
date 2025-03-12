@@ -11,17 +11,18 @@ const Homepage = () => {
   const {projects, classes} = useProjects(user.id);
   let navigate = useNavigate();
 
-  if (!user || projects === null) {
+  if (Array.isArray(classes) && classes.length === 0) {
+    alert("It looks like you don't have any classes on your profile. Redirecting you to your account page to add a class.");
+    navigate("/account", { state: { classes: classes } });
+    return null; // Prevent further rendering
+  }
+  else if (!user || projects === null) {
     return (
       <div className="main-container home">
         <p>Loading...</p>
       </div>
     );
-  }else if (Array.isArray(classes) && classes.length === 0) {
-    alert("It looks like you don't have any classes on your profile. Redirecting you to your account page to add a class.");
-    navigate("/account", { state: { classes: classes } });
-    return null; // Prevent further rendering
-  }
+  } 
 
   return (
     <div className="main-container home">

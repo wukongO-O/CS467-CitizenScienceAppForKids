@@ -386,7 +386,6 @@
     }
 
     .observations-table{
-      width:85%;
       margin: auto;
       table{
         min-width: 100%;
@@ -458,7 +457,7 @@
     }
 
     .check-rad{
-      margin-top: 10px;
+
       margin-left: 10px;
       display:flex;
       align-items: center;
@@ -554,7 +553,7 @@
       height: 3.75rem;
       font-size:var(--font-size-rg);
       border-top-left-radius: var(--border-radius-md);
-      font-weight: 600;;
+      font-weight: 400;
     }
 
     thead > tr{
@@ -724,9 +723,9 @@
       }
     
       .check-rad-input-wrapper{
-        width: fit-content;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+
+        display: flex;
+        flex-direction: column;
       }
 
       .account-form>.smaller-input{
@@ -802,6 +801,10 @@
   .react-calendar__month-view__days__day {
     padding: 8px;
     align-self: center;
+  }
+
+  abbr[title]{
+    text-decoration: none;
   }
 
   .react-calendar__tile--now {

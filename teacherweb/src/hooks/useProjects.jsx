@@ -8,8 +8,9 @@ export const useProjects = (teacher_id) => {
     useEffect( ()=> {
         
         async function fetchProjects () {
-            const response_classes = await fetch(`http://127.0.0.1:5000/classes/${teacher_id}`);
+            const response_classes = await fetch(import.meta.env.VITE_API_BASE_URL + `/classes/${teacher_id}`);
             const response_classes_list = await response_classes.json()
+            
             if(response_classes_list.error){ //no projects to return
                 setProjects([]);
                 setClasses([]);
@@ -26,7 +27,7 @@ export const useProjects = (teacher_id) => {
         }
 
         async function fetchClassesProjects(class_id){
-            const response = await fetch(`http://127.0.0.1:5000/projects/class/${class_id}`);
+            const response = await fetch(import.meta.env.VITE_API_BASE_URL + `/projects/class/${class_id}`);
             const data = await response.json();
             return data
         }
