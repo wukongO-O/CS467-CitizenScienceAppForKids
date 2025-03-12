@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import OrderedList from "../OrderedList";
 import { useClassesInfo } from "../../hooks/useClassesInfo";
 
-const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
+const EditProjectMainInfo = ({info, teacher_id, changeView, handleUpdate}) => {
     const [projectName, setProjectName] = useState(info.title);
     const [projectDescription, setProjectDescription] = useState(info.description);
     const [classType, setClassType] = useState();
@@ -11,7 +11,7 @@ const EditProjectMainInfo = ({info,changeView, handleUpdate}) => {
     const [dueDate, setDueDate] = useState(new Date(info.due_at).toISOString().split('T')[0]);
     const [step, setStep] = useState(); 
     const [steps, setSteps]=useState(info.directions);
-    const teacher_classes = useClassesInfo(localStorage.user_id);
+    const teacher_classes = useClassesInfo(teacher_id);
 
     if(!teacher_classes){
         return <div className="loading">Loading...</div>
@@ -134,7 +134,7 @@ EditProjectMainInfo.propTypes = {
     info: PropTypes.object.isRequired,
     changeView: PropTypes.func.isRequired,
     handleUpdate: PropTypes.func.isRequired,
-    // teacher_classes: PropTypes.array.isRequired 
+    teacher_id: PropTypes.number.isRequired 
 };
 
 

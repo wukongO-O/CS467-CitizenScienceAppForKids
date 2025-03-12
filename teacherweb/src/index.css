@@ -268,6 +268,7 @@
       text-align: left;
       padding: 0;
       padding-top:20px;
+      cursor: pointer;
     }
   }
 
@@ -378,9 +379,6 @@
       align-self: end;
     }
 
-    .section-container.account {
-    text-align: center;
-    }
 
     .observations-list .small-text,
     .observations-list .section-subtitle{
@@ -453,7 +451,11 @@
       grid-column-end: 3;
     }
 
-
+    .account-form{
+      padding-inline: 100px;
+      box-shadow: var(--clr-shadow);
+      border-radius: var(--border-radius-sm);
+    }
 
     .check-rad{
       margin-top: 10px;
@@ -655,7 +657,8 @@
       
     }
 
-    .project-view-main{
+    .project-view-main,
+    .account-view{
       display:grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       grid-template-rows: min-content 1fr min-content;
@@ -724,6 +727,10 @@
         width: fit-content;
         display: grid;
         grid-template-columns: 1fr 1fr;
+      }
+
+      .account-form>.smaller-input{
+        width: 80px;
       }
 
       #additional-field{

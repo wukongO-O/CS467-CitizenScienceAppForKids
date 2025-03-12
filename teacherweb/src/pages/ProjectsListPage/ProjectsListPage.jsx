@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import Portal from "../../components/navigation/Portal";
 import MyCalendar from "../../components/MyCalendar";
 import { useProjects } from "../../hooks/useProjects";
-import { useClassesInfo } from '../../hooks/useClassesInfo';
+import {useUserContext} from "../../context/UserContext";
 
 const ProjectsListPage = () => {
   const navigate = useNavigate();
-  const projects = useProjects(localStorage.user_id); 
+  const {user} = useUserContext();
+  const {projects} = useProjects(user.id); 
 
-  if(!projects){
+  if(!projects || !user){
     return <div className="loading">Loading...</div>
   }
 

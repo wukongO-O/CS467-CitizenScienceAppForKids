@@ -5,17 +5,21 @@ import AddProjectObservationDetails from "../components/projects/AddProjectObser
 import Portal from "../components/navigation/Portal";
 import MyCalendar from "../components/MyCalendar";
 import { useClassesInfo } from "../hooks/useClassesInfo";
+import { useUserContext } from "../context/UserContext";
 
 const AddProjectPage = () => {
+    const {user} = useUserContext();
     const [view, setView] = useState("main");
     const [loading, setLoading] = useState(false);
     const [errorPosting, setErrorPosting] = useState(false);
-    const [data, setData] = useState({teacher_id:localStorage.user_id});
-    const teacher_classes = useClassesInfo(localStorage.user_id);
+    const [data, setData] = useState({teacher_id:user.id});
+    const teacher_classes = useClassesInfo(user.id);
     const navigate = useNavigate();
 
-    if(!teacher_classes){
-        return <div className="loading">Loading...</div>
+    if(!teacher_classes || !user){
+        return(<div className="main-container home">
+        <p>Loading...</p>
+      </div>)
     }
 
     const changeView = () => {
@@ -57,9 +61,10 @@ const AddProjectPage = () => {
             body: JSON.stringify(dataToSend),
         });
             if (!res.ok){
-                throw new Error ()
+                setErrorPosting(true);
+                throw new Error ();
             }
-            
+            setErrorPosting(!errorPosting);
             const projectData = await res.json();
             setLoading(false);
             alert(`Project Created!`)
@@ -73,7 +78,7 @@ const AddProjectPage = () => {
     return(
         <div className="main-container">
             <div className="section-container">
-
+            {errorPosting ? <p className="purple-txt">There was a problem submiting your request. Please try again</p>:null}
             {view == "main" ? 
                 <AddProjectMainInfo 
                     changeView={changeView}

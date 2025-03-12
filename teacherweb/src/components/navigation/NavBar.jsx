@@ -21,7 +21,7 @@ const NavBar = ({isAuthenticated, onLogout}) => {
                 </NavLink>
                 {/* Show logout button only if user is authenticated */}
                 
-                    <button onClick={onLogout} className="logout-button">
+                    <button onClick={onLogout} className="logout-button ">
                         Logout
                     </button>
             </nav>

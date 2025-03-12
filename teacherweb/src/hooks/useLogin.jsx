@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useUserContext } from "../context/UserContext";
 
 const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {setUser} = useUserContext();
 
   const login = async (username, password) => {
     setLoading(true);
@@ -26,6 +28,7 @@ const useLogin = () => {
       localStorage.setItem("isAuthenticated", "true");
       if (data.user) {
         localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
       }
 
       return { success: true, user: data.user };

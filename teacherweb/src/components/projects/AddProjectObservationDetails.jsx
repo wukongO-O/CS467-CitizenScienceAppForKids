@@ -5,7 +5,6 @@ import OrderedList from "../OrderedList";
 
 const AddProjectObservationDetails = ({handleSubmit}) => {
     const [observations, setObservations] = useState();
-    const [location, setLocation] = useState();
     const [customInputLabel, setCustomInputLabel]  = useState();
     const [customInputType, setCustomInputType] = useState("text");
     const [customFields, setCustomFields] = useState([]);
